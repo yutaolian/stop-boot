@@ -1,43 +1,103 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }} </h1>
-    <el-form :model="loginForm">
-      <h2>Ray商城登录</h2>
-      <el-form-item>
-        <el-input name="username" placeholder="请输入用户名/手机号" auto-complete="on"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-input  name="password" placeholder="请输入密码" auto-complete="on"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary">登录</el-button>
-      </el-form-item>
-    </el-form>
+    <h1>{{ msg }}</h1>
+    <h2>Essential Links</h2>
+    <ul>
+      <li>
+        <a
+          href="https://vuejs.org"
+          target="_blank"
+        >
+          Core Docs
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://forum.vuejs.org"
+          target="_blank"
+        >
+          Forum
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://chat.vuejs.org"
+          target="_blank"
+        >
+          Community Chat
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://twitter.com/vuejs"
+          target="_blank"
+        >
+          Twitter
+        </a>
+      </li>
+      <br>
+      <li>
+        <a
+          href="http://vuejs-templates.github.io/webpack/"
+          target="_blank"
+        >
+          Docs for This Template
+        </a>
+      </li>
+    </ul>
+    <h2>Ecosystem</h2>
+    <ul>
+      <li>
+        <a
+          href="http://router.vuejs.org/"
+          target="_blank"
+        >
+          vue-router
+        </a>
+      </li>
+      <li>
+        <a
+          href="http://vuex.vuejs.org/"
+          target="_blank"
+        >
+          vuex
+        </a>
+      </li>
+      <li>
+        <a
+          href="http://vue-loader.vuejs.org/"
+          target="_blank"
+        >
+          vue-loader
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/awesome-vue"
+          target="_blank"
+        >
+          awesome-vue
+        </a>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  data(){
-    return{
-      msg:"this is a vue demo"
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
     }
-  },
-  mounted() {
-    this.$axios.get("http://localhost:8080/").then(res=>{
-      alert(res.data)
-    });
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+h1, h2 {
+  font-weight: normal;
 }
 ul {
   list-style-type: none;
