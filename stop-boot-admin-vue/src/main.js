@@ -20,6 +20,11 @@ import '@/styles/index.scss' // global css
 
 // import locale from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+
+import Log from './utils/log'
+
+Vue.use(Log);
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { locale })

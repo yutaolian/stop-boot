@@ -25,6 +25,12 @@ public class TestController {
 //    private DataSource dataSource;
 
 
+    public static void main(String[] args) {
+        String menus = "{\"data\":[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"title\":\"首页\"}],\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"icon\":\"user\",\"title\":\"课程列表\"}],\"icon\":\"index\",\"title\":\"课程管理\"}]}";
+
+        System.out.println( JSON.parse(menus));
+    }
+
     @RequestMapping("test")
     public String test(){
         return "hello world";
@@ -33,46 +39,8 @@ public class TestController {
     @PostMapping("menu/list")
     public Object menus(@RequestBody MenuTreeParams parms){
         log.debug(JSON.toJSONString(parms));
-
-        String menus = "{\n" +
-                "  \"data\": [\n" +
-                "    {\n" +
-                "      \"title\": \"首页\",\n" +
-                "      \"path\": \"/\",\n" +
-                "      \"component\": \"Layout\",\n" +
-                "      \"icon\": \"index\",\n" +
-                "      \"children\": [\n" +
-                "        {\n" +
-                "          \"title\": \"首页\",\n" +
-                "          \"path\": \"/dashboard\",\n" +
-                "          \"component\": \"dashboard\",\n" +
-                "          \"icon\": \"index\"\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"title\": \"用户管理\",\n" +
-                "      \"path\": \"/user\",\n" +
-                "      \"component\": \"Layout\",\n" +
-                "      \"icon\": \"index\",\n" +
-                "      \"children\": [\n" +
-                "        {\n" +
-                "          \"title\": \"个人中心\",\n" +
-                "          \"path\": \"/center\",\n" +
-                "          \"component\": \"/view/user/center\",\n" +
-                "          \"icon\": \"user\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"title\": \"角色管理\",\n" +
-                "          \"path\": \"/role\",\n" +
-                "          \"component\": \"/view/user/role\",\n" +
-                "          \"icon\": \"user\"\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
+//        String menus = "{\"data\":[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"title\":\"首页\"}],\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"icon\":\"user\",\"title\":\"课程列表\"},{\"path\":\"detail\",\"component\":\"course/detail\",\"name\":\"courseDetail\",\"icon\":\"user\",\"title\":\"课程详情\",\"hidden\":true}],\"icon\":\"index\",\"title\":\"课程管理\"}]}";
+        String menus = "{\"data\":[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"name\":\"dashboard\",\"title\":\"首页\"}],\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"name\":\"userCenter\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"name\":\"userRole\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"name\":\"courseList\",\"icon\":\"user\",\"title\":\"课程列表\"},{\"path\":\"detail\",\"component\":\"course/detail\",\"name\":\"courseDetail\",\"icon\":\"user\",\"title\":\"课程详情\",\"hidden\":true}],\"icon\":\"index\",\"title\":\"课程管理\"}]}";
         return JSON.parse(menus);
     }
 

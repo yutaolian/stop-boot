@@ -1,4 +1,4 @@
-import {post} from '@/utils/http'
+import {post} from '@/sdk/api/http'
 
 export class LogoutRequest {
   constructor () {

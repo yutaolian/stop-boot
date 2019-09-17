@@ -4,7 +4,7 @@ import {Message} from 'element-ui'
 import store from '@/store'
 
 // axios.defaults.baseURL = 'https://axxol-api.aixuexi.com/api'
-axios.defaults.baseURL = 'http://localhost:8087/api'
+axios.defaults.baseURL = 'http://localhost:10010/api'
 axios.defaults.timeout = 10000
 // 请求头信息是为post请求设置
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'

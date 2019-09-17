@@ -1,4 +1,4 @@
-import {post} from '@/utils/http'
+import {post} from '@/sdk/api/http'
 
 export class MenuListRequest {
   constructor () {
@@ -25,18 +25,32 @@ export class MenuListResponse {
   getTitle () {
     return this.data['title']
   }
+  getName () {
+    return this.data['name']
+  }
   getPath () {
     return this.data['path']
   }
   getComponent () {
     return this.data['component']
   }
+  getHidden(){
+    return this.data['hidden']
+  }
+  getChildren () {
+    let childrenTemp = this.data['children'];
+    let children = []
+    childrenTemp.forEach(res => {
+      children.push(new MenuListResponse(res))
+    })
+    return children
+  }
   getIcon () {
     return this.data['icon']
   }
 }
 
-export function menuList (request) {
+export function api (request) {
   var data = request.data
   // eslint-disable-next-line eqeqeq
   if (data['userId'] == undefined) {

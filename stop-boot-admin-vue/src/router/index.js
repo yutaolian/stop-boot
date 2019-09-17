@@ -49,11 +49,18 @@ router.beforeEach(async (to, from, next) => {
       if (store.getters.loadMenus) {
         next()
       } else {
-        var menuTree = await store.dispatch('menus')
-        var accessRoutes = menuTree2Routes(menuTree)
-        var accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
-        router.addRoutes(accessRoutes2) // 动态添加可访问路由表
-        next({...to, replace: true})
+        try {
+          let menuTree = await store.dispatch('menus')
+          let accessRoutes = menuTree2Routes(menuTree)
+          let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
+          router.addRoutes(accessRoutes2) // 动态添加可访问路由表
+          next({...to, replace: true})
+        }catch (e){
+          console.error("e:",e)
+          store.dispatch('Logout').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+          })
+        }
       }
     }
   } else {
@@ -71,15 +78,54 @@ router.beforeEach(async (to, from, next) => {
 })
 
 function menuTree2Routes (menuTree) {
-  console.log('menuTree')
-  console.log(menuTree)
-  var routes = []
-  menuTree.forEach(menu => {
-    console.error(menu)
-    console.error(menu.getTitle())
-    routes.push()
-  })
-  return tempRoutes1
+  let routes = []
+  for(let i = 0 ; i < menuTree.length; i++){
+    let children = []
+    let childrenMenus =  menuTree[i].getChildren();
+    for(let j = 0 ; j < childrenMenus.length; j++){
+      children.push({
+        path: childrenMenus[j].getPath(),
+        name: childrenMenus[j].getName(),
+        meta: {
+          title: childrenMenus[j].getTitle(),
+          icon: childrenMenus[j].getIcon()
+        },
+        hidden:childrenMenus[j].getHidden(),
+        component: loadView(childrenMenus[j].getComponent()),
+      })
+    }
+
+    if (menuTree[i].getComponent() == 'Layout'){
+      routes.push({
+        path: menuTree[i].getPath(),
+        name: menuTree[i].getName(),
+        meta: {
+          title: menuTree[i].getTitle(),
+          icon: menuTree[i].getIcon()
+        },
+        hidden:menuTree[i].getHidden(),
+        component: Layout,
+        children
+      })
+    }else{
+      routes.push({
+        path: menuTree[i].getPath(),
+        name: menuTree[i].getName(),
+        meta: {
+          title: menuTree[i].getTitle(),
+          icon: menuTree[i].getIcon()
+        },
+        hidden:menuTree[i].getHidden(),
+        component: loadView(menuTree[i].getComponent()),
+        children
+      })
+    }
+  }
+  return routes
+}
+
+export const loadView = (view) => { // 路由懒加载
+  return () => import(`@/views/${view}`)
 }
 
 export const tempRoutes1 = [
@@ -123,7 +169,23 @@ export const tempRoutes1 = [
         meta: {title: '角色', icon: 'guide', noCache: true}
       }
     ]
-  }
+  },{
+    path: '/course',
+    component: Layout,
+    name: '课程管理',
+    meta: {
+      title: '课程管理',
+      icon: 'index'
+    },
+    children: [
+      {
+        path: '/list',
+        component: () => import('@/views/course/list'),
+        name: '课程列表',
+        meta: { title: '课程列表', icon: 'index', noCache: true }
+      }
+    ]
+  },
 ]
 
 function getPageTitle (pageTitle) {
@@ -134,7 +196,6 @@ function getPageTitle (pageTitle) {
 }
 
 router.afterEach(() => {
-  // finish progress bar
   NProgress.done()
 })
 

@@ -37,10 +37,10 @@ export function post (url, data = {}) {
     axios.post(url, data)
       .then(response => {
         if (store.state.logDebuger) {
-          console.info('url:', response.config.url)
-          console.info('request headers:', response.config.headers)
-          console.info('request body:', response.config.data)
-          console.info('response:', response.data)
+          // console.info('url:', response.config.url)
+          // console.info('request headers:', response.config.headers)
+          // console.info('request body:', response.config.data)
+          // console.info('response:', response.data)
           console.info('full response:', response)
         }
         resolve(response.data.data)
