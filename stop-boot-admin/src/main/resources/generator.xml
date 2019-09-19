@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 数据库驱动包位置 -->
+	<classPathEntry location="/Users/91haoke/.m2/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar" />
+
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+		<!-- 指定生成的java文件的编码,没有直接生成到项目时中文可能会乱码 -->
+		<property name="javaFileEncoding" value="UTF-8"/>
+
+		<!--序列化插件 toString 插件-->
+
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+
+		<!--自动以生成注释-->
+		<commentGenerator type="com.gaosiedu.live.mybatis.MyCommentGenerator">
+		</commentGenerator>
+		<!--		<commentGenerator>
+                    <property name="suppressDate" value="true" />
+                    &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;
+                    <property name="suppressAllComments" value="true" />
+                </commentGenerator>-->
+		<!-- 数据库链接URL、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+						connectionURL="jdbc:mysql://localhost:3306/stop_boot" userId="root"
+						password="12345678">
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- 生成模型的包名和位置 -->
+		<javaModelGenerator targetPackage="com.stopboot.admin.entity"
+							targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- 生成的映射文件包名和位置 -->
+		<sqlMapGenerator targetPackage="/mapper"
+						 targetProject="src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- 生成DAO的包名和位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+							 targetPackage="com.stopboot.admin.mapper" targetProject="src/main/java">
+		</javaClientGenerator>
+		<!-- 生成模型的包名和位置 -->
+		<table tableName="sb_menu"></table>
+
+	</context>
+</generatorConfiguration>

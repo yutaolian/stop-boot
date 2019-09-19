@@ -26,7 +26,7 @@ public class TestController {
 
 
     public static void main(String[] args) {
-        String menus = "{\"data\":[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"title\":\"首页\"}],\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"icon\":\"user\",\"title\":\"课程列表\"}],\"icon\":\"index\",\"title\":\"课程管理\"}]}";
+        String menus = "{\"data\":[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"name\":\"dashboard\",\"title\":\"首页\"}],\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"name\":\"userCenter\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"name\":\"userRole\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"name\":\"courseList\",\"icon\":\"user\",\"title\":\"课程列表\"},{\"path\":\"detail\",\"component\":\"course/detail\",\"name\":\"courseDetail\",\"icon\":\"user\",\"title\":\"课程详情\",\"hidden\":true}],\"icon\":\"index\",\"title\":\"课程管理\"}]}";
 
         System.out.println( JSON.parse(menus));
     }

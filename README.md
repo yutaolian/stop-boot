@@ -15,3 +15,8 @@
       alter table menu add delete_flag int(2) DEFAULT NULL COMMENT '删除标识（0删除，1未删除）';
       
     ```
+
+2.2019-09-19 
+
+    1.新增所数据源
+    2.service基类优化
