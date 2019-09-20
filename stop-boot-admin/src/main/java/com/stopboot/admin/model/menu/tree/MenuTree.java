@@ -21,13 +21,32 @@ public class MenuTree {
      * hidden : false
      */
 
+    private Integer id;
+    private  Integer pid;
+
     private String path;
     private String component;
     private String name;
     private String icon;
     private String title;
-    private boolean hidden;
+    private Integer hidden;
     private List<MenuTree> children;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
 
     public String getPath() {
         return path;
@@ -69,11 +88,11 @@ public class MenuTree {
         this.title = title;
     }
 
-    public boolean isHidden() {
+    public Integer getHidden() {
         return hidden;
     }
 
-    public void setHidden(boolean hidden) {
+    public void setHidden(Integer hidden) {
         this.hidden = hidden;
     }
 

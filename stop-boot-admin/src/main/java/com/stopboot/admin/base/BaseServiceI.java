@@ -1,9 +1,9 @@
 package com.stopboot.admin.base;
 
-import com.stopboot.admin.entity.SbMenu;
-import com.stopboot.admin.entity.SbMenuExample;
+import com.stopboot.admin.common.PageResult;
 import org.apache.ibatis.annotations.Param;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -13,11 +13,12 @@ import java.util.List;
  * @version:
  **/
 
-public interface BaseServiceI<Record,Example> {
+public interface BaseServiceI<Record, Example> {
 
-    Record selectByPrimaryKey(Integer id);
+    //mybatis 工具自动生成
+    Record selectByPrimaryKey(@NotNull Integer id);
 
-    List<Record> selectByExample(Example example);
+    List<Record> selectByExample(@NotNull Example example);
 
     int countByExample(Example example);
 
@@ -31,11 +32,16 @@ public interface BaseServiceI<Record,Example> {
 
     int updateByExampleSelective(@Param("record") Record record, @Param("example") Example example);
 
-    int updateByExample(@Param("record") Record record, @Param("example") Example example);
+    int updateByExample(@NotNull @Param("record") Record record, @NotNull @Param("example") Example example);
 
     int updateByPrimaryKeySelective(Record record);
 
     int updateByPrimaryKey(Record record);
 
+    //自定义的方法
+
+    PageResult<Record> pageByExample(@NotNull Example example, @NotNull Integer pageSize, @NotNull Integer pageNum);
+
+    PageResult<Record> pageWithBLOBsByExample(@NotNull Example example, @NotNull Integer pageSize, @NotNull Integer pageNum);
 
 }

@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2019-09-19 16:49
  * @version:
  **/
-@MapperScan({"com.stopboot.admin.mapper"})
+@MapperScan({"com.stopboot.admin.dao.*.mapper"})
 @Configuration
 public class DataSourceConfig {
 
@@ -70,7 +70,7 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:dao/*/mapper/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 

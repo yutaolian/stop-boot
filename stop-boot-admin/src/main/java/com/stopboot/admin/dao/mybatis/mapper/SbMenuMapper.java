@@ -1,4 +1,4 @@
-package com.stopboot.admin.mapper;
+package com.stopboot.admin.dao.mybatis.mapper;
 
 import com.stopboot.admin.entity.SbMenu;
 import com.stopboot.admin.entity.SbMenuExample;

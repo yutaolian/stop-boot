@@ -90,7 +90,7 @@ function menuTree2Routes (menuTree) {
           title: childrenMenus[j].getTitle(),
           icon: childrenMenus[j].getIcon()
         },
-        hidden:childrenMenus[j].getHidden(),
+        hidden:childrenMenus[j].getHidden() == 1 ? true :false,
         component: loadView(childrenMenus[j].getComponent()),
       })
     }
@@ -103,7 +103,7 @@ function menuTree2Routes (menuTree) {
           title: menuTree[i].getTitle(),
           icon: menuTree[i].getIcon()
         },
-        hidden:menuTree[i].getHidden(),
+        hidden:menuTree[i].getHidden() == 1 ? true :false,
         component: Layout,
         children
       })
@@ -115,7 +115,7 @@ function menuTree2Routes (menuTree) {
           title: menuTree[i].getTitle(),
           icon: menuTree[i].getIcon()
         },
-        hidden:menuTree[i].getHidden(),
+        hidden:menuTree[i].getHidden() == 1 ? true :false,
         component: loadView(menuTree[i].getComponent()),
         children
       })

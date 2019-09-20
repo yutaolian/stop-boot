@@ -15,19 +15,29 @@ public class SbMenu implements Serializable {
     private Integer pid;
 
     /**
-     * 菜单编码
+     * 菜单名称(显示名字)
      */
-    private String code;
+    private String title;
 
     /**
      * 菜单名称
      */
-    private String title;
+    private String name;
+
+    /**
+     * 组件名称
+     */
+    private String component;
 
     /**
      * 菜单点击路径
      */
     private String path;
+
+    /**
+     * icon
+     */
+    private String icon;
 
     /**
      * 类型 （1内部菜单，-1外部链接）
@@ -40,9 +50,14 @@ public class SbMenu implements Serializable {
     private String link;
 
     /**
-     * 排序按从小到大排序（0最靠前）
+     * 菜单编码
      */
-    private Integer sort;
+    private String code;
+
+    /**
+     * 是否显示 1 显示 0 隐藏
+     */
+    private Integer hidden;
 
     /**
      * 状态（1正常使用，0不使用）
@@ -50,9 +65,9 @@ public class SbMenu implements Serializable {
     private Integer status;
 
     /**
-     * icon
+     * 排序按从小到大排序（0最靠前）
      */
-    private String icon;
+    private Integer sort;
 
     /**
      * 删除标识（0删除，1正常）
@@ -112,35 +127,51 @@ public class SbMenu implements Serializable {
     }
 
     /**
-     * 菜单编码
-     * @return code 菜单编码
-     */
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * 菜单编码
-     * @param code 菜单编码
-     */
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    /**
-     * 菜单名称
-     * @return title 菜单名称
+     * 菜单名称(显示名字)
+     * @return title 菜单名称(显示名字)
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * 菜单名称
-     * @param title 菜单名称
+     * 菜单名称(显示名字)
+     * @param title 菜单名称(显示名字)
      */
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    /**
+     * 菜单名称
+     * @return name 菜单名称
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 菜单名称
+     * @param name 菜单名称
+     */
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    /**
+     * 组件名称
+     * @return component 组件名称
+     */
+    public String getComponent() {
+        return component;
+    }
+
+    /**
+     * 组件名称
+     * @param component 组件名称
+     */
+    public void setComponent(String component) {
+        this.component = component == null ? null : component.trim();
     }
 
     /**
@@ -157,6 +188,22 @@ public class SbMenu implements Serializable {
      */
     public void setPath(String path) {
         this.path = path == null ? null : path.trim();
+    }
+
+    /**
+     * icon
+     * @return icon icon
+     */
+    public String getIcon() {
+        return icon;
+    }
+
+    /**
+     * icon
+     * @param icon icon
+     */
+    public void setIcon(String icon) {
+        this.icon = icon == null ? null : icon.trim();
     }
 
     /**
@@ -192,19 +239,35 @@ public class SbMenu implements Serializable {
     }
 
     /**
-     * 排序按从小到大排序（0最靠前）
-     * @return sort 排序按从小到大排序（0最靠前）
+     * 菜单编码
+     * @return code 菜单编码
      */
-    public Integer getSort() {
-        return sort;
+    public String getCode() {
+        return code;
     }
 
     /**
-     * 排序按从小到大排序（0最靠前）
-     * @param sort 排序按从小到大排序（0最靠前）
+     * 菜单编码
+     * @param code 菜单编码
      */
-    public void setSort(Integer sort) {
-        this.sort = sort;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    /**
+     * 是否显示 1 显示 0 隐藏
+     * @return hidden 是否显示 1 显示 0 隐藏
+     */
+    public Integer getHidden() {
+        return hidden;
+    }
+
+    /**
+     * 是否显示 1 显示 0 隐藏
+     * @param hidden 是否显示 1 显示 0 隐藏
+     */
+    public void setHidden(Integer hidden) {
+        this.hidden = hidden;
     }
 
     /**
@@ -224,19 +287,19 @@ public class SbMenu implements Serializable {
     }
 
     /**
-     * icon
-     * @return icon icon
+     * 排序按从小到大排序（0最靠前）
+     * @return sort 排序按从小到大排序（0最靠前）
      */
-    public String getIcon() {
-        return icon;
+    public Integer getSort() {
+        return sort;
     }
 
     /**
-     * icon
-     * @param icon icon
+     * 排序按从小到大排序（0最靠前）
+     * @param sort 排序按从小到大排序（0最靠前）
      */
-    public void setIcon(String icon) {
-        this.icon = icon == null ? null : icon.trim();
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     /**
@@ -311,14 +374,17 @@ public class SbMenu implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", pid=").append(pid);
-        sb.append(", code=").append(code);
         sb.append(", title=").append(title);
+        sb.append(", name=").append(name);
+        sb.append(", component=").append(component);
         sb.append(", path=").append(path);
+        sb.append(", icon=").append(icon);
         sb.append(", type=").append(type);
         sb.append(", link=").append(link);
-        sb.append(", sort=").append(sort);
+        sb.append(", code=").append(code);
+        sb.append(", hidden=").append(hidden);
         sb.append(", status=").append(status);
-        sb.append(", icon=").append(icon);
+        sb.append(", sort=").append(sort);
         sb.append(", deleteFlag=").append(deleteFlag);
         sb.append(", opUserId=").append(opUserId);
         sb.append(", createTime=").append(createTime);
