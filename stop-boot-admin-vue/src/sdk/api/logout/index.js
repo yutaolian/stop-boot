@@ -1,4 +1,4 @@
-import {post} from '@/sdk/api/http'
+import {api} from '@/sdk/api/httpConfig'
 
 export class LogoutRequest {
   constructor () {
@@ -28,7 +28,7 @@ export function logout (request) {
   }
   const path = 'course/detail'
   return new Promise(resolve => {
-    post(path, data)
+    api(path, data)
       .then(response => {
         resolve(new LogoutResponse(response))
       })

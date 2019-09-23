@@ -1,36 +1,53 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item" size="small"
+                @keyup.enter.native="handleFilter"/>
+      <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>搜索</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>新增</el-button>
 
-<!--    <Menu></Menu>-->
 
+    </div>
+    <el-table
+      :data="tableData"
+      style="width: 100%;margin-bottom: 20px;"
+      row-key="id"
+      border
+      default-expand-all
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <el-table-column label="菜单标题" prop="title">
+        <template slot-scope="scope">
+          <span>{{ scope.row.title }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="权限tag" prop="name" :class-name="getSortClass('id')">
+        <template slot-scope="scope">
+          <span></span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" prop="sort" align="center">
+        <template slot-scope="scope">
+          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-info" size="mini" round>编辑</el-button>
+          <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="mini" round>删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-    // import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
     import waves from '@/directive/waves' // waves directive
-    import { parseTime } from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-
-    import Menu from '@/components/Menu'
-
-    const calendarTypeOptions = [
-        { key: 'CN', display_name: 'China' },
-        { key: 'US', display_name: 'USA' },
-        { key: 'JP', display_name: 'Japan' },
-        { key: 'EU', display_name: 'Eurozone' }
-    ]
-
-    // arr to obj, such as { CN : "China", US : "USA" }
-    const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-        acc[cur.key] = cur.display_name
-        return acc
-    }, {})
+    import {menuList, MenuListRequest} from '@/sdk/api/menu/list'
 
     export default {
         name: 'ComplexTable',
-        components: { Pagination,Menu },
-        directives: { waves },
+        components: {Pagination},
+        directives: {waves},
         filters: {
             statusFilter(status) {
                 const statusMap = {
@@ -39,9 +56,6 @@
                     deleted: 'danger'
                 }
                 return statusMap[status]
-            },
-            typeFilter(type) {
-                return calendarTypeKeyValue[type]
             }
         },
         data() {
@@ -51,16 +65,16 @@
                 total: 0,
                 listLoading: true,
                 listQuery: {
-                    page: 1,
-                    limit: 15,
+                    pageNum: 1,
+                    pageSize: 10,
                     importance: undefined,
                     title: undefined,
                     type: undefined,
-                    sort: '+id'
+                    sort: '+id',
+                    status: undefined
                 },
                 importanceOptions: [1, 2, 3],
-                calendarTypeOptions,
-                sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
+                sortOptions: [{label: 'ID Ascending', key: '+id'}, {label: 'ID Descending', key: '-id'}],
                 statusOptions: ['published', 'draft', 'deleted'],
                 showReviewer: false,
                 temp: {
@@ -81,11 +95,12 @@
                 dialogPvVisible: false,
                 pvData: [],
                 rules: {
-                    type: [{ required: true, message: 'type is required', trigger: 'change' }],
-                    timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-                    title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+                    type: [{required: true, message: 'type is required', trigger: 'change'}],
+                    timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
+                    title: [{required: true, message: 'title is required', trigger: 'blur'}]
                 },
-                downloadLoading: false
+                downloadLoading: false,
+                tableData: null
             }
         },
         created() {
@@ -94,19 +109,46 @@
         methods: {
             getList() {
                 this.listLoading = true
-                // fetchList(this.listQuery).then(response => {
-                //     this.list = response.data.items
-                //     this.total = response.data.total
-                //
-                //     // Just to simulate the time of the request
-                //     setTimeout(() => {
-                //         this.listLoading = false
-                //     }, 1.5 * 1000)
-                // })
-
-                    setTimeout(() => {
+                var request = new MenuListRequest()
+                request.setUserId(7919)
+                request.setCourseId(2563)
+                menuList(request).then(res => {
                     this.listLoading = false
-                }, 1.5 * 1000)
+                    console.log("res", res)
+                    this.tableData = res;
+                    // [{
+                    //     id: 1,
+                    //     date: '2016-05-02',
+                    //     name: '王小虎',
+                    //     address: '上海市普陀区金沙江路 1518 弄'
+                    // }, {
+                    //     id: 2,
+                    //     date: '2016-05-04',
+                    //     name: '王小虎',
+                    //     address: '上海市普陀区金沙江路 1517 弄'
+                    // }, {
+                    //     id: 3,
+                    //     date: '2016-05-01',
+                    //     name: '王小虎',
+                    //     address: '上海市普陀区金沙江路 1519 弄',
+                    //     children: [{
+                    //         id: 31,
+                    //         date: '2016-05-01',
+                    //         name: '王小虎',
+                    //         address: '上海市普陀区金沙江路 1519 弄'
+                    //     }, {
+                    //         id: 32,
+                    //         date: '2016-05-01',
+                    //         name: '王小虎',
+                    //         address: '上海市普陀区金沙江路 1519 弄'
+                    //     }]
+                    // }, {
+                    //     id: 4,
+                    //     date: '2016-05-03',
+                    //     name: '王小虎',
+                    //     address: '上海市普陀区金沙江路 1516 弄'
+                    // }]
+                })
             },
             handleFilter() {
                 this.listQuery.page = 1
@@ -120,7 +162,7 @@
                 row.status = status
             },
             sortChange(data) {
-                const { prop, order } = data
+                const {prop, order} = data
                 if (prop === 'id') {
                     this.sortByID(order)
                 }
@@ -233,16 +275,16 @@
                 //     this.downloadLoading = false
                 // })
             },
-            formatJson(filterVal, jsonData) {
-                return jsonData.map(v => filterVal.map(j => {
-                    if (j === 'timestamp') {
-                        return parseTime(v[j])
-                    } else {
-                        return v[j]
-                    }
-                }))
-            },
-            getSortClass: function(key) {
+            // formatJson(filterVal, jsonData) {
+            //     return jsonData.map(v => filterVal.map(j => {
+            //         if (j === 'timestamp') {
+            //             return parseTime(v[j])
+            //         } else {
+            //             return v[j]
+            //         }
+            //     }))
+            // },
+            getSortClass: function (key) {
                 const sort = this.listQuery.sort
                 return sort === `+${key}`
                     ? 'ascending'

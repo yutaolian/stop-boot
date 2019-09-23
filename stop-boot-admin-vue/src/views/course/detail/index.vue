@@ -102,6 +102,9 @@
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.cities.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+            },
+            goBack() {
+                console.log('go back');
             }
         }
     }

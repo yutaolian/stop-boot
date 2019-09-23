@@ -15,7 +15,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
- * @description:
+ * @description: 事务需要加到对应实现类的方法上，否则不起作用
  * @author: Lianyutao
  * @create: 2019-09-19 14:17
  * @version:
@@ -118,14 +118,14 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
-    public PageResult<Record> pageByExample(Example example, Integer pageSize, Integer pageNum) {
+    public PageResult<Record> pageByExample(Example example, Integer pageNum, Integer pageSize) {
         List<Record> list = (List<Record>) this.executePage("selectByExample", example, pageNum, pageSize);
         return new PageResult<>(new PageInfo<>(list));
     }
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
-    public PageResult<Record> pageWithBLOBsByExample(Example example, Integer pageSize, Integer pageNum) {
+    public PageResult<Record> pageWithBLOBsByExample(Example example, Integer pageNum, Integer pageSize) {
         List<Record> list = (List<Record>) this.executePage("selectByExampleWithBLOBs", example, pageNum, pageSize);
         return new PageResult<>(new PageInfo<>(list));
     }
@@ -139,7 +139,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
             Object result = method.invoke(mapper, params);
             return result;
         } catch (Exception e) {
-            log.error("BaseServiceImpl execute invoke error:{}",e.fillInStackTrace());
+            log.error("BaseServiceImpl execute invoke error:{}", e.fillInStackTrace());
             return null;
         }
     }
@@ -152,7 +152,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
             Object result = method.invoke(mapper, record, example);
             return result;
         } catch (Exception e) {
-            log.error("BaseServiceImpl execute invoke error:{}",e.getMessage());
+            log.error("BaseServiceImpl execute invoke error:{}", e.getMessage());
             return null;
         }
     }
@@ -166,7 +166,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
             Object result = method.invoke(mapper, example);
             return result;
         } catch (Exception e) {
-            log.error("BaseServiceImpl executePage invoke error:{}",e.getMessage());
+            log.error("BaseServiceImpl executePage invoke error:{}", e.getMessage());
             return null;
         }
     }

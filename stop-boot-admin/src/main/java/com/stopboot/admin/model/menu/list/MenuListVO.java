@@ -1,4 +1,4 @@
-package com.stopboot.admin.model.menu.tree;
+package com.stopboot.admin.model.menu.list;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @version:
  **/
 
-public class MenuTree {
+public class MenuListVO {
 
     /**
      * path : /course
@@ -30,7 +30,7 @@ public class MenuTree {
     private String icon;
     private String title;
     private Integer hidden;
-    private List<MenuTree> children;
+    private List<MenuListVO> children;
 
     public Integer getId() {
         return id;
@@ -96,11 +96,11 @@ public class MenuTree {
         this.hidden = hidden;
     }
 
-    public List<MenuTree> getChildren() {
+    public List<MenuListVO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<MenuTree> children) {
+    public void setChildren(List<MenuListVO> children) {
         this.children = children;
     }
 }

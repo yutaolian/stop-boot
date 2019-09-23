@@ -15,10 +15,10 @@ import java.util.List;
 
 public interface BaseServiceI<Record, Example> {
 
-    //mybatis 工具自动生成
-    Record selectByPrimaryKey(@NotNull Integer id);
+    //mybatis 工具自动生成方法
+    Record selectByPrimaryKey(Integer id);
 
-    List<Record> selectByExample(@NotNull Example example);
+    List<Record> selectByExample(Example example);
 
     int countByExample(Example example);
 
@@ -32,7 +32,7 @@ public interface BaseServiceI<Record, Example> {
 
     int updateByExampleSelective(@Param("record") Record record, @Param("example") Example example);
 
-    int updateByExample(@NotNull @Param("record") Record record, @NotNull @Param("example") Example example);
+    int updateByExample(@Param("record") Record record, @Param("example") Example example);
 
     int updateByPrimaryKeySelective(Record record);
 
@@ -40,8 +40,8 @@ public interface BaseServiceI<Record, Example> {
 
     //自定义的方法
 
-    PageResult<Record> pageByExample(@NotNull Example example, @NotNull Integer pageSize, @NotNull Integer pageNum);
+    PageResult<Record> pageByExample(Example example, Integer pageNum, Integer pageSize);
 
-    PageResult<Record> pageWithBLOBsByExample(@NotNull Example example, @NotNull Integer pageSize, @NotNull Integer pageNum);
+    PageResult<Record> pageWithBLOBsByExample(Example example, Integer pageNum, Integer pageSize);
 
 }

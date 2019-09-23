@@ -1,6 +1,7 @@
 package com.stopboot.admin.common;
 
 import com.github.pagehelper.PageInfo;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @create: 2019-09-20 10:16
  * @version:
  **/
-
+@Data
 public class PageResult<T> implements Serializable {
     //当前页
     private int pageNum;
@@ -24,6 +25,9 @@ public class PageResult<T> implements Serializable {
     //结果集
     private List<T> list;
 
+    public PageResult() {
+    }
+
     public PageResult(PageInfo<T> pageInfo){
         this.pageNum = pageInfo.getPageNum();
         this.pageSize = pageInfo.getPageSize();
@@ -32,23 +36,10 @@ public class PageResult<T> implements Serializable {
         this.total = pageInfo.getTotal();
     }
 
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public long getTotal() {
-        return total;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public List<T> getList() {
-        return list;
+    public void copyInfo(PageResult pageResult){
+        this.pageNum = pageResult.getPageNum();
+        this.pageSize = pageResult.getPageSize();
+        this.pages = pageResult.getPages();
+        this.total = pageResult.getTotal();
     }
 }

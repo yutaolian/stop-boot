@@ -4,15 +4,16 @@ import com.stopboot.admin.base.BaseServiceImpl;
 import com.stopboot.admin.dao.mybatis.mapper.SbMenuMapper;
 import com.stopboot.admin.entity.SbMenu;
 import com.stopboot.admin.entity.SbMenuExample;
-import com.stopboot.admin.model.menu.tree.MenuTree;
-import com.stopboot.admin.model.menu.tree.MenuTreeParams;
+import com.stopboot.admin.model.menu.list.MenuListVO;
+import com.stopboot.admin.model.menu.list.MenuListVOParams;
+import com.stopboot.admin.model.menu.tree.MenuTreeVOParams;
+import com.stopboot.admin.model.menu.tree.MenuTreeVO;
 import com.stopboot.admin.service.menu.MenuServiceI;
 import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.ListToTreeUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -26,17 +27,35 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl extends BaseServiceImpl<SbMenuMapper, SbMenu, SbMenuExample> implements MenuServiceI {
 
     @Override
-    public List<MenuTree> getMenuTree(MenuTreeParams params) {
+    public List<MenuTreeVO> getMenuTree(MenuTreeVOParams params) {
         SbMenuExample sbMenuExample = new SbMenuExample();
         sbMenuExample.setOrderByClause(" pid , sort ,id ");
         SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
         criteria.andDeleteFlagEqualTo(1);
         criteria.andStatusEqualTo(1);
         List<SbMenu> sbMenuList = this.selectByExample(sbMenuExample);
-        List<MenuTree> menuTrees = BeansHelper.getInstance().convert(sbMenuList, MenuTree.class);
-        List<MenuTree> treeList = ListToTreeUtil.menuListToTree(menuTrees);
+        List<MenuTreeVO> menuTrees = BeansHelper.getInstance().convert(sbMenuList, MenuTreeVO.class);
+        List<MenuTreeVO> treeList = ListToTreeUtil.menuListToTree(menuTrees);
         if (treeList != null && treeList.size() > 0) {
             return treeList.get(0).getChildren();
+        } else {
+            return null;
+        }
+    }
+
+
+    @Override
+    public List<MenuListVO> getMenuList(MenuListVOParams params) {
+        SbMenuExample sbMenuExample = new SbMenuExample();
+        sbMenuExample.setOrderByClause(" pid , sort ,id ");
+        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(1);
+        criteria.andStatusEqualTo(1);
+        List<SbMenu> sbMenuList = this.selectByExample(sbMenuExample);
+        List<MenuListVO> menuLists = BeansHelper.getInstance().convert(sbMenuList, MenuListVO.class);
+        List<MenuListVO> menuListVOList = ListToTreeUtil.menuListToTree2(menuLists);
+        if (menuListVOList != null && menuListVOList.size() > 0) {
+            return menuListVOList;
         } else {
             return null;
         }

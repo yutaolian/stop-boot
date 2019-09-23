@@ -1,9 +1,10 @@
 package com.stopboot.admin.controller.menu;
 
-import com.alibaba.fastjson.JSON;
 import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.menu.tree.MenuTree;
-import com.stopboot.admin.model.menu.tree.MenuTreeParams;
+import com.stopboot.admin.model.menu.list.MenuListVO;
+import com.stopboot.admin.model.menu.list.MenuListVOParams;
+import com.stopboot.admin.model.menu.tree.MenuTreeVOParams;
+import com.stopboot.admin.model.menu.tree.MenuTreeVO;
 import com.stopboot.admin.service.menu.MenuServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -29,14 +30,24 @@ public class MenuController {
     private MenuServiceI menuServiceI;
 
     @PostMapping("tree")
-    public ResultData<MenuTree> menuList(@RequestBody MenuTreeParams parms) {
+    public ResultData<MenuTreeVO> menuTree(@RequestBody MenuTreeVOParams params) {
         ResultData resultData = ResultData.build();
-//        String menu = "[{\"path\":\"/\",\"component\":\"Layout\",\"children\":[{\"path\":\"dashboard\",\"component\":\"dashboard\",\"icon\":\"index\",\"name\":\"dashboard\",\"title\":\"首页\"}],\"name\":\"dashboard\",\"icon\":\"index\",\"title\":\"首页\"},{\"path\":\"/user\",\"component\":\"Layout\",\"name\":\"user\",\"children\":[{\"path\":\"center\",\"component\":\"user/center\",\"name\":\"userCenter\",\"icon\":\"user\",\"title\":\"个人中心\"},{\"path\":\"role\",\"component\":\"user/role\",\"name\":\"userRole\",\"icon\":\"user\",\"title\":\"角色管理\"}],\"icon\":\"index\",\"title\":\"用户管理\"},{\"path\":\"/course\",\"component\":\"Layout\",\"name\":\"course\",\"children\":[{\"path\":\"list\",\"component\":\"course/list\",\"name\":\"courseList\",\"icon\":\"user\",\"title\":\"课程列表\"},{\"path\":\"detail\",\"component\":\"course/detail\",\"hidden\":true,\"name\":\"courseDetail\",\"icon\":\"user\",\"title\":\"课程详情\"}],\"icon\":\"index\",\"title\":\"课程管理\"}]";
-//        List<MenuTree> menuTrees = JSON.parseArray(menu, MenuTree.class);
-        List<MenuTree> menuTreeList = menuServiceI.getMenuTree(parms);
-        if (!ObjectUtils.isEmpty(menuTreeList)){
+        List<MenuTreeVO> menuTreeList = menuServiceI.getMenuTree(params);
+        if (!ObjectUtils.isEmpty(menuTreeList)) {
             resultData.success().setData(menuTreeList);
-        }else{
+        } else {
+            resultData.empty();
+        }
+        return resultData;
+    }
+
+    @PostMapping("list")
+    public ResultData<MenuListVO> menuList(@RequestBody MenuListVOParams params) {
+        ResultData resultData = ResultData.build();
+        List<MenuListVO> menuTreeList = menuServiceI.getMenuList(params);
+        if (!ObjectUtils.isEmpty(menuTreeList)) {
+            resultData.success().setData(menuTreeList);
+        } else {
             resultData.empty();
         }
         return resultData;

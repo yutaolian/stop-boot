@@ -2,7 +2,7 @@ import {getToken, removeToken, setToken} from '@/utils/cookieUtil'
 import {resetRouter} from '@/router'
 import {login, LoginRequest} from '@/sdk/api/login'
 import {logout, LogoutRequest} from '@/sdk/api/logout'
-import {api, MenuListRequest} from '@/sdk/api/menu/list'
+import {menuTree, MenuListRequest} from '@/sdk/api/menu/tree'
 const user = {
   state: {
     token: getToken(),
@@ -69,7 +69,7 @@ const user = {
         var request = new MenuListRequest()
         request.setUserId(7919)
         request.setCourseId(2563)
-        api(request).then(res => {
+        menuTree(request).then(res => {
           commit('SET_LOAD_MENUS', true)
           resolve(res)
         })

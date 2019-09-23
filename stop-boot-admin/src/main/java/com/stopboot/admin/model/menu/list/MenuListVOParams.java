@@ -1,4 +1,4 @@
-package com.stopboot.admin.model.menu.tree;
+package com.stopboot.admin.model.menu.list;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class MenuTreeParams implements Serializable {
+public class MenuListVOParams implements Serializable {
 
     private Integer userId;
 
