@@ -16,11 +16,11 @@
     <!-- 日志存储路径 -->
     <springProperty scope="context" name="logDir" source="logging.path"/>
     <!-- 日志存储路径 -->
-    <!--<property name="logDir" value="/data/var/log/${applicationName}"/>-->
+    <property name="logDir" value="/User/91haoke/log/${applicationName}"/>
 
     <!-- 日志存储格式 -->
     <property name="logPattern"
-              value="[timestamp=%d{yyyy-MM-dd HH:mm:ss.SSS}] [level=%p] [tx_id=%X{PtxId}] [span_id=%X{PspanId}] [bu_id=${buId}] [app_id=${appId}] %m%n"/>
+              value="[timestamp=%d{yyyy-MM-dd HH:mm:ss.SSS}] [level=%p] [app_id=${appId}] %m%n"/>
 
     <!-- 日志存储天数 -->
     <property name="maxHistory" value="60"/>
