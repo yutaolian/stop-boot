@@ -120,16 +120,13 @@ public class ResultData<T> implements Serializable {
     public ResultData fail() {
         this.setCode(ResCodeAndMsg.CODE_FAIL);
         this.setMsg(ResCodeAndMsg.MSG_FAIL);
-        return this;
-    }
-
-    public ResultData fail(String msg) {
-        this.setCode(ResCodeAndMsg.CODE_FAIL);
-        this.setMsg(msg);
+        this.setFailCode(FailCodeAndMsg.FAIL_CODE_DEFAULT);
+        this.setFailMsg(FailCodeAndMsg.FAIL_MSG_DEFAULT);
         return this;
     }
 
     public ResultData fail(String failCode, String failMsg) {
+        this.setMsg(ResCodeAndMsg.MSG_FAIL);
         this.setCode(ResCodeAndMsg.CODE_FAIL);
         this.setFailCode(failCode);
         this.setFailMsg(failMsg);
@@ -156,18 +153,6 @@ public class ResultData<T> implements Serializable {
 
     public ResultData unauthc(String msg) {
         this.setCode(ResCodeAndMsg.CODE_UNAUTHC);
-        this.setMsg(msg);
-        return this;
-    }
-
-    public ResultData exception() {
-        this.setCode(ResCodeAndMsg.CODE_EXCEPTION);
-        this.setMsg(ResCodeAndMsg.MSG_EXCEPTION);
-        return this;
-    }
-
-    public ResultData exception(String msg) {
-        this.setCode(ResCodeAndMsg.CODE_EXCEPTION);
         this.setMsg(msg);
         return this;
     }

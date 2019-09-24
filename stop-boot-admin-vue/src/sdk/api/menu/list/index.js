@@ -1,21 +1,23 @@
 import {api} from '@/sdk/api/httpConfig'
 
 export class MenuListRequest {
-  constructor () {
+  constructor() {
     this.data = {
       userId: undefined,
       courseId: undefined
     }
   }
-  setUserId (userId) {
+
+  setUserId(userId) {
     this.data.userId = userId
   }
-  setCourseId (courseId) {
+
+  setCourseId(courseId) {
     this.data.courseId = courseId
   }
 }
 
-export function menuList (request) {
+export function menuList(request) {
   var data = request.data
   // eslint-disable-next-line eqeqeq
   if (data['userId'] == undefined) {

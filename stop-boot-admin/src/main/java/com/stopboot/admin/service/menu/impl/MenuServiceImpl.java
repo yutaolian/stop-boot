@@ -27,24 +27,6 @@ import java.util.List;
 public class MenuServiceImpl extends BaseServiceImpl<SbMenuMapper, SbMenu, SbMenuExample> implements MenuServiceI {
 
     @Override
-    public List<MenuTreeVO> getMenuTree(MenuTreeVOParams params) {
-        SbMenuExample sbMenuExample = new SbMenuExample();
-        sbMenuExample.setOrderByClause(" pid , sort ,id ");
-        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(1);
-        criteria.andStatusEqualTo(1);
-        List<SbMenu> sbMenuList = this.selectByExample(sbMenuExample);
-        List<MenuTreeVO> menuTrees = BeansHelper.getInstance().convert(sbMenuList, MenuTreeVO.class);
-        List<MenuTreeVO> treeList = ListToTreeUtil.menuListToTree(menuTrees);
-        if (treeList != null && treeList.size() > 0) {
-            return treeList.get(0).getChildren();
-        } else {
-            return null;
-        }
-    }
-
-
-    @Override
     public List<MenuListVO> getMenuList(MenuListVOParams params) {
         SbMenuExample sbMenuExample = new SbMenuExample();
         sbMenuExample.setOrderByClause(" pid , sort ,id ");
@@ -53,7 +35,7 @@ public class MenuServiceImpl extends BaseServiceImpl<SbMenuMapper, SbMenu, SbMen
         criteria.andStatusEqualTo(1);
         List<SbMenu> sbMenuList = this.selectByExample(sbMenuExample);
         List<MenuListVO> menuLists = BeansHelper.getInstance().convert(sbMenuList, MenuListVO.class);
-        List<MenuListVO> menuListVOList = ListToTreeUtil.menuListToTree2(menuLists);
+        List<MenuListVO> menuListVOList = ListToTreeUtil.listToTree(menuLists);
         if (menuListVOList != null && menuListVOList.size() > 0) {
             return menuListVOList;
         } else {

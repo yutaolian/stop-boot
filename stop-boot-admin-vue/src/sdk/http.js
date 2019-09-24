@@ -2,6 +2,7 @@ import axios from 'axios'
 import {Message} from 'element-ui'
 //自定义日志
 import store from '@/store'
+import resetRouter from "../router";
 
 axios.defaults.baseURL = 'http://localhost:10010/api'
 axios.defaults.timeout = 10000
@@ -41,7 +42,12 @@ export function post (url, params = {}) {
           console.info('response:', response.data)
           console.info('full response:', response)
         }
-        resolve(response.data.data)
+        if (response.data["code"] == "SUCCESS"){
+          resolve(response.data.data)
+        }else{
+          Message.error(response.data["failMsg"])
+          // router.push("/login")
+        }
       }, error => {
         reject(error)
       })

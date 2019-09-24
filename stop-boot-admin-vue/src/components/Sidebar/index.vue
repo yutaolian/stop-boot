@@ -1,6 +1,6 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-<!--    <logo v-if="showLogo" :collapse="isCollapse"/>-->
+    <logo v-if="showLogo" :collapse="isCollapse"/>
     <el-scrollbar wrap-class="scrollbar-wrapper">
 
       <el-menu
@@ -8,7 +8,7 @@
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :unique-opened="false"
+        :unique-opened="true"
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"

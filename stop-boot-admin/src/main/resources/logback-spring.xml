@@ -15,12 +15,10 @@
     <property name="appId" value="stop-boot-admin"/>
     <!-- 日志存储路径 -->
     <springProperty scope="context" name="logDir" source="logging.path"/>
-    <!-- 日志存储路径 -->
-    <property name="logDir" value="/User/91haoke/log/${applicationName}"/>
 
     <!-- 日志存储格式 -->
     <property name="logPattern"
-              value="[timestamp=%d{yyyy-MM-dd HH:mm:ss.SSS}] [level=%p] [app_id=${appId}] %m%n"/>
+              value="[timestamp=%d{yyyy-MM-dd HH:mm:ss.SSS}] [level=%p] [app_id=${appId}] [%thread] [%logger : %file : %line] %m%n"/>
 
     <!-- 日志存储天数 -->
     <property name="maxHistory" value="60"/>
@@ -183,7 +181,7 @@
     <logger name="slf4j" level="INFO"/>
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
     <!-- 控制台输出 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <!-- 控制台输出 -->
         <appender-ref ref="STDOUT"/>
         <!-- 文件输出 -->

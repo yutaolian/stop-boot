@@ -1,7 +1,6 @@
 package com.stopboot.admin.utils;
 
 import com.stopboot.admin.model.menu.list.MenuListVO;
-import com.stopboot.admin.model.menu.tree.MenuTreeVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,39 +13,32 @@ import java.util.List;
  **/
 
 public class ListToTreeUtil {
-    public static List<MenuTreeVO> menuListToTree(List<MenuTreeVO> treeList) {
-        List<MenuTreeVO> dataList = new ArrayList<>();
-        for (MenuTreeVO parent : treeList) {
-            if (parent.getPid().equals(0)) {
-                dataList.add(parent);
-            }
-            for (MenuTreeVO child : treeList) {
-                if (child.getPid() == parent.getId()) {
-                    if (parent.getChildren() == null) {
-                        parent.setChildren(new ArrayList<>());
-                    }
-                    parent.getChildren().add(child);
-                }
+    /**
+     * 递归处理
+     *
+     * @param list
+     * @return
+     */
+    public static List<MenuListVO> listToTree(List<MenuListVO> list) {
+        List<MenuListVO> treeList = new ArrayList<>();
+        for (MenuListVO tree : list) {
+            if (tree.getPid() == 0) {
+                treeList.add(findChildren(tree, list));
             }
         }
-        return dataList;
+        return treeList;
     }
 
-    public static List<MenuListVO> menuListToTree2(List<MenuListVO> treeList) {
-        List<MenuListVO> dataList = new ArrayList<>();
-        for (MenuListVO parent : treeList) {
-            if (parent.getPid().equals(0)) {
-                dataList.add(parent);
-            }
-            for (MenuListVO child : treeList) {
-                if (child.getPid() == parent.getId()) {
-                    if (parent.getChildren() == null) {
-                        parent.setChildren(new ArrayList<>());
-                    }
-                    parent.getChildren().add(child);
+    private static MenuListVO findChildren(MenuListVO tree, List<MenuListVO> list) {
+        for (MenuListVO node : list) {
+            if (node.getPid() == tree.getId()) {
+                if (tree.getChildren() == null) {
+                    tree.setChildren(new ArrayList<>());
                 }
+                tree.getChildren().add(findChildren(node, list));
             }
         }
-        return dataList;
+        return tree;
     }
+
 }

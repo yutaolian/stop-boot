@@ -64,19 +64,9 @@ public class LogAspect {
             getParams.put(paraName,request.getParameter(paraName));
         }
         logMap.put("GET_PARAMTERS",getParams);
-        PropertyFilter profilter = new PropertyFilter(){
-            @Override
-            public boolean apply(Object object, String name, Object value) {
-                if(name != null && name.equalsIgnoreCase("pageInfo")){
-                    //false表示last字段将被排除在外
-                    return false;
-                }
-                return true;
-            }
-        };
         if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
             //默认取方法的第一个作为参数
-            logMap.put("REQUEST_BODY", JSON.toJSONString(joinPoint.getArgs()[0],profilter));
+            logMap.put("REQUEST_BODY", JSON.toJSONString(joinPoint.getArgs()[0]));
         }
         log.info(JSON.toJSONString(logMap));
     }

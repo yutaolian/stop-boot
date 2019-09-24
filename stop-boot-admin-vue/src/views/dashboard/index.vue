@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h2>dashbord</h2>
+
+    asdasdasdas
   </div>
 </template>
 

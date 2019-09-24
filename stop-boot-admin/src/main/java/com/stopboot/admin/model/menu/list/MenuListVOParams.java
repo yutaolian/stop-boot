@@ -2,6 +2,8 @@ package com.stopboot.admin.model.menu.list;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -14,6 +16,7 @@ import java.io.Serializable;
 @Data
 public class MenuListVOParams implements Serializable {
 
+    @NotNull
+    @Max(Integer.MAX_VALUE)
     private Integer userId;
-
 }
