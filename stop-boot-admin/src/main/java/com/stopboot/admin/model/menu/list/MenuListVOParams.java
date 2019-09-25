@@ -19,4 +19,5 @@ public class MenuListVOParams implements Serializable {
     @NotNull
     @Max(Integer.MAX_VALUE)
     private Integer userId;
+
 }
