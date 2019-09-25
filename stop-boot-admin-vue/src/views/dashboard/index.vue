@@ -2,7 +2,7 @@
   <div class="hello">
     <h2>dashbord</h2>
 
-    asdasdasdas
+    asdasdasdasvcbcvbxcvbxcvbxvcbxcvbvcb
   </div>
 </template>
 

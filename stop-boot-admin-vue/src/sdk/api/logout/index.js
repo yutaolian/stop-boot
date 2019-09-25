@@ -26,7 +26,7 @@ export function logout (request) {
   if (data['userId'] == undefined) {
     console.error('mobile 参数不能为空')
   }
-  const path = 'course/detail'
+  const path = 'menu/list'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

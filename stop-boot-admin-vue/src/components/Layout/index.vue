@@ -25,6 +25,7 @@ import TagsView from '@/components/TagsView'
 import ResizeMixin from '@/utils/ResizeHandler'
 import { mapState } from 'vuex'
 
+
 export default {
   name: 'Layout',
   components: {

@@ -47,27 +47,24 @@ router.beforeEach(async (to, from, next) => {
       next({path: '/'})
       NProgress.done()
     } else {
-      if (store.getters.loadMenus) {
-        next()
-      } else {
+      if (!store.getters.loadMenus) {
         try {
           let menuList = await store.dispatch('menus')
-
-          let temp = menuList[0]["children"];
-          let data = menuTree2Routes2(temp)
-          console.log("data:", data)
-
-
-          let accessRoutes = menuTree2Routes(menuList)
-          let accessRoutes2 = await store.dispatch('permission/generateRoutes', data)
+          let subMenuList = menuList[0]["children"];
+          //重置menu
+          let newMenuList = resetMenuList(subMenuList);
+          let accessRoutes = menuTree2Routes(newMenuList);
+          let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
           router.addRoutes(accessRoutes2) // 动态添加可访问路由表
           next({...to, replace: true})
         } catch (e) {
           console.error("e:", e)
           store.dispatch('logout').then(() => {
-            location.reload() // 为了重新实例化vue-router对象 避免bug
+            // location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         }
+      } else {
+        next()
       }
     }
   } else {
@@ -85,95 +82,71 @@ router.beforeEach(async (to, from, next) => {
 })
 
 
-function menuTree2Routes2(menuTree) {
+//将单节点menu改为带有父节点的menu
+function resetMenuList(menuList) {
+  console.log("resetMenuList-=-==-=menuList-", menuList)
+  let newMenuList = []
+  for (let i = 0; i < menuList.length; i++) {
+    let menu = menuList[i];
+    let menuChildren = menu['children']
+    //是单节点带单
+    if (menuChildren == undefined || menuChildren.length == 0) {
+      let children = []
+      children.push({
+        path: menu['path'],
+        name: menu["name"],
+        title: menu['title'],
+        icon: menu['icon'],
+        hidden: menu["hidden"],
+        component: menu['component']
+      })
+      newMenuList.push({
+        path: "/",
+        name: "parent_" + menu["name"],
+        title: "parent_" + menu['title'],
+        icon: "parent_" + menu['icon'],
+        hidden: 0,
+        component: 'Layout',
+        children
+      })
+    } else {
+      newMenuList.push(menu)
+    }
+  }
+  return newMenuList
+}
+
+function menuTree2Routes(menuTree) {
   let routes = []
   for (let i = 0; i < menuTree.length; i++) {
     let children = []
     let submenu = menuTree[i]['children'];
     if (submenu != undefined && submenu.length > 0) {
-      children = loadChildren(submenu, menuTree);
+      children = menuTree2Routes(submenu);
     }
-    if (menuTree[i]['component'] == 'Layout') {
+    let menu = menuTree[i];
+    if (menu['component'] == 'Layout') {
       routes.push({
-        path: menuTree[i]["path"],
-        name: menuTree[i]["name"],
+        path: menu["path"],
+        name: menu["name"],
         meta: {
-          title: menuTree[i]['title'],
-          icon: menuTree[i]['icon']
+          title: menu['title'],
+          icon: menu['icon']
         },
-        hidden: menuTree[i]["hidden"] == 1 ? true : false,
+        hidden: menu["hidden"] == 1,
         component: Layout,
         children
       })
     } else {
       routes.push({
-        path: menuTree[i]["path"],
-        name: menuTree[i]["name"],
+        path: menu["path"],
+        name: menu["name"],
         meta: {
-          title: menuTree[i]['title'],
-          icon: menuTree[i]['icon']
+          title: menu['title'],
+          icon: menu['icon']
         },
-        hidden: menuTree[i]["hidden"] == 1 ? true : false,
-        component: loadView(menuTree[i]['component']),
-        children
-      })
-    }
-  }
-  return routes
-}
-
-function loadChildren(submenu, menuTree) {
-  let routes = []
-  for (let i = 0; i < menuTree.length; i++) {
-    if (menuTree['pid'] == submenu['id']) {
-      routes = menuTree2Routes2(submenu)
-    }
-  }
-  return routes
-}
-
-
-function menuTree2Routes(menuTree) {
-  let routes = []
-  menuTree = menuTree[0]["children"];
-  for (let i = 0; i < menuTree.length; i++) {
-    let children = []
-    let childrenMenus = menuTree[i]["children"];
-    for (let j = 0; j < childrenMenus.length; j++) {
-      children.push({
-        path: childrenMenus[j]["path"],
-        name: childrenMenus[j]['name'],
-        meta: {
-          title: childrenMenus[j]['title'],
-          icon: childrenMenus[j]['icon']
-        },
-        hidden: childrenMenus[j]['hidden'] == 1 ? true : false,
-        component: loadView(childrenMenus[j]['component']),
-      })
-    }
-
-    if (menuTree[i]['component'] == 'Layout') {
-      routes.push({
-        path: menuTree[i]["path"],
-        name: menuTree[i]["name"],
-        meta: {
-          title: menuTree[i]['title'],
-          icon: menuTree[i]['icon']
-        },
-        hidden: menuTree[i]['hidden'] == 1 ? true : false,
-        component: Layout,
-        children
-      })
-    } else {
-      routes.push({
-        path: menuTree[i]["path"],
-        name: menuTree[i]["name"],
-        meta: {
-          title: menuTree[i]['title'],
-          icon: menuTree[i]['icon']
-        },
-        hidden: menuTree[i]["children"] == 1 ? true : false,
-        component: loadView(menuTree[i]['component']),
+        hidden: menu["hidden"] == 1 ? true : false,
+        component: loadView(menu['component']),
         children
       })
     }
@@ -184,66 +157,6 @@ function menuTree2Routes(menuTree) {
 export const loadView = (view) => { // 路由懒加载
   return () => import(`@/views/${view}`)
 }
-
-export const tempRoutes1 = [
-  {
-    path: '/',
-    component: Layout,
-    name: 'Dashboard',
-    redirect: 'dashboard',
-    meta: {
-      title: 'Dashboard',
-      icon: 'index'
-    },
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: '首页',
-        meta: {title: '首页1', icon: 'index', noCache: true}
-      }
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    name: 'User',
-    meta: {
-      title: '用户中心',
-      icon: 'component'
-    },
-    children: [
-      {
-        path: 'center',
-        component: () => import('@/views/user/center/index'),
-        name: 'center',
-        meta: {title: '个人中心', icon: 'guide', noCache: true}
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/user/role/index'),
-        name: 'role',
-        meta: {title: '角色', icon: 'guide', noCache: true}
-      }
-    ]
-  }, {
-    path: '/course',
-    component: Layout,
-    name: '课程管理',
-    meta: {
-      title: '课程管理',
-      icon: 'index'
-    },
-    children: [
-      {
-        path: '/list',
-        component: () => import('@/views/course/list'),
-        name: '课程列表',
-        meta: {title: '课程列表', icon: 'index', noCache: true}
-      }
-    ]
-  },
-]
 
 function getPageTitle(pageTitle) {
   if (pageTitle) {

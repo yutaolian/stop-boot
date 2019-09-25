@@ -1,4 +1,4 @@
-import {api} from '@/sdk/api/httpConfig'
+import {api} from '@/sdk/sccapi/httpConfig'
 
 export class LoginRequest {
   constructor () {

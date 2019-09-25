@@ -23,7 +23,6 @@ public class MenuListVO {
 
     private Integer id;
     private  Integer pid;
-
     private String path;
     private String component;
     private String name;
