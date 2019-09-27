@@ -86,6 +86,7 @@ router.beforeEach(async (to, from, next) => {
 function resetMenuList(menuList) {
   console.log("resetMenuList-=-==-=menuList-", menuList)
   let newMenuList = []
+  let routerParentPrifix = defaultSettings.routerParentPrifix || "Parent_";
   for (let i = 0; i < menuList.length; i++) {
     let menu = menuList[i];
     let menuChildren = menu['children']
@@ -102,9 +103,9 @@ function resetMenuList(menuList) {
       })
       newMenuList.push({
         path: "/",
-        name: "parent_" + menu["name"],
-        title: "parent_" + menu['title'],
-        icon: "parent_" + menu['icon'],
+        name: routerParentPrifix + menu["name"],
+        title: routerParentPrifix + menu['title'],
+        icon: routerParentPrifix + menu['icon'],
         hidden: 0,
         component: 'Layout',
         children

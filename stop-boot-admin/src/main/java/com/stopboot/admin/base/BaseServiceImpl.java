@@ -25,21 +25,14 @@ import java.util.List;
 public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseServiceI<Record, Example> {
 
     /**
-     * 增
-     *
-     * @param record
+     * 数量
+     * @param example
      * @return
      */
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
-    public int insert(Record record) {
-        return (Integer) this.execute("insert", record);
-    }
-
-    @SbDataSource(DataSourceEnum.DB_MASTER)
-    @Override
-    public int insertSelective(Record record) {
-        return (Integer) this.execute("insertSelective", record);
+    public int countByExample(Example example) {
+        return (Integer) this.execute("countByExample", example);
     }
 
     /**
@@ -58,6 +51,50 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return (Integer) this.execute("deleteByPrimaryKey", id);
+    }
+
+
+    /**
+     * 增
+     *
+     * @param record
+     * @return
+     */
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public int insert(Record record) {
+        return (Integer) this.execute("insert", record);
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public int insertSelective(Record record) {
+        return (Integer) this.execute("insertSelective", record);
+    }
+
+    /**
+     * 查
+     *
+     * @param id
+     * @return
+     */
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public Record selectByPrimaryKey(Integer id) {
+        return (Record) this.execute("selectByPrimaryKey", id);
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public List<Record> selectByExampleWithBLOBs(Example example) {
+        return (List<Record>) this.execute("selectByExampleWithBLOBs", example);
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public List<Record> selectByExample(Example example) {
+        return (List<Record>) this.execute("selectByExample", example);
     }
 
     /**
@@ -81,6 +118,18 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
+    public int updateByExampleWithBLOBs(Record record, Example example) {
+        return (Integer) this.execute("updateByExampleWithBLOBs", record, example);
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
+    public int updateByPrimaryKeyWithBLOBs(Record record) {
+        return (Integer) this.execute("updateByPrimaryKeyWithBLOBs", record);
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    @Override
     public int updateByPrimaryKeySelective(Record record) {
         return (Integer) this.execute("updateByPrimaryKeySelective", record);
     }
@@ -92,30 +141,12 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     }
 
     /**
-     * 查
-     *
-     * @param id
+     * 自定义方法
+     * @param example
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-
-    @SbDataSource(DataSourceEnum.DB_MASTER)
-    @Override
-    public Record selectByPrimaryKey(Integer id) {
-        return (Record) this.execute("selectByPrimaryKey", id);
-    }
-
-    @SbDataSource(DataSourceEnum.DB_MASTER)
-    @Override
-    public List<Record> selectByExample(Example example) {
-        return (List<Record>) this.execute("selectByExample", example);
-    }
-
-    @SbDataSource(DataSourceEnum.DB_MASTER)
-    @Override
-    public int countByExample(Example example) {
-        return (Integer) this.execute("countByExample", example);
-    }
-
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public PageResult<Record> pageByExample(Example example, Integer pageNum, Integer pageSize) {

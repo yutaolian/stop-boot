@@ -34,5 +34,11 @@ module.exports = {
    * The default is only used in the production env
    * If you want to also use it in dev, you can pass ['production', 'development']
    */
-  errorLog: 'dev'
+  errorLog: 'dev',
+
+  /**
+   * 当菜单是一级的时候需要给当前菜单套一个父菜单。
+   *  此常量为name,path,等前缀，防止路由冲突
+   */
+  routerParentPrifix: 'PPP_'
 }

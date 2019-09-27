@@ -4,6 +4,9 @@
 package com.stopboot.admin.utils;
 
 
+import com.stopboot.admin.common.PageResult;
+import com.stopboot.admin.model.role.list.RoleListVO;
+import com.stopboot.admin.model.test.TestPageVO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -20,15 +23,16 @@ public class BeansHelper<FROM, TO> {
     //使用volatile关键字保其可见性
     volatile private static BeansHelper instance = null;
 
-    private BeansHelper(){}
+    private BeansHelper() {
+    }
 
     public static BeansHelper getInstance() {
         try {
-            if(instance != null){//懒汉式
-            }else{
+            if (instance != null) {//懒汉式
+            } else {
                 //创建实例之前可能会有一些准备性的耗时工作
                 synchronized (BeansHelper.class) {
-                    if(instance == null){//二次检查
+                    if (instance == null) {//二次检查
                         instance = new BeansHelper();
                     }
                 }
@@ -67,13 +71,27 @@ public class BeansHelper<FROM, TO> {
      * 批量对象转换
      */
     public List<TO> convert(List<FROM> fromList, Class<TO> clazz) {
-        if (fromList==null || fromList.isEmpty()) {
-            return new ArrayList<>();
+        if (fromList == null || fromList.isEmpty()) {
+            return null;
         }
         List<TO> toList = new ArrayList<>();
         for (FROM from : fromList) {
             toList.add(convert(from, clazz));
         }
         return toList;
+    }
+
+    /**
+     * 批量对象转换
+     */
+    public PageResult<TO> convert(PageResult<FROM> fromPage, Class<TO> clazz) {
+        if (fromPage == null || fromPage.getList() == null || fromPage.getList().isEmpty()) {
+            return null;
+        }
+        PageResult<TO> toPageResult = new PageResult<>();
+        toPageResult.copyInfo(fromPage);
+        List<TO> toList = this.convert(fromPage.getList(), clazz);
+        toPageResult.setList(toList);
+        return toPageResult;
     }
 }

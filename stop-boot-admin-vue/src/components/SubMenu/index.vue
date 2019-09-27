@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="!item.hidden">
-      <template v-if="item.children.length > 0 && item.meta.title.indexOf('parent')">
+      <template v-if="item.children.length > 0 && item.meta.title.indexOf(this.$store.state.settings.routerParentPrifix || 'Parent_')">
         <el-submenu :index="resolvePath(item.path)">
           <template slot="title">
             <i class="el-icon-location"></i>

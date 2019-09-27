@@ -49,7 +49,7 @@
                              targetPackage="com.stopboot.admin.dao.mybatis.mapper" targetProject="src/main/java">
         </javaClientGenerator>
         <!-- 生成模型的包名和位置 -->
-        <table tableName="sb_role"></table>
+        <table tableName="sb_test"></table>
 
     </context>
 </generatorConfiguration>

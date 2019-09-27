@@ -1,7 +1,7 @@
 import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/config/settings'
 
-const {title, logo, showSettings, tagsView, fixedHeader, sidebarLogo} = defaultSettings
+const {title, logo, showSettings, tagsView, fixedHeader, sidebarLogo, routerParentPrifix} = defaultSettings
 
 const state = {
   title: title,
@@ -10,7 +10,8 @@ const state = {
   showSettings: showSettings,
   tagsView: tagsView,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  routerParentPrifix: routerParentPrifix
 }
 
 const mutations = {
@@ -22,7 +23,7 @@ const mutations = {
 }
 
 const actions = {
-  changeSetting ({commit}, data) {
+  changeSetting({commit}, data) {
     commit('CHANGE_SETTING', data)
   }
 }

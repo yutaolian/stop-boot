@@ -7,7 +7,6 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>新增</el-button>
 
-
     </div>
     <el-table
       :data="tableData"
@@ -15,7 +14,7 @@
       row-key="id"
       border
       default-expand-all
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      :tree-props="{children: 'children'}">
       <el-table-column label="菜单标题" prop="title">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
@@ -45,7 +44,7 @@
     import {menuList, MenuListRequest} from '@/sdk/api/menu/list'
 
     export default {
-        name: 'ComplexTable',
+        name: 'Premission',
         components: {Pagination},
         directives: {waves},
         filters: {
@@ -111,43 +110,10 @@
                 this.listLoading = true
                 var request = new MenuListRequest()
                 request.setUserId(7919)
-                request.setCourseId(2563)
                 menuList(request).then(res => {
                     this.listLoading = false
                     console.log("res", res)
                     this.tableData = res;
-                    // [{
-                    //     id: 1,
-                    //     date: '2016-05-02',
-                    //     name: '王小虎',
-                    //     address: '上海市普陀区金沙江路 1518 弄'
-                    // }, {
-                    //     id: 2,
-                    //     date: '2016-05-04',
-                    //     name: '王小虎',
-                    //     address: '上海市普陀区金沙江路 1517 弄'
-                    // }, {
-                    //     id: 3,
-                    //     date: '2016-05-01',
-                    //     name: '王小虎',
-                    //     address: '上海市普陀区金沙江路 1519 弄',
-                    //     children: [{
-                    //         id: 31,
-                    //         date: '2016-05-01',
-                    //         name: '王小虎',
-                    //         address: '上海市普陀区金沙江路 1519 弄'
-                    //     }, {
-                    //         id: 32,
-                    //         date: '2016-05-01',
-                    //         name: '王小虎',
-                    //         address: '上海市普陀区金沙江路 1519 弄'
-                    //     }]
-                    // }, {
-                    //     id: 4,
-                    //     date: '2016-05-03',
-                    //     name: '王小虎',
-                    //     address: '上海市普陀区金沙江路 1516 弄'
-                    // }]
                 })
             },
             handleFilter() {

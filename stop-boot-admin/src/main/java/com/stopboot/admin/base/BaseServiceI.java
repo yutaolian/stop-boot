@@ -1,6 +1,8 @@
 package com.stopboot.admin.base;
 
 import com.stopboot.admin.common.PageResult;
+import com.stopboot.admin.entity.SbTest;
+import com.stopboot.admin.entity.SbTestExample;
 import org.apache.ibatis.annotations.Param;
 
 import javax.validation.constraints.NotNull;
@@ -16,10 +18,6 @@ import java.util.List;
 public interface BaseServiceI<Record, Example> {
 
     //mybatis 工具自动生成方法
-    Record selectByPrimaryKey(Integer id);
-
-    List<Record> selectByExample(Example example);
-
     int countByExample(Example example);
 
     int deleteByExample(Example example);
@@ -30,11 +28,21 @@ public interface BaseServiceI<Record, Example> {
 
     int insertSelective(Record record);
 
+    List<Record> selectByExampleWithBLOBs(Example example);
+
+    List<Record> selectByExample(Example example);
+
+    Record selectByPrimaryKey(Integer id);
+
     int updateByExampleSelective(@Param("record") Record record, @Param("example") Example example);
+
+    int updateByExampleWithBLOBs(@Param("record") Record record, @Param("example") Example example);
 
     int updateByExample(@Param("record") Record record, @Param("example") Example example);
 
     int updateByPrimaryKeySelective(Record record);
+
+    int updateByPrimaryKeyWithBLOBs(Record record);
 
     int updateByPrimaryKey(Record record);
 
