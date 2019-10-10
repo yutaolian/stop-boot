@@ -1,6 +1,5 @@
 package com.stopboot.admin.base;
 
-import org.springframework.validation.annotation.Validated;
 
 /**
  * @description:

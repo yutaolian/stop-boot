@@ -1,4 +1,4 @@
-package com.stopboot.admin.controller.role;
+package com.stopboot.admin.controller.system.role;
 
 import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.common.ResultData;

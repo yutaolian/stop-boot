@@ -14,7 +14,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class BasePageVOParams implements Serializable {
+public class BasePageParams implements Serializable {
 
     @NotNull
     @Max(Integer.MAX_VALUE)

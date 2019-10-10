@@ -9,6 +9,22 @@ package com.stopboot.admin.utils;
 
 public class CodeGeneratorUtil {
 
+    public static void main(String[] args) {
+
+
+
+
+
+
+    }
+
+}
+
+
+
+interface Config{
+
+    String templateLocation = "templates/admin";
 
 
 }

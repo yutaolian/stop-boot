@@ -8,10 +8,19 @@ axios.defaults.baseURL = 'http://localhost:10010/api'
 axios.defaults.timeout = 10000
 // 请求头信息是为post请求设置
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+
+
 axios.interceptors.request.use(
   config => {
     let token = 'asdfsdfasdfsd'
     token && (config.headers.Authorization = token)
+    // 默认参数设置：所有接口都必须传的值（比如：userId）
+    let defaultParams = {
+      userId: 7919
+    }
+    config.data = Object.assign({}, config.data, defaultParams);
+
+    console.info('config:', config)
     return config
   },
   error => {
@@ -31,20 +40,19 @@ axios.interceptors.response.use(
   }
 )
 
-export function post (url, params = {}) {
+export function post(url, params = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, params)
       .then(response => {
         if (store.state.logDebuger) {
           console.info('url:', response.config.url)
-          console.info('request headers:', response.config.headers)
-          console.info('request body:', response.config.data)
+          console.info('response config:', response.config)
           console.info('response:', response.data)
           console.info('full response:', response)
         }
-        if (response.data["code"] == "SUCCESS"){
+        if (response.data["code"] == "SUCCESS") {
           resolve(response.data.data)
-        }else{
+        } else {
           Message.error(response.data["failMsg"])
           // router.push("/login")
         }

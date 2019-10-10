@@ -40,5 +40,5 @@ module.exports = {
    * 当菜单是一级的时候需要给当前菜单套一个父菜单。
    *  此常量为name,path,等前缀，防止路由冲突
    */
-  routerParentPrifix: 'PPP_'
+  routerParentPrifix: '_P_'
 }

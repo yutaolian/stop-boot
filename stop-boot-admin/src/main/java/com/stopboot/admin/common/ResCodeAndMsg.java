@@ -21,13 +21,13 @@ public interface ResCodeAndMsg {
      String CODE_EXPIRE = "EXPIRE";
 
     /*成功*/
-     String MSG_SUCCESS = "成功";
+     String MSG_SUCCESS = "操作成功";
 
     /*异常失败*/
      String MSG_FAIL = "操作失败,稍后再试!";
 
     /*异常失败*/
-     String MSG_EMPTY = "查询结果为空.";
+     String MSG_EMPTY = "查询结果为空";
 
     //非法调用(未通过认证)
      String MSG_UNAUTHC = "鉴权失败";

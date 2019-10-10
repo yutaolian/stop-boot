@@ -50,9 +50,11 @@ router.beforeEach(async (to, from, next) => {
       if (!store.getters.loadMenus) {
         try {
           let menuList = await store.dispatch('menus')
+          //router去除root节点
           let subMenuList = menuList[0]["children"];
-          //重置menu
+          //重置menu（将单节点添加父节点）
           let newMenuList = resetMenuList(subMenuList);
+          //menu转为router
           let accessRoutes = menuTree2Routes(newMenuList);
           let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
           router.addRoutes(accessRoutes2) // 动态添加可访问路由表

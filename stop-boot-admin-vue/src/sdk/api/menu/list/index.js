@@ -23,7 +23,7 @@ export function menuList(request) {
   if (data['userId'] == undefined) {
     console.error('userId 参数不能为空')
   }
-  const path = 'menu/list'
+  const path = 'system/menu/list'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -70,4 +71,18 @@ public class SpringContextUtil implements ApplicationContextAware {
         }
         return t;
     }
+
+//    /**
+//     * 根据类型获取bean
+//     * @param type
+//     * @return
+//     */
+//    public static <T> T getBean(Type type) {
+//        T t = null;
+//        Map<String, T> map = applicationContext.getBeansOfType(type);
+//        for (Map.Entry<String, T> entry : map.entrySet()) {
+//            t = entry.getValue();
+//        }
+//        return t;
+//    }
 }

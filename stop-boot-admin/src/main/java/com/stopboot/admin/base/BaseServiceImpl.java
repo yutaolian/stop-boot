@@ -26,6 +26,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     /**
      * 数量
+     *
      * @param example
      * @return
      */
@@ -142,6 +143,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     /**
      * 自定义方法
+     *
      * @param example
      * @param pageNum
      * @param pageSize
@@ -164,11 +166,9 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     public Object execute(String methodName, Object params) {
         try {
-            Class<Mapper> mapperClass = (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            Mapper mapper = SpringContextUtil.getBean(mapperClass);
+            Mapper mapper = this.mapper();
             Method method = mapper.getClass().getDeclaredMethod(methodName, params.getClass());
-            Object result = method.invoke(mapper, params);
-            return result;
+            return method.invoke(mapper, params);
         } catch (Exception e) {
             log.error("BaseServiceImpl execute invoke error:{}", e.fillInStackTrace());
             return null;
@@ -177,11 +177,9 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     public Object execute(String methodName, Object record, Object example) {
         try {
-            Class<Mapper> mapperClass = (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            Mapper mapper = SpringContextUtil.getBean(mapperClass);
+            Mapper mapper = this.mapper();
             Method method = mapper.getClass().getDeclaredMethod(methodName, record.getClass(), example.getClass());
-            Object result = method.invoke(mapper, record, example);
-            return result;
+            return method.invoke(mapper, record, example);
         } catch (Exception e) {
             log.error("BaseServiceImpl execute invoke error:{}", e.getMessage());
             return null;
@@ -190,15 +188,19 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
     public Object executePage(String methodName, Object example, Integer pageNum, Integer pageSize) {
         try {
-            Class<Mapper> mapperClass = (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            Mapper mapper = SpringContextUtil.getBean(mapperClass);
+            Mapper mapper = this.mapper();
             Method method = mapper.getClass().getDeclaredMethod(methodName, example.getClass());
             PageHelper.startPage(pageNum, pageSize);
-            Object result = method.invoke(mapper, example);
-            return result;
+            return method.invoke(mapper, example);
         } catch (Exception e) {
             log.error("BaseServiceImpl executePage invoke error:{}", e.getMessage());
             return null;
         }
+    }
+
+    private Mapper mapper() {
+        Class<Mapper> mapperClass = (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Mapper mapper = SpringContextUtil.getBean(mapperClass);
+        return mapper;
     }
 }
