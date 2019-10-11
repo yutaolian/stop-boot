@@ -119,7 +119,6 @@
 <script>
     // import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
 
-    import {RoleListRequest, roleList} from '@/sdk/api/role/list'
     import {RolePageRequest, rolePage} from '@/sdk/api/role/page'
     import waves from '@/directive/waves' // waves directive
     import {parseTime} from '@/utils'

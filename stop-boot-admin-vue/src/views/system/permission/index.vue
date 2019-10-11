@@ -41,7 +41,7 @@
 <script>
     import waves from '@/directive/waves' // waves directive
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-    import {menuList, MenuListRequest} from '@/sdk/api/menu/list'
+    import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
 
     export default {
         name: 'Premission',

@@ -237,8 +237,8 @@
                 request.setPageSize(this.listQuery.pageSize)
                 courseList(request).then(res => {
                     this.listLoading = false
-                    console.log("res:", res)
-                    console.log("data:", res.getData())
+                    // console.log("res:", res)
+                    // console.log("data:", res.getData())
                     this.list = res.getData()['list']
                     this.total = res.getData()['total']
                     // this.listQuery.page = res.getData()['nextPage']

@@ -1,7 +1,10 @@
 <template>
   <div>
     <template v-if="!item.hidden">
-      <template v-if="item.children.length > 0 && item.meta.title.indexOf(this.$store.state.settings.routerParentPrifix || 'Parent_')">
+      <!--一级节点有子节点-->
+
+      <template
+        v-if="item.children.length > 0 && item.meta.title.indexOf(this.$store.state.settings.routerParentPrifix)">
         <el-submenu :index="resolvePath(item.path)">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -9,20 +12,30 @@
           </template>
           <template v-for="subroute in item.children">
             <template v-if="!subroute.hidden ">
+              <!--二级节点无子节点-->
               <template v-if="subroute.children == undefined || subroute.children.length == 0">
                 <el-menu-item :index="resolvePath(subroute.path)">
                   <span slot="title">{{subroute.meta.title}}</span>
                 </el-menu-item>
               </template>
+              <!-- 二级节点是有子节点-->
               <template v-else>
-                <sub-menu-item v-for="subroute2 in subroute.children" :key="subroute.name"
-                               :item="subroute2" :parent="subroute" :base-path="subroute.path"></sub-menu-item>
+                <el-submenu :index="resolvePath(subroute.path)" >
+                  <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span slot="title">{{subroute.meta.title}}</span>
+                  </template>
+                  <sub-menu-item v-for="subSubroute in subroute.children" :key="subSubroute.path"
+                                 :item="subSubroute" :parent="subroute"
+                                 :base-path="basePath+'/'+subroute.path"></sub-menu-item>
+                </el-submenu>
               </template>
             </template>
           </template>
         </el-submenu>
       </template>
       <template v-else>
+        <!-- 一级节点无子节点-->
         <template v-for="subroute in item.children">
           <template v-if="!subroute.hidden ">
             <el-menu-item :index="resolvePath(subroute.path)">
@@ -40,7 +53,8 @@
 <script>
     import path from 'path'
     import SubMenuItem from '@/components/SubMenuItem'
-    import { isExternal } from '@/utils/validate'
+    import {isExternal} from '@/utils/validate'
+
     export default {
         name: 'SubMenu',
         components: {SubMenuItem},

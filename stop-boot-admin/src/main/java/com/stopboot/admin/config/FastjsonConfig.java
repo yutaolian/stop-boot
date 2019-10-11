@@ -40,38 +40,33 @@ public class FastjsonConfig extends WebMvcConfigurerAdapter {
         FastJsonHttpMessageConverter fastJsonConverter = new FastJsonHttpMessageConverter();
         //创建配置类
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-       //过滤并修改配置返回内容 ,保留null属性
-       fastJsonConfig.setSerializeFilters(new PropertyFilter() {
-           @Override
-           public boolean apply(Object o, String s, Object o1) {
-               if(o1 == null){
-                   return false;
-               }
-               return true;
-           }
-       });
-        fastJsonConfig.setSerializeFilters(new ValueFilter() {
-            @Override
-            public Object process(Object o, String s, Object source) {
-                if(null != source && source instanceof BigDecimal){
-                    DecimalFormat decimalFormat=new DecimalFormat("###.##");
-                    BigDecimal bigDecimal = (BigDecimal)source;
-                    String value = decimalFormat.format(bigDecimal);
-                    return value;
-
-                }
-                return source;
+        //过滤并修改配置返回内容 ,保留null属性
+        fastJsonConfig.setSerializeFilters((PropertyFilter) (o, s, o1) -> {
+            if (o1 == null) {
+                return false;
             }
+            return true;
+        });
+        //格式化金钱格式
+        fastJsonConfig.setSerializeFilters((ValueFilter) (o, s, source) -> {
+            if (null != source && source instanceof BigDecimal) {
+                DecimalFormat decimalFormat = new DecimalFormat("###.##");
+                BigDecimal bigDecimal = (BigDecimal) source;
+                String value = decimalFormat.format(bigDecimal);
+                return value;
+            }
+            return source;
         });
         //时间格式统一处理
-        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        //由于时间格式可能多种，暂不统一处理
+//        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         //处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<MediaType>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         fastJsonConverter.setSupportedMediaTypes(fastMediaTypes);
         fastJsonConverter.setFastJsonConfig(fastJsonConfig);
         //取消对象引用
-       // fastJsonConverter.setFeatures(SerializerFeature.DisableCircularReferenceDetect);
+        // fastJsonConverter.setFeatures(SerializerFeature.DisableCircularReferenceDetect);
         //将fastjson添加到视图消息转换器列表内
         converters.add(fastJsonConverter);
         //解决fastjson  com.alibaba.fastjson.JSONException: autoType is not support

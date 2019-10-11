@@ -18,11 +18,7 @@ export class MenuListRequest {
 }
 
 export function menuList(request) {
-  var data = request.data
-  // eslint-disable-next-line eqeqeq
-  if (data['userId'] == undefined) {
-    console.error('userId 参数不能为空')
-  }
+  let data = request.data
   const path = 'system/menu/list'
   return new Promise(resolve => {
     api(path, data)

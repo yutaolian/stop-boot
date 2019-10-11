@@ -1,26 +1,30 @@
 <template>
   <div>
-    <template v-if="parent != null">
-      <el-submenu :index="resolvePath(parent.path)">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">{{parent.meta.title}}</span>
-        </template>
-        <sub-menu-item v-for="subroute in item.children" :key="item.name" :item="subroute"
-                       :parent="item"></sub-menu-item>
-        <template v-if="item.children == undefined || item.children.length == 0">
-          <el-menu-item :index="resolvePath(item.path)">
+    <template v-if="!item.hidden">
+      <template v-if="item.children == undefined || item.children.length == 0">
+        <el-menu-item :index="resolvePath(item.path)">
+          <span slot="title">{{item.meta.title}}</span>
+        </el-menu-item>
+      </template>
+      <template v-else>
+        <el-submenu :index="resolvePath(item.path)">
+          <template slot="title">
+            <i class="el-icon-location"></i>
             <span slot="title">{{item.meta.title}}</span>
-          </el-menu-item>
-        </template>
-      </el-submenu>
+          </template>
+          <sub-menu-item v-for="subroute in item.children" :key="subroute.path"
+                         :item="subroute" :parent="item"
+                         :base-path="basePath+'/'+item.path"></sub-menu-item>
+        </el-submenu>
+      </template>
     </template>
   </div>
 </template>
 
 <script>
     import path from 'path'
-    import { isExternal } from '@/utils/validate'
+    import {isExternal} from '@/utils/validate'
+
     export default {
         name: 'SubMenuItem',
         props: {
@@ -49,6 +53,7 @@
                 if (isExternal(this.basePath)) {
                     return this.basePath
                 }
+                console.log("this.basePath", this.basePath, "routePath", routePath, "path", path.resolve(this.basePath, routePath))
                 return path.resolve(this.basePath, routePath)
             }
         }

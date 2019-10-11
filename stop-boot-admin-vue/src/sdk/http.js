@@ -19,7 +19,6 @@ axios.interceptors.request.use(
       userId: 7919
     }
     config.data = Object.assign({}, config.data, defaultParams);
-
     console.info('config:', config)
     return config
   },
@@ -45,12 +44,9 @@ export function post(url, params = {}) {
     axios.post(url, params)
       .then(response => {
         if (store.state.logDebuger) {
-          console.info('url:', response.config.url)
-          console.info('response config:', response.config)
-          console.info('response:', response.data)
-          console.info('full response:', response)
+          console.info('response:', response)
         }
-        if (response.data["code"] == "SUCCESS") {
+        if (response.data["code"] == "SUCCESS" || response.data["code"] == "EMPTY") {
           resolve(response.data.data)
         } else {
           Message.error(response.data["failMsg"])

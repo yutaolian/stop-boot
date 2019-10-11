@@ -78,7 +78,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.58</version>
+            <version>1.2.62</version>
         </dependency>
 
         <dependency>
@@ -100,6 +100,7 @@
             <version>5.0.1</version>
         </dependency>
         <!--mybatis 相关-->
+        <!--aop 相关-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>

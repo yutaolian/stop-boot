@@ -30,8 +30,8 @@ import javax.annotation.Resource;
 
 @Slf4j
 @RestController
-@RequestMapping("test")
-public class TestController extends BaseController {
+@RequestMapping("test/test1")
+public class Test1Controller extends BaseController {
 
     @Resource
     private TestServiceI testService;

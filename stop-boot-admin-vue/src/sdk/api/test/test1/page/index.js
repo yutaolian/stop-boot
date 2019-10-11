@@ -3,14 +3,9 @@ import {api} from '@/sdk/api/httpConfig'
 export class TestPageRequest {
   constructor() {
     this.data = {
-      userId: undefined,
       pageSize: undefined,
       pageNum: undefined
     }
-  }
-
-  setUserId(userId) {
-    this.data.userId = userId
   }
 
   setPageSize(pageSize) {
@@ -23,12 +18,8 @@ export class TestPageRequest {
 }
 
 export function testPage(request) {
-  var data = request.data
-  // eslint-disable-next-line eqeqeq
-  if (data['userId'] == undefined) {
-    console.error('userId 参数不能为空')
-  }
-  const path = 'test/page'
+  let data = request.data
+  const path = 'test/test1/page'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {
@@ -37,12 +28,11 @@ export function testPage(request) {
   })
 }
 
-//import {TestPageRequest, testPage} from '@/sdk/api/test/page'
+//import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
 
-// var request = new TestPageRequest()
+// let request = new TestPageRequest()
 // request.setPageNum(this.listQuery.pageNum)
 // request.setPageSize(this.listQuery.pageSize)
-// request.setUserId(7919)
 // testPage(request).then(res => {
 //   this.listLoading = false
 //   console.log("res:", res)

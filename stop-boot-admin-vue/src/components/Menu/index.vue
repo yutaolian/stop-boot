@@ -11,9 +11,21 @@
              mode="vertical">
       <sub-menu v-for="item in permission_routes" :key="item.name" :item="item" :base-path="item.path" ></sub-menu>
     </el-menu>
+<!--    <el-menu router @open="handleOpen" @close="handleClose"-->
+<!--             :default-active="activeMenu"-->
+<!--             :collapse="isCollapse"-->
+<!--             :background-color="variables.menuBg"-->
+<!--             :text-color="variables.menuText"-->
+<!--             :unique-opened="true"-->
+<!--             :active-text-color="variables.menuActiveText"-->
+<!--             :collapse-transition="false"-->
+<!--             mode="vertical">-->
+<!--      <NavMenu :navMenus="permission_routes" :parent="{'path':'/'}"></NavMenu>-->
+    </el-menu>
   </div>
 </template>
 <script>
+    import NavMenu from "@/components/NavMenu.vue";
     import path from 'path'
     import {isExternal} from '@/utils'
     import {mapGetters} from 'vuex'
@@ -22,7 +34,7 @@
     import SubMenu from '@/components/SubMenu'
 
     export default {
-        components: {Logo, SubMenu},
+        components: {Logo, SubMenu,NavMenu},
         computed: {
             ...mapGetters([
                 'permission_routes',

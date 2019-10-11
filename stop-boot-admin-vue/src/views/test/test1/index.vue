@@ -1,69 +1,168 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item" size="small"
+      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"/>
-      <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>新增</el-button>
-
-
-
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>折叠</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>展开</el-button>
+      <el-select v-model="listQuery.status" placeholder="状态" clearable style="width: 90px" class="filter-item">
+        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <!--      @click="cleanFilter"-->
+      <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" circle/>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" @click="handleCreate"
+                 circle>
+      </el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" icon="el-icon-download"
+                 @click="handleDownload" circle>1
+      </el-button>
     </div>
+
     <el-table
-      :data="tableData"
-      style="width: 100%;margin-bottom: 20px;"
-      row-key="id"
+      :key="tableKey"
+      v-loading="listLoading"
+      :data="list"
       border
-      default-expand-all
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column label="菜单标题" prop="title">
+      stripe
+      empty-text
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @sort-change="sortChange"
+    >
+
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="ID">
+              <span>{{ scope.row.id }}</span>
+            </el-form-item>
+            <el-form-item label="商品名称">
+              <span>{{ scope.row.name }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
 
-      <el-table-column label="path" prop="path">
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80"
+                       :class-name="getSortClass('id')">
         <template slot-scope="scope">
-          <span>{{ scope.row.path }}</span>
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="封面图1" width="80px" align="center">
+        <template slot-scope="scope">
+          <el-image style="width: 50px; height: 40px"
+                    :src="scope.row.headImg" :lazy="true"
+                    :preview-src-list="[scope.row.headImg]">
+          </el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="名称" width="100px" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="年龄" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.age}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="生日" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.birthday}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="组件" prop="component">
-        <template slot-scope="scope">
-          <span>{{ scope.row.component }}</span>
-        </template>
-      </el-table-column>
 
-      <el-table-column label="组件名称" prop="name" :class-name="getSortClass('id')">
-        <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            Edit
+          </el-button>
+          <!--          <router-link to="/course/detail">详情</router-link>-->
+          <router-link :to="{name:'courseDetail',query:{id:row.id}}">详情</router-link>
 
-      <el-table-column label="显示状态" prop="sort">
-        <template slot-scope="scope">
-          <span>{{ scope.row.hidden }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" prop="sort" align="center">
-        <template slot-scope="scope">
-          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-info" size="mini" round>编辑</el-button>
-          <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="mini" round>删除</el-button>
+          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
+            Delete
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.pageSize"
+                @pagination="getList"/>
+
+    <!--编辑-->
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px"
+               style="width: 400px; margin-left:50px;">
+        <el-form-item label="Type" prop="type">
+          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name"
+                       :value="item.key"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Date" prop="timestamp">
+          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date"/>
+        </el-form-item>
+        <el-form-item label="Title" prop="title">
+          <el-input v-model="temp.title"/>
+        </el-form-item>
+        <el-form-item label="Status">
+          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Imp">
+          <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3"
+                   style="margin-top:8px;"/>
+        </el-form-item>
+        <el-form-item label="Remark">
+          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"
+                    placeholder="Please input"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          Cancel
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          Confirm
+        </el-button>
+      </div>
+    </el-dialog>
+    <!--删除-->
+    <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
+      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
+        <el-table-column prop="key" label="Channel"/>
+        <el-table-column prop="pv" label="Pv"/>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogPvVisible = false">Confirm</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+    import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
     import waves from '@/directive/waves' // waves directive
+    import {parseTime} from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-    import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+
+    const calendarTypeOptions = [
+        {key: 'CN', display_name: 'China'},
+        {key: 'US', display_name: 'USA'},
+        {key: 'JP', display_name: 'Japan'},
+        {key: 'EU', display_name: 'Eurozone'}
+    ]
+
+    // arr to obj, such as { CN : "China", US : "USA" }
+    const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
+        acc[cur.key] = cur.display_name
+        return acc
+    }, {})
 
     export default {
         name: 'ComplexTable',
@@ -77,6 +176,9 @@
                     deleted: 'danger'
                 }
                 return statusMap[status]
+            },
+            typeFilter(type) {
+                return calendarTypeKeyValue[type]
             }
         },
         data() {
@@ -95,6 +197,7 @@
                     status: undefined
                 },
                 importanceOptions: [1, 2, 3],
+                calendarTypeOptions,
                 sortOptions: [{label: 'ID Ascending', key: '+id'}, {label: 'ID Descending', key: '-id'}],
                 statusOptions: ['published', 'draft', 'deleted'],
                 showReviewer: false,
@@ -120,8 +223,7 @@
                     timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
                     title: [{required: true, message: 'title is required', trigger: 'blur'}]
                 },
-                downloadLoading: false,
-                tableData: null
+                downloadLoading: false
             }
         },
         created() {
@@ -130,12 +232,13 @@
         methods: {
             getList() {
                 this.listLoading = true
-                var request = new MenuListRequest()
-                request.setUserId(7919)
-                request.setCourseId(2563)
-                menuList(request).then(res => {
+                let request = new TestPageRequest()
+                request.setPageNum(this.listQuery.pageNum)
+                request.setPageSize(this.listQuery.pageSize)
+                testPage(request).then(res => {
                     this.listLoading = false
-                    this.tableData = res;
+                    this.list = res['list']
+                    this.total = res['total']
                 })
             },
             handleFilter() {

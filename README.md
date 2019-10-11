@@ -38,3 +38,7 @@ alter table menu add delete_flag int(2) DEFAULT NULL COMMENT '删除标识（0�
     1.支持mybatis生成xml 自定义sqlxml
     2.自定义统一分页结果 PageResult 
     3.自定义统一返回结果及相应结果code msg等
+    
+4.2019-10-11
+
+    1.添加基础缓存方法

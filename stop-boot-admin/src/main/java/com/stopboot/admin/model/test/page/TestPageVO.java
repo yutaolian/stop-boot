@@ -1,5 +1,6 @@
 package com.stopboot.admin.model.test.page;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,31 +29,39 @@ public class TestPageVO implements Serializable {
     /**
      * 年龄
      */
-    private Byte age;
+    private Integer age;
 
     /**
      * 生日
      */
+    @JSONField(format = "yyyy-MM-dd")
     private Date birthday;
 
     /**
      * 创建时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
      * 状态
      */
-    private Byte status;
+    private Integer status;
 
     /**
-     * 存款
+     * 头像
      */
-    private BigDecimal money;
+    private String headImg;
+
+    /**
+     * 删除标记（1正常，0删除）
+     */
+    private Integer deleteFlag;
 
     /**
      * 信息
      */
     private String info;
+
 
 }

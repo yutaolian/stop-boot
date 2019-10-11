@@ -54,9 +54,13 @@ router.beforeEach(async (to, from, next) => {
           let subMenuList = menuList[0]["children"];
           //重置menu（将单节点添加父节点）
           let newMenuList = resetMenuList(subMenuList);
+
+          console.log("newMenuList",newMenuList);
           //menu转为router
           let accessRoutes = menuTree2Routes(newMenuList);
-          let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
+
+          console.log("accessRoutes",accessRoutes)
+          let accessRoutes2 = await store.dispatch('permission/generateRoutes', tempRoutes1)
           router.addRoutes(accessRoutes2) // 动态添加可访问路由表
           next({...to, replace: true})
         } catch (e) {
@@ -86,9 +90,8 @@ router.beforeEach(async (to, from, next) => {
 
 //将单节点menu改为带有父节点的menu
 function resetMenuList(menuList) {
-  console.log("resetMenuList-=-==-=menuList-", menuList)
   let newMenuList = []
-  let routerParentPrifix = defaultSettings.routerParentPrifix || "Parent_";
+  let routerParentPrifix = defaultSettings.routerParentPrifix;
   for (let i = 0; i < menuList.length; i++) {
     let menu = menuList[i];
     let menuChildren = menu['children']
@@ -158,8 +161,62 @@ function menuTree2Routes(menuTree) {
 }
 
 export const loadView = (view) => { // 路由懒加载
-  return () => import(`@/views/${view}`)
+  // if (view){
+    return () => import(`@/views/${view}`)
+  // }else{
+  //   return {}
+  // }
 }
+
+
+
+export const tempRoutes1 = [{
+    path: '/test',
+    component: Layout,
+    name: 'test',
+    meta: {
+      title: '测试菜单',
+      icon: 'component'
+    },
+    children: [
+      {
+        path: 'test1',
+        component: () => import('@/views/test/test1'),
+        name: 'test1',
+        meta: {title: '测试菜单1', icon: 'guide', noCache: true}
+      },
+      {
+        path: 'test2',
+        component: () => import('@/views/test/test2'),
+        name: 'test2',
+        meta: {title: '测试菜单2', icon: 'guide', noCache: true},
+        children: [
+          {
+            path: 'test21',
+            component: () => import('@/views/test/test2/test21'),
+            name: 'test21',
+            meta: {title: '测试菜单21', icon: 'guide', noCache: true},
+            children: [
+              {
+                path: 'test211',
+                component: () => import('@/views/test/test2/test21/test211'),
+                name: 'test211',
+                meta: {title: '测试菜单211', icon: 'guide', noCache: true}
+              }
+            ]
+          },
+          {
+            path: 'test22',
+            component: () => import('@/views/test/test2/test22'),
+            name: 'test22',
+            meta: {title: '测试菜单22', icon: 'guide', noCache: true},
+          }
+        ]
+      }
+    ]
+  }
+]
+
 
 function getPageTitle(pageTitle) {
   if (pageTitle) {

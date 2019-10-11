@@ -178,7 +178,7 @@
     <!--<queueSize>5120</queueSize>-->
     <!--<appender-ref ref="LOGSTASH" />-->
     <!--</appender>-->
-    <logger name="slf4j" level="INFO"/>
+    <logger name="slf4j" level="DEBUG"/>
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
     <!-- 控制台输出 -->
     <root level="DEBUG">

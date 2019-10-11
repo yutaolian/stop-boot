@@ -13,7 +13,7 @@
                  circle>
       </el-button>
       <el-button v-waves :loading="downloadLoading" class="filter-item" icon="el-icon-download"
-                 @click="handleDownload" circle>
+                 @click="handleDownload" circle>21
       </el-button>
     </div>
 
@@ -36,7 +36,7 @@
             <el-form-item label="ID">
               <span>{{ scope.row.id }}</span>
             </el-form-item>
-            <el-form-item label="商品名称">
+            <el-form-item label="商品名称21">
               <span>{{ scope.row.name }}</span>
             </el-form-item>
           </el-form>
@@ -49,11 +49,11 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="封面图" width="80px" align="center">
+      <el-table-column label="封面图21" width="80px" align="center">
         <template slot-scope="scope">
           <el-image style="width: 50px; height: 40px"
-                    :src="scope.row.iconUrl" :lazy="true"
-                    :preview-src-list="[scope.row.iconUrl]">
+                    :src="scope.row.headImg" :lazy="true"
+                    :preview-src-list="[scope.row.headImg]">
           </el-image>
         </template>
       </el-table-column>
@@ -62,16 +62,16 @@
           <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="金额" align="center">
+      <el-table-column label="年龄" align="center">
         <template slot-scope="scope">
-          <span>￥{{ scope.row.age}}</span>
+          <span>{{ scope.row.age}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="老师" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.birthday}}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="生日" align="center">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ scope.row.birthday}}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
 
       <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-    import {TestPageRequest, testPage} from '@/sdk/api/test/page'
+    import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
     import waves from '@/directive/waves' // waves directive
     import {parseTime} from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -237,7 +237,6 @@
                 request.setPageSize(this.listQuery.pageSize)
                 testPage(request).then(res => {
                     this.listLoading = false
-                    console.log("res:", res)
                     this.list = res['list']
                     this.total = res['total']
                 })

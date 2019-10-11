@@ -2,7 +2,7 @@ import {getToken, removeToken, setToken} from '@/utils/cookieUtil'
 import {resetRouter} from '@/router'
 import {login, LoginRequest} from '@/sdk/api/login'
 import {logout, LogoutRequest} from '@/sdk/api/logout'
-import {menuList, MenuListRequest} from '@/sdk/api/menu/list'
+import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
 const user = {
   state: {
     token: getToken(),
@@ -70,8 +70,7 @@ const user = {
     // login
     menus ({commit}) {
       return new Promise((resolve, reject) => {
-        var request = new MenuListRequest()
-        request.setUserId(7919)
+        let request = new MenuListRequest()
         menuList(request).then(res => {
           commit('SET_LOAD_MENUS', true)
           commit('SET_MENUS', res)

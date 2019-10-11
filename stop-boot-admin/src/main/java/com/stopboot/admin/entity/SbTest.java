@@ -1,7 +1,6 @@
 package com.stopboot.admin.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class SbTest implements Serializable {
@@ -18,7 +17,7 @@ public class SbTest implements Serializable {
     /**
      * 年龄
      */
-    private Byte age;
+    private Integer age;
 
     /**
      * 生日
@@ -33,12 +32,22 @@ public class SbTest implements Serializable {
     /**
      * 状态
      */
-    private Byte status;
+    private Integer status;
 
     /**
-     * 存款
+     * 头像
      */
-    private BigDecimal money;
+    private String headImg;
+
+    /**
+     * 删除标记（1正常，0删除）
+     */
+    private Integer deleteFlag;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     /**
      * 信息
@@ -86,7 +95,7 @@ public class SbTest implements Serializable {
      * 年龄
      * @return age 年龄
      */
-    public Byte getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -94,7 +103,7 @@ public class SbTest implements Serializable {
      * 年龄
      * @param age 年龄
      */
-    public void setAge(Byte age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -134,7 +143,7 @@ public class SbTest implements Serializable {
      * 状态
      * @return status 状态
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -142,24 +151,56 @@ public class SbTest implements Serializable {
      * 状态
      * @param status 状态
      */
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
     /**
-     * 存款
-     * @return money 存款
+     * 头像
+     * @return head_img 头像
      */
-    public BigDecimal getMoney() {
-        return money;
+    public String getHeadImg() {
+        return headImg;
     }
 
     /**
-     * 存款
-     * @param money 存款
+     * 头像
+     * @param headImg 头像
      */
-    public void setMoney(BigDecimal money) {
-        this.money = money;
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg == null ? null : headImg.trim();
+    }
+
+    /**
+     * 删除标记（1正常，0删除）
+     * @return delete_flag 删除标记（1正常，0删除）
+     */
+    public Integer getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    /**
+     * 删除标记（1正常，0删除）
+     * @param deleteFlag 删除标记（1正常，0删除）
+     */
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    /**
+     * 更新时间
+     * @return update_time 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 更新时间
+     * @param updateTime 更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
@@ -190,7 +231,9 @@ public class SbTest implements Serializable {
         sb.append(", birthday=").append(birthday);
         sb.append(", createTime=").append(createTime);
         sb.append(", status=").append(status);
-        sb.append(", money=").append(money);
+        sb.append(", headImg=").append(headImg);
+        sb.append(", deleteFlag=").append(deleteFlag);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", info=").append(info);
         sb.append("]");
         return sb.toString();

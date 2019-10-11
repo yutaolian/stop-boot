@@ -1,6 +1,5 @@
 package com.stopboot.admin.entity;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -76,7 +75,7 @@ public class SbTestExample {
     }
 
     /**
-     * sb_test 2019-09-26
+     * sb_test 2019-10-11
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -285,52 +284,52 @@ public class SbTestExample {
             return (Criteria) this;
         }
 
-        public Criteria andAgeEqualTo(Byte value) {
+        public Criteria andAgeEqualTo(Integer value) {
             addCriterion("age =", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotEqualTo(Byte value) {
+        public Criteria andAgeNotEqualTo(Integer value) {
             addCriterion("age <>", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThan(Byte value) {
+        public Criteria andAgeGreaterThan(Integer value) {
             addCriterion("age >", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andAgeGreaterThanOrEqualTo(Integer value) {
             addCriterion("age >=", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThan(Byte value) {
+        public Criteria andAgeLessThan(Integer value) {
             addCriterion("age <", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThanOrEqualTo(Byte value) {
+        public Criteria andAgeLessThanOrEqualTo(Integer value) {
             addCriterion("age <=", value, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeIn(List<Byte> values) {
+        public Criteria andAgeIn(List<Integer> values) {
             addCriterion("age in", values, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotIn(List<Byte> values) {
+        public Criteria andAgeNotIn(List<Integer> values) {
             addCriterion("age not in", values, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeBetween(Byte value1, Byte value2) {
+        public Criteria andAgeBetween(Integer value1, Integer value2) {
             addCriterion("age between", value1, value2, "age");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotBetween(Byte value1, Byte value2) {
+        public Criteria andAgeNotBetween(Integer value1, Integer value2) {
             addCriterion("age not between", value1, value2, "age");
             return (Criteria) this;
         }
@@ -465,113 +464,243 @@ public class SbTestExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Byte value) {
+        public Criteria andStatusEqualTo(Integer value) {
             addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Byte value) {
+        public Criteria andStatusNotEqualTo(Integer value) {
             addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Byte value) {
+        public Criteria andStatusGreaterThan(Integer value) {
             addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Byte value) {
+        public Criteria andStatusLessThan(Integer value) {
             addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
             addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Byte> values) {
+        public Criteria andStatusIn(List<Integer> values) {
             addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Byte> values) {
+        public Criteria andStatusNotIn(List<Integer> values) {
             addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Byte value1, Byte value2) {
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
             addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyIsNull() {
-            addCriterion("money is null");
+        public Criteria andHeadImgIsNull() {
+            addCriterion("head_img is null");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyIsNotNull() {
-            addCriterion("money is not null");
+        public Criteria andHeadImgIsNotNull() {
+            addCriterion("head_img is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyEqualTo(BigDecimal value) {
-            addCriterion("money =", value, "money");
+        public Criteria andHeadImgEqualTo(String value) {
+            addCriterion("head_img =", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotEqualTo(BigDecimal value) {
-            addCriterion("money <>", value, "money");
+        public Criteria andHeadImgNotEqualTo(String value) {
+            addCriterion("head_img <>", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyGreaterThan(BigDecimal value) {
-            addCriterion("money >", value, "money");
+        public Criteria andHeadImgGreaterThan(String value) {
+            addCriterion("head_img >", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("money >=", value, "money");
+        public Criteria andHeadImgGreaterThanOrEqualTo(String value) {
+            addCriterion("head_img >=", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyLessThan(BigDecimal value) {
-            addCriterion("money <", value, "money");
+        public Criteria andHeadImgLessThan(String value) {
+            addCriterion("head_img <", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("money <=", value, "money");
+        public Criteria andHeadImgLessThanOrEqualTo(String value) {
+            addCriterion("head_img <=", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyIn(List<BigDecimal> values) {
-            addCriterion("money in", values, "money");
+        public Criteria andHeadImgLike(String value) {
+            addCriterion("head_img like", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotIn(List<BigDecimal> values) {
-            addCriterion("money not in", values, "money");
+        public Criteria andHeadImgNotLike(String value) {
+            addCriterion("head_img not like", value, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("money between", value1, value2, "money");
+        public Criteria andHeadImgIn(List<String> values) {
+            addCriterion("head_img in", values, "headImg");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("money not between", value1, value2, "money");
+        public Criteria andHeadImgNotIn(List<String> values) {
+            addCriterion("head_img not in", values, "headImg");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadImgBetween(String value1, String value2) {
+            addCriterion("head_img between", value1, value2, "headImg");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadImgNotBetween(String value1, String value2) {
+            addCriterion("head_img not between", value1, value2, "headImg");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNull() {
+            addCriterion("delete_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNotNull() {
+            addCriterion("delete_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagEqualTo(Integer value) {
+            addCriterion("delete_flag =", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotEqualTo(Integer value) {
+            addCriterion("delete_flag <>", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThan(Integer value) {
+            addCriterion("delete_flag >", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delete_flag >=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThan(Integer value) {
+            addCriterion("delete_flag <", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThanOrEqualTo(Integer value) {
+            addCriterion("delete_flag <=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIn(List<Integer> values) {
+            addCriterion("delete_flag in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotIn(List<Integer> values) {
+            addCriterion("delete_flag not in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagBetween(Integer value1, Integer value2) {
+            addCriterion("delete_flag between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotBetween(Integer value1, Integer value2) {
+            addCriterion("delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
     }
@@ -587,7 +716,7 @@ public class SbTestExample {
     }
 
     /**
-     * sb_test 2019-09-26
+     * sb_test 2019-10-11
      */
     public static class Criterion {
         private String condition;
