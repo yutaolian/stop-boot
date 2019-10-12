@@ -1,13 +1,5 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item" size="small"
-                @keyup.enter.native="handleFilter"/>
-      <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>新增</el-button>
-
-    </div>
     <el-table
       :data="tableData"
       style="width: 100%;margin-bottom: 20px;"
@@ -23,7 +15,11 @@
 
       <el-table-column label="权限tag" prop="name" :class-name="getSortClass('id')">
         <template slot-scope="scope">
-          <span></span>
+          <el-tag>标签一</el-tag>
+          <el-tag type="success">标签二</el-tag>
+          <el-tag type="info">标签三</el-tag>
+          <el-tag type="warning">标签四</el-tag>
+          <el-tag type="danger">标签五</el-tag>
         </template>
       </el-table-column>
 

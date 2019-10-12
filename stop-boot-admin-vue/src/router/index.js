@@ -8,6 +8,8 @@ import {constantRoutes} from './routes'
 import defaultSettings from '@/config/settings'
 
 import Layout from '@/components/Layout'
+import Empty from '@/components/Empty'
+
 import da from "element-ui/src/locale/lang/da";
 
 Vue.use(Router)
@@ -60,7 +62,7 @@ router.beforeEach(async (to, from, next) => {
           let accessRoutes = menuTree2Routes(newMenuList);
 
           console.log("accessRoutes",accessRoutes)
-          let accessRoutes2 = await store.dispatch('permission/generateRoutes', tempRoutes1)
+          let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
           router.addRoutes(accessRoutes2) // 动态添加可访问路由表
           next({...to, replace: true})
         } catch (e) {
@@ -143,6 +145,18 @@ function menuTree2Routes(menuTree) {
         component: Layout,
         children
       })
+    } else if (menu['component'] == 'Empty') {
+      routes.push({
+        path: menu["path"],
+        name: menu["name"],
+        meta: {
+          title: menu['title'],
+          icon: menu['icon']
+        },
+        hidden: menu["hidden"] == 1,
+        component: Empty,
+        children
+      })
     } else {
       routes.push({
         path: menu["path"],
@@ -161,62 +175,56 @@ function menuTree2Routes(menuTree) {
 }
 
 export const loadView = (view) => { // 路由懒加载
-  // if (view){
     return () => import(`@/views/${view}`)
-  // }else{
-  //   return {}
-  // }
 }
 
-
-
-export const tempRoutes1 = [{
-    path: '/test',
-    component: Layout,
-    name: 'test',
-    meta: {
-      title: '测试菜单',
-      icon: 'component'
-    },
-    children: [
-      {
-        path: 'test1',
-        component: () => import('@/views/test/test1'),
-        name: 'test1',
-        meta: {title: '测试菜单1', icon: 'guide', noCache: true}
-      },
-      {
-        path: 'test2',
-        component: () => import('@/views/test/test2'),
-        name: 'test2',
-        meta: {title: '测试菜单2', icon: 'guide', noCache: true},
-        children: [
-          {
-            path: 'test21',
-            component: () => import('@/views/test/test2/test21'),
-            name: 'test21',
-            meta: {title: '测试菜单21', icon: 'guide', noCache: true},
-            children: [
-              {
-                path: 'test211',
-                component: () => import('@/views/test/test2/test21/test211'),
-                name: 'test211',
-                meta: {title: '测试菜单211', icon: 'guide', noCache: true}
-              }
-            ]
-          },
-          {
-            path: 'test22',
-            component: () => import('@/views/test/test2/test22'),
-            name: 'test22',
-            meta: {title: '测试菜单22', icon: 'guide', noCache: true},
-          }
-        ]
-      }
-    ]
-  }
-]
-
+//
+// export const tempRoutes1 = [{
+//     path: '/test',
+//     component: Layout,
+//     name: 'test',
+//     meta: {
+//       title: '测试菜单',
+//       icon: 'component'
+//     },
+//     children: [
+//       {
+//         path: 'test1',
+//         component: () => import('@/views/test/test1'),
+//         name: 'test1',
+//         meta: {title: '测试菜单1', icon: 'guide', noCache: true}
+//       },
+//       {
+//         path: 'test2',
+//         component: () => import('@/views/test/test2'),
+//         name: 'test2',
+//         meta: {title: '测试菜单2', icon: 'guide', noCache: true},
+//         children: [
+//           {
+//             path: 'test21',
+//             component: () => import('@/views/test/test2/test21'),
+//             name: 'test21',
+//             meta: {title: '测试菜单21', icon: 'guide', noCache: true},
+//             children: [
+//               {
+//                 path: 'test211',
+//                 component: () => import('@/views/test/test2/test21/test211'),
+//                 name: 'test211',
+//                 meta: {title: '测试菜单211', icon: 'guide', noCache: true}
+//               }
+//             ]
+//           },
+//           {
+//             path: 'test22',
+//             component: () => import('@/views/test/test2/test22'),
+//             name: 'test22',
+//             meta: {title: '测试菜单22', icon: 'guide', noCache: true},
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ]
 
 function getPageTitle(pageTitle) {
   if (pageTitle) {

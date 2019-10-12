@@ -3,6 +3,7 @@
     <template v-if="!item.hidden">
       <template v-if="item.children == undefined || item.children.length == 0">
         <el-menu-item :index="resolvePath(item.path)">
+          <i class="el-icon-location"></i>
           <span slot="title">{{item.meta.title}}</span>
         </el-menu-item>
       </template>
@@ -17,6 +18,7 @@
                          :base-path="basePath+'/'+item.path"></sub-menu-item>
         </el-submenu>
       </template>
+
     </template>
   </div>
 </template>

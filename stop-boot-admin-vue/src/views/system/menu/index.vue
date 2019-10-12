@@ -1,16 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item" size="small"
-                @keyup.enter.native="handleFilter"/>
-      <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>新增</el-button>
-
-
-
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small"  @click="handleFilter" round>折叠</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" size="small" @click="handleCreate" round>展开</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small" @click="" round>折叠
+      </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-arrow-down" size="small"
+                 @click="" round>展开
+      </el-button>
     </div>
     <el-table
       :data="tableData"
@@ -49,11 +44,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" prop="sort" align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-info" size="mini" round>编辑</el-button>
-          <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="mini" round>删除</el-button>
+          <el-button v-waves class="filter-item" type="success" size="mini" round>新增</el-button>
+          <el-button v-waves class="filter-item" type="primary" size="mini" round>编辑</el-button>
+          <el-button v-waves class="filter-item" type="danger" size="mini" round>删除</el-button>
+          <el-button v-waves class="filter-item" type="info" size="mini" round>生成代码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -173,14 +169,6 @@
                     status: 'published',
                     type: ''
                 }
-            },
-            handleCreate() {
-                this.resetTemp()
-                this.dialogStatus = 'create'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
             },
             createData() {
                 this.$refs['dataForm'].validate((valid) => {

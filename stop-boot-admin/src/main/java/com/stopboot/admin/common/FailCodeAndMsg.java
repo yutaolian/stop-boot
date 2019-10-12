@@ -18,13 +18,29 @@ public interface FailCodeAndMsg {
 
     String FAIL_MSG_UPDATE = "更新失败";
 
-    //更新错误
+    //删除错误
     String FAIL_CODE_DELETE = "10031";
 
     String FAIL_MSG_DELETE = "删除失败";
 
-    //更新错误
+    //删除错误
     String FAIL_CODE_ADD = "10041";
 
-    String FAIL_MSG_ADD = "添加失败";
+    String FAIL_MSG_ADD = "删除失败";
+
+    //用户名或密码错误
+    String FAIL_CODE_LOGIN = "10051";
+
+    String FAIL_MSG_LOGIN  = "用户名或密码错误";
+
+    //用户已被锁定
+    String FAIL_CODE_USER_DISABLE = "10052";
+
+    String FAIL_MSG_USER_DISABLE  = "用户已被锁定";
+
+    //用户不存在
+    String FAIL_CODE_USER_NO_EXIST = "10053";
+
+    String FAIL_MSG_USER_NO_EXIST  = "用户不存在";
+
 }

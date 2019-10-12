@@ -2,7 +2,6 @@
   <div>
     <template v-if="!item.hidden">
       <!--一级节点有子节点-->
-
       <template
         v-if="item.children.length > 0 && item.meta.title.indexOf(this.$store.state.settings.routerParentPrifix)">
         <el-submenu :index="resolvePath(item.path)">
@@ -15,6 +14,7 @@
               <!--二级节点无子节点-->
               <template v-if="subroute.children == undefined || subroute.children.length == 0">
                 <el-menu-item :index="resolvePath(subroute.path)">
+                  <i class="el-icon-location"></i>
                   <span slot="title">{{subroute.meta.title}}</span>
                 </el-menu-item>
               </template>

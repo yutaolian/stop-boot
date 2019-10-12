@@ -20,8 +20,8 @@
 <!--             :active-text-color="variables.menuActiveText"-->
 <!--             :collapse-transition="false"-->
 <!--             mode="vertical">-->
-<!--      <NavMenu :navMenus="permission_routes" :parent="{'path':'/'}"></NavMenu>-->
-    </el-menu>
+<!--      <NavMenu :navMenus="permission_routes"></NavMenu>-->
+<!--    </el-menu>-->
   </div>
 </template>
 <script>
