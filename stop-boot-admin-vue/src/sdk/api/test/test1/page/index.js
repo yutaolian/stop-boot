@@ -28,8 +28,10 @@ export function testPage(request) {
   })
 }
 
+//导入方法
 //import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
 
+//使用方法
 // let request = new TestPageRequest()
 // request.setPageNum(this.listQuery.pageNum)
 // request.setPageSize(this.listQuery.pageSize)

@@ -10,6 +10,7 @@ const user = {
     avatar: '',
     introduction: '',
     roles: [],
+    permissions: [],
     loadMenus: false,
     menus:[]
   },
@@ -19,6 +20,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
     },
     SET_LOAD_MENUS: (state, loadMenus) => {
       state.loadMenus = loadMenus
@@ -41,26 +45,7 @@ const user = {
           // 设置store
           commit('SET_TOKEN', res.getName())
           commit('SET_ROLES', ['admin'])
-          // 设置cookies
-          setToken(res.getToken())
-          resolve()
-        })
-      })
-    },
-
-    // login
-    roles ({commit}) {
-      // const {username, password} = userInfo
-      return new Promise((resolve, reject) => {
-        var request = new LoginRequest()
-        // request.setMobile(username)
-        // request.setPassword(password)
-        request.setCourseId(2675)
-        login(request).then(res => {
-          commit('SET_ROLES', ['admin'])
-          // commit('SET_NAME', 'lyt')
-          // 设置store
-          commit('SET_TOKEN', res.getName())
+          commit('SET_PERMISSIONS', ['TEST_ADD','TEST_UPDATE','TEST_CREATE'])
           // 设置cookies
           setToken(res.getToken())
           resolve()
@@ -74,6 +59,7 @@ const user = {
         menuList(request).then(res => {
           commit('SET_LOAD_MENUS', true)
           commit('SET_MENUS', res)
+          commit('SET_PERMISSIONS', ['TEST_ADD','TEST_UPDATE','TEST_CREATE'])
           resolve(res)
         })
       })

@@ -1,5 +1,6 @@
 package com.stopboot.admin.model.test.detail;
 
+import com.stopboot.admin.base.BaseVO;
 import lombok.Data;
 import org.springframework.context.annotation.Scope;
 
@@ -15,7 +16,7 @@ import java.util.Date;
  **/
 
 @Data
-public class TestOneVO implements Serializable {
+public class TestOneVO extends BaseVO {
     /**
      *
      */

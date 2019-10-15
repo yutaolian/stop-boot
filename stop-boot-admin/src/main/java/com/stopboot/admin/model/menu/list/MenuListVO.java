@@ -1,5 +1,6 @@
 package com.stopboot.admin.model.menu.list;
 
+import com.stopboot.admin.base.BaseVO;
 import lombok.Data;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  * @version:
  **/
 @Data
-public class MenuListVO {
+public class MenuListVO extends BaseVO {
 
     private Integer id;
-    private  Integer pid;
+    private Integer pid;
     private String path;
     private String component;
     private String name;

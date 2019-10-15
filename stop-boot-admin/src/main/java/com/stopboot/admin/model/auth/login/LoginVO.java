@@ -22,4 +22,8 @@ public class LoginVO implements Serializable {
     private String token;
 
     private List<String> roles;
+
+    private List<String> permissions;
+
+
 }

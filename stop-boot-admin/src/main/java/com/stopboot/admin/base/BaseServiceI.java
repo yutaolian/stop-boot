@@ -16,7 +16,6 @@ import java.util.List;
  **/
 
 public interface BaseServiceI<Record, Example> {
-
     //mybatis 工具自动生成方法
     int countByExample(Example example);
 

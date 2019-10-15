@@ -6,12 +6,12 @@ import com.stopboot.admin.annotation.InvokeTime;
 import com.stopboot.admin.annotation.SbDataSource;
 import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.db.DataSourceEnum;
+import com.stopboot.admin.utils.ClassUtil;
 import com.stopboot.admin.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -24,6 +24,10 @@ import java.util.List;
 @Slf4j
 public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseServiceI<Record, Example> {
 
+
+    private static final int Mapper_INDEX = 0;
+    private static final int Record_INDEX = 1;
+    private static final int Example_INDEX = 2;
     /**
      * 数量
      *
@@ -49,11 +53,12 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     }
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
+
+
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return (Integer) this.execute("deleteByPrimaryKey", id);
     }
-
 
     /**
      * 增
@@ -80,18 +85,21 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
      * @return
      */
 
+    @InvokeTime()
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public Record selectByPrimaryKey(Integer id) {
         return (Record) this.execute("selectByPrimaryKey", id);
     }
 
+    @InvokeTime()
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public List<Record> selectByExampleWithBLOBs(Example example) {
         return (List<Record>) this.execute("selectByExampleWithBLOBs", example);
     }
 
+    @InvokeTime()
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public List<Record> selectByExample(Example example) {
@@ -178,6 +186,10 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     public Object execute(String methodName, Object record, Object example) {
         try {
             Mapper mapper = this.mapper();
+            if (example == null) {
+                Class<Example> exampleClass = (Class<Example>) ClassUtil.getClass(getClass(), Example_INDEX);
+                example = exampleClass.newInstance();
+            }
             Method method = mapper.getClass().getDeclaredMethod(methodName, record.getClass(), example.getClass());
             return method.invoke(mapper, record, example);
         } catch (Exception e) {
@@ -189,6 +201,10 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     public Object executePage(String methodName, Object example, Integer pageNum, Integer pageSize) {
         try {
             Mapper mapper = this.mapper();
+            if (example == null) {
+                Class<Example> exampleClass = (Class<Example>) ClassUtil.getClass(getClass(), Example_INDEX);
+                example = exampleClass.newInstance();
+            }
             Method method = mapper.getClass().getDeclaredMethod(methodName, example.getClass());
             PageHelper.startPage(pageNum, pageSize);
             return method.invoke(mapper, example);
@@ -199,7 +215,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     }
 
     private Mapper mapper() {
-        Class<Mapper> mapperClass = (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Class<Mapper> mapperClass = (Class<Mapper>) ClassUtil.getClass(getClass(), Mapper_INDEX);
         Mapper mapper = SpringContextUtil.getBean(mapperClass);
         return mapper;
     }

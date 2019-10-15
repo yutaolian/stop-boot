@@ -9,12 +9,14 @@
       <!--      @click="cleanFilter"-->
       <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" circle/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" @click="handleCreate"
-                 circle>
-      </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" icon="el-icon-download"
-                 @click="handleDownload" circle>1
-      </el-button>
+      <el-button v-waves class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus"
+                 @click="handleCreate" circle/>
+      <el-button v-waves class="filter-item" icon="el-icon-download" :loading="downloadLoading" @click="handleDownload"
+                 circle/>
+
+      user permission : {{$store.getters.permissions}}
+      <span v-permission="['TEST_ADD']">permission : TEST_ADD</span>
+      <span v-permission="['TEST_ADD1']">permission : TEST_ADD1</span>
     </div>
 
     <el-table
@@ -77,23 +79,21 @@
       <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            Edit
+            编辑
           </el-button>
           <!--          <router-link to="/course/detail">详情</router-link>-->
           <router-link :to="{name:'courseDetail',query:{id:row.id}}">详情</router-link>
-
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
-            Delete
+            删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    <!--分页-->
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.pageSize"
                 @pagination="getList"/>
 
     <!--编辑-->
-
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px"
                style="width: 400px; margin-left:50px;">
@@ -150,6 +150,7 @@
     import waves from '@/directive/waves' // waves directive
     import {parseTime} from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+    import store from '@/store'
 
     const calendarTypeOptions = [
         {key: 'CN', display_name: 'China'},
@@ -213,8 +214,8 @@
                 dialogFormVisible: false,
                 dialogStatus: '',
                 textMap: {
-                    update: 'Edit',
-                    create: 'Create'
+                    update: '修改',
+                    create: '新增'
                 },
                 dialogPvVisible: false,
                 pvData: [],

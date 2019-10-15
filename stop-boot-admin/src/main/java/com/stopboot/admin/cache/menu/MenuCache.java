@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  **/
 
 @Service
-public class MenuCache extends AbstractCache<String, SbMenu, MenuServiceI> {
+public class MenuCache {
 
 }

@@ -1,12 +1,8 @@
 package com.stopboot.admin.controller.auth;
 
-import com.stopboot.admin.base.BaseController;
-import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.common.ResultData;
 import com.stopboot.admin.model.auth.login.LoginParams;
 import com.stopboot.admin.model.auth.login.LoginVO;
-import com.stopboot.admin.model.test.page.TestPageParams;
-import com.stopboot.admin.model.test.page.TestPageVO;
 import com.stopboot.admin.service.auth.login.LoginServiceI;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +25,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("auth")
 @Api(value = "验证模块")
-public class AuthController  extends BaseController {
+public class AuthController  {
 
     @Resource
     private LoginServiceI loginService;

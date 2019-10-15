@@ -1,9 +1,8 @@
 package com.stopboot.admin.model.test.update;
 
+import com.stopboot.admin.base.BaseParams;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * @description:
@@ -13,10 +12,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class TestUpdateParams implements Serializable {
-
-    @NotNull
-    private Integer id;
+public class TestUpdateParams extends BaseParams {
 
     private String name;
 }

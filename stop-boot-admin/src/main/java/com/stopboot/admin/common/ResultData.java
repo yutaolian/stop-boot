@@ -104,7 +104,7 @@ public class ResultData<T> implements Serializable {
         return this;
     }
 
-    public ResultData success() {
+    public ResultData  success() {
         this.setCode(ResCodeAndMsg.CODE_SUCCESS);
         this.setMsg(ResCodeAndMsg.MSG_SUCCESS);
         return this;

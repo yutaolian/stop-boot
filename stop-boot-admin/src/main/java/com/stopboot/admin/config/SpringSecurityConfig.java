@@ -73,9 +73,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .and()
                 .authorizeRequests()
-                .antMatchers(authenticationPath).permitAll()
-                .anyRequest().authenticated()
-
+//                .antMatchers(authenticationPath).permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

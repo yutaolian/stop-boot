@@ -1,11 +1,9 @@
-package com.stopboot.admin.model.test.page;
+package com.stopboot.admin.model.test.list;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.stopboot.admin.base.BaseVO;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,7 +14,7 @@ import java.util.Date;
  **/
 
 @Data
-public class TestPageVO extends BaseVO {
+public class TestListVO extends BaseVO {
     /**
      *
      */

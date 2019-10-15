@@ -1,5 +1,6 @@
 package com.stopboot.admin.model.test.detail;
 
+import com.stopboot.admin.base.BaseParams;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +13,6 @@ import java.io.Serializable;
  **/
 
 @Data
-public class TestOneParams implements Serializable {
+public class TestOneParams extends BaseParams {
 
-    private Integer id;
 }

@@ -2,7 +2,7 @@ package com.stopboot.admin.cache;
 
 import com.stopboot.admin.base.BaseCache;
 import com.stopboot.admin.base.BaseCacheImpl;
-import com.stopboot.admin.base.BaseServiceI;
+import com.stopboot.admin.base.DefaultServiceI;
 import com.stopboot.admin.utils.SpringContextUtil;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.util.List;
  * @version:
  **/
 
-public abstract class AbstractCache<KEY extends String, T extends Serializable, Service extends BaseServiceI> extends BaseCacheImpl<KEY, T> implements BaseCache<KEY, T> {
+public abstract class AbstractCache<KEY extends String, T extends Serializable, Service extends DefaultServiceI> extends BaseCacheImpl<KEY, T> implements BaseCache<KEY, T> {
 
     /**
      * id作为key
@@ -37,7 +37,7 @@ public abstract class AbstractCache<KEY extends String, T extends Serializable, 
 
     public boolean setOneCacheById(Integer id) {
         Service service = this.service();
-        T o = (T) service.selectByPrimaryKey(id);
+        T o = (T) service.one(id);
         return this.set((KEY) makeKey(id, ONE_BY_ID_KEY), o);
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractCache<KEY extends String, T extends Serializable, 
 
     public T loadOne(final KEY key) {
         Service service = this.service();
-        return (T) service.selectByPrimaryKey(Integer.parseInt(key));
+        return (T) service.one(Integer.parseInt(key));
     }
 
     public List<T> loadList(final KEY key) {

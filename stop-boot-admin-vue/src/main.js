@@ -22,8 +22,12 @@ import '@/styles/index.scss' // global css
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import Log from './utils/log'
-
 Vue.use(Log);
+
+
+import permission from '@/components/Permission'
+Vue.use(permission);
+
 
 Vue.config.productionTip = false
 

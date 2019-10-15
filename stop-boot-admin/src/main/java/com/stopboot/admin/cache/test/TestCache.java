@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @version:
  **/
 
-@Service
-public class TestCache extends AbstractCache<String, SbTest, TestServiceI> {
+//@Service
+public class TestCache {
 
 }
