@@ -3,6 +3,7 @@ package com.stopboot.admin.cache;
 import com.stopboot.admin.base.BaseCache;
 import com.stopboot.admin.base.BaseCacheImpl;
 import com.stopboot.admin.base.DefaultServiceI;
+import com.stopboot.admin.utils.ClassUtil;
 import com.stopboot.admin.utils.SpringContextUtil;
 
 import java.io.Serializable;
@@ -75,7 +76,8 @@ public abstract class AbstractCache<KEY extends String, T extends Serializable, 
     }
 
     private Service service() {
-        Class<Service> serviceClass = (Class<Service>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
-        return SpringContextUtil.getBean(serviceClass);
+        Class<Service> mapperClass = (Class<Service>) ClassUtil.getClass(getClass(), 2);
+        Service service = SpringContextUtil.getBean(mapperClass);
+        return service;
     }
 }
