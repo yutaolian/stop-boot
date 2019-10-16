@@ -33,7 +33,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("test/test1")
-public class Test1Controller extends BaseController<TestServiceI, TestPageVO, TestOneVO, TestPageParams, TestOneParams, TestUpdateParams, TestAddParams> {
+public class Test1Controller extends BaseController<TestServiceI, TestPageVO, TestOneVO, TestPageParams, TestOneParams, TestAddParams, TestUpdateParams> {
 
     @Resource
     private TestServiceI testService;
@@ -42,7 +42,6 @@ public class Test1Controller extends BaseController<TestServiceI, TestPageVO, Te
     private AdminServiceI adminServiceI;
 
     /**
-     *
      * @param params
      * @return
      */
