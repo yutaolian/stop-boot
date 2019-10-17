@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @EnableWebMvc
 @Configuration
-public class FastjsonConfig extends WebMvcConfigurerAdapter {
+public class FastjsonConfig implements WebMvcConfigurer {
 
     /**
      * 修改自定义消息转化器
@@ -59,7 +59,7 @@ public class FastjsonConfig extends WebMvcConfigurerAdapter {
         });
         //时间格式统一处理
         //由于时间格式可能多种，暂不统一处理
-//        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        //fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         //处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<MediaType>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);

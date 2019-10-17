@@ -2,7 +2,7 @@ package com.stopboot.admin.config;
 
 import com.stopboot.admin.jwt.JwtAuthenticationEntryPoint;
 import com.stopboot.admin.jwt.JwtRequestFilter;
-import com.stopboot.admin.jwt.JwtUserDetailsService;
+import com.stopboot.admin.jwt.JwtUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private JwtUserDetailsServiceImpl jwtUserDetailsService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 

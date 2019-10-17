@@ -18,19 +18,23 @@ import java.util.List;
  */
 public class BeansHelper<FROM, TO> {
 
-    //使用volatile关键字保其可见性
-    volatile private static BeansHelper instance = null;
+    /**
+     *     使用volatile关键字保其可见性
+     */
+    private volatile static BeansHelper instance = null;
 
     private BeansHelper() {
     }
 
+    //懒汉式
     public static BeansHelper getInstance() {
         try {
-            if (instance != null) {//懒汉式
+            if (instance != null) {
             } else {
                 //创建实例之前可能会有一些准备性的耗时工作
                 synchronized (BeansHelper.class) {
-                    if (instance == null) {//二次检查
+                    //二次检查
+                    if (instance == null) {
                         instance = new BeansHelper();
                     }
                 }

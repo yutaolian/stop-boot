@@ -1,8 +1,8 @@
 package com.stopboot.admin.controller.system.permission;
 
 import com.stopboot.admin.common.ResultData;
+import com.stopboot.admin.model.menu.list.MenuListParams;
 import com.stopboot.admin.model.menu.list.MenuListVO;
-import com.stopboot.admin.model.menu.list.MenuListVOParams;
 import com.stopboot.admin.service.menu.MenuServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -24,16 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("permission")
 public class PermissionController {
-//    @Resource
-//    private PermissionServiceI permissionServiceI;
 
     @Resource
     private MenuServiceI menuServiceI;
 
     @PostMapping("menu/list")
-    public ResultData<MenuListVO> menuList(@RequestBody MenuListVOParams params) {
+    public ResultData<MenuListVO> menuList(@RequestBody MenuListParams params) {
         ResultData resultData = ResultData.build();
-        List<MenuListVO> menuTreeList = menuServiceI.getMenuList(params);
+        List<MenuListVO> menuTreeList = menuServiceI.list(params);
         if (!ObjectUtils.isEmpty(menuTreeList)) {
             resultData.success().setData(menuTreeList);
         } else {
@@ -41,7 +39,5 @@ public class PermissionController {
         }
         return resultData;
     }
-
-
 
 }

@@ -1,8 +1,5 @@
 package com.stopboot.admin.cache.menu;
 
-import com.stopboot.admin.cache.AbstractCache;
-import com.stopboot.admin.entity.SbMenu;
-import com.stopboot.admin.service.menu.MenuServiceI;
 import org.springframework.stereotype.Service;
 
 /**

@@ -9,13 +9,13 @@ package com.stopboot.admin.db;
 
 public class DynamicDataSourceContextHolder {
 
-    private static final ThreadLocal<DataSourceEnum> currentDatesource = new ThreadLocal<>();
+    private static final ThreadLocal<DataSourceEnum> CURRENT_DATESOURCE = new ThreadLocal<>();
 
     /**
      * 清除当前数据源
      */
     public static void clear() {
-        currentDatesource.remove();
+        CURRENT_DATESOURCE.remove();
     }
 
     /**
@@ -24,7 +24,7 @@ public class DynamicDataSourceContextHolder {
      * @return 当前使用数据源的ID
      */
     public static DataSourceEnum get() {
-        return currentDatesource.get();
+        return CURRENT_DATESOURCE.get();
     }
 
     /**
@@ -33,7 +33,7 @@ public class DynamicDataSourceContextHolder {
      * @param value 需要设置的数据源ID
      */
     public static void set(DataSourceEnum value) {
-        currentDatesource.set(value);
+        CURRENT_DATESOURCE.set(value);
     }
 
     /**
@@ -42,6 +42,7 @@ public class DynamicDataSourceContextHolder {
     public static void setSlave() {
         DynamicDataSourceContextHolder.set(DataSourceEnum.DB_SLAVE);
     }
+
     /**
      * 设置Log数据库
      */

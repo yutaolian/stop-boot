@@ -26,7 +26,8 @@ import java.lang.reflect.Type;
 @Component
 public class DynamicDataSourceAspect {
 
-    @Pointcut("execution(* com.stopboot.admin.base.BaseServiceImpl.*(..))")
+    @Pointcut("execution(* com.stopboot.admin.base.service.BaseServiceImpl.*(..)) || " +
+            "execution(* com.stopboot.admin.service.help.*.*.*(..)) ")
     public void pointCut() {
     }
 
@@ -35,7 +36,7 @@ public class DynamicDataSourceAspect {
 //     * @param sbDataSource
      */
     @Before("@annotation(sbDataSource)")
-    public void doBefore(JoinPoint joinPoint, SbDataSource sbDataSource) {
+    public void doBefore(SbDataSource sbDataSource) {
         DataSourceEnum value = sbDataSource.value();
         if (value == DataSourceEnum.DB_MASTER) {
             DynamicDataSourceContextHolder.set(DataSourceEnum.DB_MASTER);
@@ -56,22 +57,4 @@ public class DynamicDataSourceAspect {
     public void doAfter(SbDataSource sbDataSource) {
         DynamicDataSourceContextHolder.clear();
     }
-
-//    @Before(value = "pointCut()")
-//    public void doBeforeWithSlave(JoinPoint joinPoint) {
-//        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-//        //获取当前切点方法对象
-//        Method method = methodSignature.getMethod();
-//        if (method.getDeclaringClass().isInterface()) {//判断是否为接口方法
-//            try {
-//                //获取实际类型的方法对象
-//                method = joinPoint.getTarget().getClass()
-//                        .getDeclaredMethod(joinPoint.getSignature().getName(), method.getParameterTypes());
-//            } catch (NoSuchMethodException e) {
-//            }
-//        }
-//        if (null == method.getAnnotation(SbDataSource.class)) {
-//            DynamicDataSourceContextHolder.setSlave();
-//        }
-//    }
 }

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * 数据源注解
  */
 
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SbDataSource {
     DataSourceEnum value() default DataSourceEnum.DB_MASTER;

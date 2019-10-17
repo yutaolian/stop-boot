@@ -1,6 +1,6 @@
 package com.stopboot.admin.model.menu.list;
 
-import com.stopboot.admin.base.BaseVO;
+import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
 
 import java.util.List;

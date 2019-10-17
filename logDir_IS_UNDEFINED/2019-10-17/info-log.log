@@ -1,0 +1,1 @@
+[timestamp=2019-10-17 17:15:52.697] [level=INFO] [app_id=stop-boot-admin] [Thread-44] [com.alibaba.druid.pool.DruidDataSource : DruidDataSource.java : 1823] {dataSource-1} closed
