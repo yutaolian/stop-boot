@@ -14,6 +14,17 @@
       border
       default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+
+      <el-table-column label="ID"sortable="custom" align="center" width="80">
+        <template slot-scope="scope">
+        </template>
+      </el-table-column>
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80"
+                       :class-name="getSortClass('id')">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="菜单标题" prop="title">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
@@ -128,7 +139,6 @@
                 this.listLoading = true
                 var request = new MenuListRequest()
                 request.setUserId(7919)
-                request.setCourseId(2563)
                 menuList(request).then(res => {
                     this.listLoading = false
                     this.tableData = res;

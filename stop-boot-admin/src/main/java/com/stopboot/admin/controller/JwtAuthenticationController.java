@@ -5,12 +5,11 @@ import com.stopboot.admin.common.ResultData;
 import com.stopboot.admin.exception.BizException;
 import com.stopboot.admin.jwt.JwtTokenUtil;
 import com.stopboot.admin.jwt.JwtUser;
-import com.stopboot.admin.jwt.JwtUserDetailsService;
+import com.stopboot.admin.jwt.JwtUserDetailsServiceImpl;
 import com.stopboot.admin.model.auth.login.LoginParams;
 import com.stopboot.admin.model.auth.login.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -36,7 +35,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private JwtUserDetailsServiceImpl userDetailsService;
 
     @Value("${jwt.header}")
     private String tokenHeader;

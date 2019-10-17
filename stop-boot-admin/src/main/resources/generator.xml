@@ -14,7 +14,6 @@
 
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
-
         <!--自动以生成注释-->
         <commentGenerator type="com.gaosiedu.live.mybatis.MyCommentGenerator">
         </commentGenerator>
@@ -43,13 +42,14 @@
         <sqlMapGenerator targetPackage="/dao/mybatis/mapper"
                          targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
+
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 -->
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.stopboot.admin.dao.mybatis.mapper" targetProject="src/main/java">
         </javaClientGenerator>
         <!-- 生成模型的包名和位置 -->
-        <table tableName="sb_admin"></table>
+        <table tableName="sb_dept"></table>
 
     </context>
 </generatorConfiguration>

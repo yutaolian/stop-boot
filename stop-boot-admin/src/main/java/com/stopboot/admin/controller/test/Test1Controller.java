@@ -1,11 +1,10 @@
 package com.stopboot.admin.controller.test;
 
-import com.stopboot.admin.base.BaseController;
-import com.stopboot.admin.common.PageResult;
+import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.common.ResultData;
 import com.stopboot.admin.model.test.add.TestAddParams;
-import com.stopboot.admin.model.test.detail.TestOneParams;
-import com.stopboot.admin.model.test.detail.TestOneVO;
+import com.stopboot.admin.model.test.one.TestOneParams;
+import com.stopboot.admin.model.test.one.TestOneVO;
 import com.stopboot.admin.model.test.list.TestListParams;
 import com.stopboot.admin.model.test.list.TestListVO;
 import com.stopboot.admin.model.test.page.TestPageParams;
@@ -33,7 +32,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("test/test1")
-public class Test1Controller extends BaseController<TestServiceI, TestPageVO, TestOneVO, TestPageParams, TestOneParams, TestAddParams, TestUpdateParams> {
+public class Test1Controller extends DefaultController<TestServiceI, TestPageVO, TestOneVO, TestPageParams, TestOneParams, TestAddParams, TestUpdateParams> {
 
     @Resource
     private TestServiceI testService;
@@ -48,9 +47,7 @@ public class Test1Controller extends BaseController<TestServiceI, TestPageVO, Te
     @PostMapping("list")
     public ResultData<TestListVO> list(@Validated @RequestBody TestListParams params) {
         ResultData resultData = ResultData.build();
-//        PageResult<TestPageVO> testPage = testService.page(params);
         List<TestListVO> testPage = adminServiceI.list(params);
-
         if (testPage != null) {
             resultData.success(testPage);
         } else {

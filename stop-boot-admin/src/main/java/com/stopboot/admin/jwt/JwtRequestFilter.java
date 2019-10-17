@@ -27,8 +27,11 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private static final String HEAD_NAME = "Authorization";
+    private static final String TOKEN_PRIFIX = "Bearer ";
+
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private JwtUserDetailsServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -39,12 +42,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = request.getHeader(HEAD_NAME);
         String username = null;
         String jwtToken = null;
         // JWT报文表头的格式是"Bearer token". 去除"Bearer ",直接获取token
         // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(TOKEN_PRIFIX)) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);

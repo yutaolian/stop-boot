@@ -31,8 +31,8 @@ public class ListToTreeUtil {
 
     private static MenuListVO findChildren(MenuListVO tree, List<MenuListVO> list) {
         for (MenuListVO node : list) {
-            if (node.getPid() == tree.getId()) {
-                if (tree.getChildren() == null) {
+            if (node.getPid().equals(tree.getId())) {
+                if (null == tree.getChildren()) {
                     tree.setChildren(new ArrayList<>());
                 }
                 tree.getChildren().add(findChildren(node, list));

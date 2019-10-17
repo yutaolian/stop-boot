@@ -1,7 +1,8 @@
 package com.stopboot.admin.model.test.add;
 
-import com.stopboot.admin.base.BaseParams;
+import com.stopboot.admin.base.params.BaseParams;
 import lombok.Data;
+
 
 
 /**

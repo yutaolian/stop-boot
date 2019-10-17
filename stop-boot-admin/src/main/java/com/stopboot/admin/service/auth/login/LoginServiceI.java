@@ -1,6 +1,6 @@
 package com.stopboot.admin.service.auth.login;
 
-import com.stopboot.admin.base.BaseServiceI;
+import com.stopboot.admin.base.service.BaseServiceI;
 import com.stopboot.admin.entity.SbAdmin;
 import com.stopboot.admin.entity.SbAdminExample;
 import com.stopboot.admin.model.auth.login.LoginParams;

@@ -40,7 +40,7 @@ public class LogAspect {
     @Before("execution(* com.stopboot.admin.controller.*.*.*(..)) ")
     public void doLog(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        Map<String,Object> logMap = new HashMap<>();
+        Map<String,Object> logMap = new HashMap<>(10);
         // 记录下请求内容
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = simpleDateFormat.format(System.currentTimeMillis());

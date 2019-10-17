@@ -1,5 +1,13 @@
 package com.stopboot.admin.common;
 
+
+/**
+ * @description:
+ * @author: Lianyutao
+ * @create: 2019-09-19 11:18
+ * @version:
+ **/
+
 public interface FailCodeAndMsg {
 
     //默认错误

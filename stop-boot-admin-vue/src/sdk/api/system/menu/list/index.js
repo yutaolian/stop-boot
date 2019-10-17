@@ -3,17 +3,12 @@ import {api} from '@/sdk/api/httpConfig'
 export class MenuListRequest {
   constructor() {
     this.data = {
-      userId: undefined,
-      courseId: undefined
+      userId: undefined
     }
   }
 
   setUserId(userId) {
     this.data.userId = userId
-  }
-
-  setCourseId(courseId) {
-    this.data.courseId = courseId
   }
 }
 

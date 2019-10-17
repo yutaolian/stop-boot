@@ -1,11 +1,9 @@
 package com.stopboot.admin.model.test.page;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.stopboot.admin.base.BaseVO;
+import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**

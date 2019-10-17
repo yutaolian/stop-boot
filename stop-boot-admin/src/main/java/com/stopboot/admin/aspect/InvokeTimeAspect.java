@@ -29,7 +29,7 @@ public class InvokeTimeAspect {
 
     private long startTime;
 
-    @Pointcut("execution(* com.stopboot.admin.base.BaseServiceImpl.*(..))")
+    @Pointcut("execution(* com.stopboot.admin.base.service.BaseServiceImpl.*(..))")
     public void pointCut() {
     }
 

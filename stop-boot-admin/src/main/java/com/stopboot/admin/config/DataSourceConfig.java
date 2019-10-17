@@ -16,7 +16,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import tk.mybatis.spring.annotation.MapperScan;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -70,7 +69,7 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:dao/*/mapper/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:dao/*/mapper/**/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
