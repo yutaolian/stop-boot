@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small" @click="" round>折叠
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small" @click="defaultExpandAll = false" round>折叠
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-arrow-down" size="small"
                  @click="" round>展开
@@ -12,47 +12,54 @@
       style="width: 100%;margin-bottom: 20px;"
       row-key="id"
       border
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       default-expand-all
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      ref="table">
       <el-table-column label="菜单标题" prop="title">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-
       <el-table-column label="path" prop="path">
         <template slot-scope="scope">
           <span>{{ scope.row.path }}</span>
         </template>
       </el-table-column>
-
       <el-table-column label="组件" prop="component">
         <template slot-scope="scope">
           <span>{{ scope.row.component }}</span>
         </template>
       </el-table-column>
-
       <el-table-column label="组件名称" prop="name" :class-name="getSortClass('id')">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-
       <el-table-column label="显示状态" prop="sort">
         <template slot-scope="scope">
-          <span>{{ scope.row.hidden }}</span>
+          <span>{{ istype(scope.row.hidden) }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button v-waves class="filter-item" type="success" size="mini" round>新增</el-button>
-          <el-button v-waves class="filter-item" type="primary" size="mini" round>编辑</el-button>
-          <el-button v-waves class="filter-item" type="danger" size="mini" round>删除</el-button>
-          <el-button v-waves class="filter-item" type="info" size="mini" round>生成代码</el-button>
+            <el-dropdown>
+                <el-button type="primary" size="small">
+                    更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click="addNode(scope.$index,scope.row)">新增</el-dropdown-item>
+                    <el-dropdown-item @click="editNode(scope.$index,scope.row)" v-if="scope.row.pid != 0">编辑</el-dropdown-item>
+                    <el-dropdown-item v-if="scope.row.pid != 0">删除</el-dropdown-item>
+                    <el-dropdown-item v-if="scope.row.pid != 0">生成代码</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
+    <addDialog ref="addDialog" />
+    <editDialog ref="editDialog" :data='propdata' />
+    <!-- <dialogComponent ref="dialogComponent" :dialogTitle='dialogTitle' :data ='propdata' :vdata = 'vdata' :rules ='rules'/> -->
   </div>
 </template>
 
@@ -60,10 +67,11 @@
     import waves from '@/directive/waves' // waves directive
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
     import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
-
+    import addDialog from './add'
+    import editDialog from './edit'
     export default {
         name: 'ComplexTable',
-        components: {Pagination},
+        components: {Pagination,addDialog,editDialog},
         directives: {waves},
         filters: {
             statusFilter(status) {
@@ -77,6 +85,7 @@
         },
         data() {
             return {
+                expandKeys:[],
                 tableKey: 0,
                 list: null,
                 total: 0,
@@ -117,13 +126,28 @@
                     title: [{required: true, message: 'title is required', trigger: 'blur'}]
                 },
                 downloadLoading: false,
-                tableData: null
+                tableData: null,
+                propdata:[], //dialog需要显示的东西
+                dialogTitle:'编辑',//dialog的title
+                vdata :{}, //表单验证和双向绑定需要用到的数据源
+                rules:{},  //表单验证的规则
             }
         },
         created() {
             this.getList()
         },
+        mounted(){
+            
+        },
         methods: {
+            addNode(index,row){
+                console.log(row)
+                this.$refs.addDialog.dialogVisible = true;
+            },
+            editNode(index,row){
+                this.$refs.editDialog.dialogVisible = true;
+                this.propdata = row;
+            },
             getList() {
                 this.listLoading = true
                 var request = new MenuListRequest()
@@ -267,6 +291,13 @@
                     : sort === `-${key}`
                         ? 'descending'
                         : ''
+            }
+        },
+        computed:{
+            istype(){
+                return (type) => {
+                    return type?'隐藏':'显示'
+                }
             }
         }
     }
