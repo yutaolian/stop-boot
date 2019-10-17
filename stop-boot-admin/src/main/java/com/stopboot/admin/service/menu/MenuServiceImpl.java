@@ -4,6 +4,7 @@ import com.stopboot.admin.base.params.*;
 import com.stopboot.admin.base.service.DefaultListServiceImpl;
 import com.stopboot.admin.base.vo.BaseVO;
 import com.stopboot.admin.dao.mybatis.mapper.SbMenuMapper;
+import com.stopboot.admin.dto.MenuInfo;
 import com.stopboot.admin.entity.SbMenu;
 import com.stopboot.admin.entity.SbMenuExample;
 import com.stopboot.admin.model.menu.add.MenuAddParams;
@@ -42,4 +43,21 @@ public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu
             return null;
         }
     }
+
+
+    @Override
+    public MenuInfo getAllMenuInfoById(Integer menuId) {
+        return getAllParentNode(menuId);
+    }
+
+    private MenuInfo getAllParentNode(Integer menuId) {
+        SbMenu menu = this.oneDb(menuId);
+        MenuInfo menuInfo = (MenuInfo) BeansHelper.getInstance().convert(menu, MenuInfo.class);
+        if (1 != menu.getPid()) {
+            menuInfo.setParent(getAllParentNode(menuInfo.getPid()));
+        }
+        return menuInfo;
+    }
+
+
 }

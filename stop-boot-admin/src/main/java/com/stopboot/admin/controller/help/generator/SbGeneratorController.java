@@ -1,7 +1,8 @@
 package com.stopboot.admin.controller.help.generator;
 
 import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.help.generator.dowm.DownLoadVO;
+import com.stopboot.admin.model.help.generator.dowm.GeneratorParams;
+import com.stopboot.admin.model.help.generator.dowm.GeneratorVO;
 import com.stopboot.admin.service.help.generator.SbGeneratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -32,10 +33,10 @@ public class SbGeneratorController {
      *
      * @return
      */
-    @PostMapping("downLoad")
-    public ResultData<DownLoadVO> downLoad() {
+    @PostMapping("done")
+    public ResultData<GeneratorVO> done(GeneratorParams params) {
         ResultData resultData = ResultData.build();
-        DownLoadVO vo = generatorService.downLoad();
+        GeneratorVO vo = generatorService.done(params);
         if (!ObjectUtils.isEmpty(vo)) {
             resultData.success().setData(vo);
         } else {

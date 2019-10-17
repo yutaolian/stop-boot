@@ -1,5 +1,8 @@
 import {api} from '@/sdk/api/httpConfig'
 
+/**
+ *
+ */
 export class TestPageRequest {
   constructor() {
     this.data = {

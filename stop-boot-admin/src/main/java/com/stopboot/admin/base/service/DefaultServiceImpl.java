@@ -65,6 +65,17 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
     }
 
     /**
+     * 直接获取数据库数据
+     *
+     * @param id
+     * @return
+     */
+    public DBRecord oneDb(Integer id) {
+        DBRecord record = this.selectByPrimaryKey(id);
+        return record;
+    }
+
+    /**
      * 详情
      * <p>
      * 多条件查询需要子类自己实现

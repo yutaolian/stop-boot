@@ -78,3 +78,21 @@ export function menuTree(request) {
       })
   })
 }
+
+
+
+/*
+//引用链接
+import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
+
+//使用方法
+let request = new TestPageRequest()
+request.setPageNum(this.listQuery.pageNum)
+request.setPageSize(this.listQuery.pageSize)
+testPage(request).then(res => {
+  this.listLoading = false
+  this.list = res['list']
+  this.total = res['total']
+})
+
+*/

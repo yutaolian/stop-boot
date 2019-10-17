@@ -12,7 +12,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class DownLoadVO implements Serializable {
+public class GeneratorVO implements Serializable {
 
     /**
      * 下载地址
