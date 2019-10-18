@@ -84,9 +84,21 @@
       onSubmit() {
         this.$refs['createFormRef'].validate((valid) => {
           if (valid) {
-
-            this.loading = true;
-
+            this.$confirm('此操作将提交数据, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '新增成功!'
+              });
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消'
+              });          
+            });
           } else {
             console.log('error submit!!');
             return false;

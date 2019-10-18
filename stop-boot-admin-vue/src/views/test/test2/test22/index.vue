@@ -76,7 +76,7 @@
           <el-button type="primary" size="mini" @click="preEdit(row)">
             Edit
           </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
+          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             Delete
           </el-button>
         </template>
@@ -203,15 +203,23 @@
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
-                this.dialogPvVisible = true
-                this.$notify({
-                    title: 'Success',
-                    message: 'Delete Successfully',
-                    type: 'success',
-                    duration: 2000
-                })
-                const index = this.list.indexOf(row)
-                this.list.splice(index, 1)
+                  this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
+                    this.$message({
+                      type: 'success',
+                      message: '删除成功!'
+                    });
+                    const index = this.list.indexOf(row)
+                    this.list.splice(index, 1)
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消删除'
+                    });          
+                  });
             },
             getSortClass: function (key) {
                 const sort = this.pageQuery.sort
