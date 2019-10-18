@@ -48,9 +48,6 @@ public class SbGeneratorServiceImpl implements SbGeneratorService {
             //根据menuId获得menu信息(包含所有父节点)
             MenuInfo menuInfo = menuService.getAllMenuInfoById(19);
 
-            String httpConfigPath = "/sdk/api";
-
-            String fullPath = "/test/test1/test11";
 
             List<ColumInfo> columsInfoList = new ArrayList<>();
 
@@ -93,6 +90,12 @@ public class SbGeneratorServiceImpl implements SbGeneratorService {
             map.put("version", "1.0.1");
             map.put("desc", "描述");
             map.put("method", "test");
+
+
+            String httpConfigPath = "/sdk/api";
+            String fullPath = "/test/test1/test11";
+
+
             map.put("path", fullPath);
             map.put("httpConfigPath", httpConfigPath);
             map.put("columsInfoList", columsInfoList);

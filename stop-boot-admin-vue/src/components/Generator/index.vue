@@ -1,59 +1,213 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="活动名称">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="活动区域">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="活动时间">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="项目名称" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
         </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+        <el-col :span="6">
+          <el-form-item label="项目作者" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
         </el-col>
-      </el-form-item>
-      <el-form-item label="即时配送">
-        <el-switch v-model="form.delivery"></el-switch>
-      </el-form-item>
-      <el-form-item label="活动性质">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-          <el-checkbox label="地推活动" name="type"></el-checkbox>
-          <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-          <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="特殊资源">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="线上品牌商赞助"></el-radio>
-          <el-radio label="线下场地免费"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="活动形式">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
+        <el-col :span="6">
+          <el-form-item label="项目描述" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="代码版本号" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="模块名称" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="组件位置" prop="name">
+            <el-input placeholder="组件位置" v-model="ruleForm.name">
+              <template slot="prepend">项目/src/</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="menu name" prop="name">
+            <el-input v-model="ruleForm.name" placeholder="来源于menu"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="menu path" prop="name">
+            <el-input v-model="ruleForm.name" placeholder="来源于menu"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="后端包名" prop="name">
+            <el-input v-model="ruleForm.name" placeholder="com.xxx.yyy"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="controller" prop="name">
+            <el-input placeholder="com.xxx.yyy.controller" v-model="ruleForm.name">
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="service" prop="name">
+            <el-input placeholder="com.xxx.yyy.service" v-model="ruleForm.name">
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="后台页面">
+            <el-checkbox-group v-model="ruleForm.type">
+              <el-checkbox label="page 页面" name="type"></el-checkbox>
+              <el-checkbox label="add 页面" name="type"></el-checkbox>
+              <el-checkbox label="update 页面" name="type"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="后台接口">
+            <el-checkbox-group v-model="ruleForm.type">
+              <el-checkbox label="page" name="type"></el-checkbox>
+              <el-checkbox label="list" name="type"></el-checkbox>
+              <el-checkbox label="one" name="type"></el-checkbox>
+              <el-checkbox label="add" name="type"></el-checkbox>
+              <el-checkbox label="update" name="type"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+      <el-row>
+        <el-col :span="6">
+
+          <el-form-item label="选择表" prop="region">
+            <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="18">
+          <el-form-item label="表信息" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-table
+          ref="multipleTable"
+          :data="tableData"
+          tooltip-effect="dark"
+          style="width: 100%"
+          border
+          @selection-change="handleSelectionChange">
+          <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
+
+          <el-table-column
+            label="字段名"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            label="字段类型"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+
+
+          <el-table-column
+            label="地址"
+          >
+            <template  scope="scope">
+              <el-switch
+                v-model="scope.row.name"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+            <template  scope="scope">
+              <el-input v-model="input" placeholder="请输入内容"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="地址"
+          >
+            <template scope="scope">
+              <el-button size="small" type="success" @click="handleUpdate(scope.row)">修改
+              </el-button>
+            </template>
+          </el-table-column>
+
+
+
+
+        </el-table>
+      </el-row>
+
+
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
 
-
   </div>
 </template>
-
 <script>
     export default {
         data() {
             return {
-                form: {
+                ruleForm: {
                     name: '',
                     region: '',
                     date1: '',
@@ -62,16 +216,71 @@
                     type: [],
                     resource: '',
                     desc: ''
-                }
-            }
+                }, tableData: [{
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }],
+                multipleSelection: [],
+                rules: {
+                    name: [
+                        {required: true, message: '请输入活动名称', trigger: 'blur'},
+                        {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+                    ],
+                    region: [
+                        {required: true, message: '请选择活动区域', trigger: 'change'}
+                    ],
+                    date1: [
+                        {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
+                    ],
+                    date2: [
+                        {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
+                    ],
+                    type: [
+                        {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+                    ],
+                    resource: [
+                        {required: true, message: '请选择活动资源', trigger: 'change'}
+                    ],
+                    desc: [
+                        {required: true, message: '请填写活动形式', trigger: 'blur'}
+                    ]
+                },
+
+            };
         },
         methods: {
-            onSubmit() {
-                console.log('submit!');
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
         }
     }
 </script>
-
 <style>
 </style>
