@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 
 import store from './store'
 // css兼容
@@ -27,6 +26,10 @@ Vue.use(Log);
 
 import permission from '@/components/Permission'
 Vue.use(permission);
+
+
+import router from './router'
+
 
 
 Vue.config.productionTip = false

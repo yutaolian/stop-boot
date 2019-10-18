@@ -14,10 +14,7 @@
       border
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       default-expand-all
-<<<<<<< HEAD
       ref="table">
-=======
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 
       <el-table-column label="ID"sortable="custom" align="center" width="80">
         <template slot-scope="scope">
@@ -29,7 +26,6 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
->>>>>>> 50f55a0781fbdf33fb04f6197c0ebb5c57450ef4
       <el-table-column label="菜单标题" prop="title">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
@@ -152,7 +148,7 @@
             this.getList()
         },
         mounted(){
-            
+
         },
         methods: {
             addNode(index,row){

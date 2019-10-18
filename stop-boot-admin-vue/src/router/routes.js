@@ -9,7 +9,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
+        component: () => import('@/components/Redirect/index')
       }
     ]
   },
@@ -18,11 +18,11 @@ export const constantRoutes = [
     name: 'Login',
     hidden: true,
     component: () => import('@/views/login/index')
-  },
-  {
-    path: '',
-    component: Layout,
-    hidden: true,
-    redirect:'/dashboard'
   }
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   hidden: true,
+  //   redirect:'/dashboard'
+  // }
 ]

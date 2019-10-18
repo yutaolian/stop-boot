@@ -1,10 +1,6 @@
 import {api} from '@/sdk/api/httpConfig'
 
-<<<<<<< HEAD
 export class MenuAddRequest {
-=======
-export class MenuListRequest {
->>>>>>> 50f55a0781fbdf33fb04f6197c0ebb5c57450ef4
   constructor() {
     this.data = {
       pid: undefined,
@@ -56,11 +52,7 @@ export class MenuListRequest {
   }
 }
 
-<<<<<<< HEAD
 export function menuAdd(request) {
-=======
-export function menuList(request) {
->>>>>>> 50f55a0781fbdf33fb04f6197c0ebb5c57450ef4
   let data = request.data
   const path = 'system/menu/add'
   return new Promise(resolve => {
