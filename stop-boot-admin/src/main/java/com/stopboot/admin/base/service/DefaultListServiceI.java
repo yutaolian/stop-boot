@@ -13,8 +13,8 @@ import java.util.List;
  **/
 
 public interface DefaultListServiceI<PageVO, ListVO, OneVO, PageParams extends BasePageParams,
-        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams>
-        extends DefaultServiceI<PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams> {
+        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
+        extends DefaultServiceI<PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams,DeleteParams> {
 
     /**
      * 根据params 获得列表

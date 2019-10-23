@@ -1,4 +1,4 @@
-package com.stopboot.admin.generator.impl.java;
+package com.stopboot.admin.generator.impl.sdk.java;
 
 /**
  * @description: 适用于Android的sdk代码生成器

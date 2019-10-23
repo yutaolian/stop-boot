@@ -12,11 +12,13 @@ import com.stopboot.admin.common.PageResult;
 
 public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParams,
         OneParams extends BaseParams,
-        AddParams extends BaseParams,
-        UpdateParams extends BaseParams> {
+        CreateParams extends BaseParams,
+        UpdateParams extends BaseParams,
+        DeleteParams extends BaseParams> {
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
@@ -25,16 +27,29 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
     }
 
     /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    default boolean delete(DeleteParams id) {
+        return false;
+    }
+
+
+    /**
      * 新增
+     *
      * @param params
      * @return
      */
-    default boolean add(AddParams params) {
+    default boolean add(CreateParams params) {
         return false;
     }
 
     /**
      * 查询单个
+     *
      * @param id
      * @return
      */
@@ -44,6 +59,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
 
     /**
      * 查询单个
+     *
      * @param params
      * @return
      */
@@ -53,6 +69,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
 
     /**
      * 查询单个
+     *
      * @param params
      * @return
      */
@@ -62,6 +79,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
 
     /**
      * 更新
+     *
      * @param params
      * @return
      */
@@ -71,6 +89,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
 
     /**
      * 更新
+     *
      * @param params
      * @return
      */
@@ -80,6 +99,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
 
     /**
      * 分页
+     *
      * @param params
      * @return
      */

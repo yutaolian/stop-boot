@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("system/menu")
-public class MenuController extends DefaultListController<MenuServiceI, BaseVO, MenuListVO, BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams> {
+public class MenuController extends DefaultListController<MenuServiceI, BaseVO, MenuListVO, BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams,BaseDeleteParams> {
 
 
 }

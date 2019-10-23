@@ -1,4 +1,4 @@
-package com.stopboot.admin.generator.impl.js;
+package com.stopboot.admin.generator.impl.sdk.ios;
 
 
 import com.stopboot.admin.generator.SbGeneratorStrategy;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @version:
  **/
 @Service
-public class SbJsGeneratorStrategyImpl implements SbGeneratorStrategy {
+public class SbiosSwiftGeneratorStrategyImpl implements SbGeneratorStrategy {
 
     @Override
     public boolean judge(SbGeneratorStrategyParams marketStrategyParam) {

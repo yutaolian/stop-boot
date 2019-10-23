@@ -25,7 +25,8 @@ import java.util.List;
  **/
 
 @Service
-public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu, SbMenuExample, BaseVO, MenuListVO, BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams> implements MenuServiceI {
+public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu, SbMenuExample, BaseVO, MenuListVO,
+        BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams,BaseDeleteParams> implements MenuServiceI {
 
     @Override
     public List<MenuListVO> list(MenuListParams params) {
@@ -51,7 +52,7 @@ public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu
     }
 
     private MenuInfo getAllParentNode(Integer menuId) {
-        SbMenu menu = this.oneDb(menuId);
+        SbMenu menu = this.oneFromDB(menuId);
         MenuInfo menuInfo = (MenuInfo) BeansHelper.getInstance().convert(menu, MenuInfo.class);
         if (1 != menu.getPid()) {
             menuInfo.setParent(getAllParentNode(menuInfo.getPid()));

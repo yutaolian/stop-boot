@@ -16,7 +16,7 @@ import com.stopboot.admin.base.params.BasePageParams;
  **/
 
 public interface DefaultSimpleListServiceI<PageVO, ListVO, VO, Params extends BasePageParams>
-        extends DefaultListServiceI<PageVO, ListVO, VO, Params,Params, Params, Params, Params> {
+        extends DefaultListServiceI<PageVO, ListVO, VO, Params, Params, Params, Params, Params, Params> {
 
 
 }

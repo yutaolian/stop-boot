@@ -2,6 +2,7 @@ package com.stopboot.admin.service.admin;
 
 import com.stopboot.admin.base.service.DefaultListServiceI;
 import com.stopboot.admin.model.test.add.TestAddParams;
+import com.stopboot.admin.model.test.delete.TestDeleteParams;
 import com.stopboot.admin.model.test.one.TestOneParams;
 import com.stopboot.admin.model.test.one.TestOneVO;
 import com.stopboot.admin.model.test.list.TestListParams;
@@ -18,6 +19,6 @@ import com.stopboot.admin.model.test.update.TestUpdateParams;
  * @version:
  **/
 public interface AdminServiceI extends DefaultListServiceI<TestPageVO, TestListVO, TestOneVO, TestPageParams,
-        TestListParams, TestOneParams, TestAddParams, TestUpdateParams> {
+        TestListParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams> {
 
 }

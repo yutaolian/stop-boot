@@ -16,9 +16,10 @@ import java.util.List;
  **/
 @Service
 public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
-        PageParams extends BasePageParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams>
+        PageParams extends BasePageParams, OneParams extends BaseParams,
+        AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
         extends BaseServiceImpl<DBMapper, DBRecord, DBExample>
-        implements DefaultServiceI<PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams> {
+        implements DefaultServiceI<PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams, DeleteParams> {
 
     private static final int DBRECORD_INDEX = 1;
     private static final int PAGEVO_INDEX = 3;
@@ -70,7 +71,7 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
      * @param id
      * @return
      */
-    public DBRecord oneDb(Integer id) {
+    public DBRecord oneFromDB(Integer id) {
         DBRecord record = this.selectByPrimaryKey(id);
         return record;
     }

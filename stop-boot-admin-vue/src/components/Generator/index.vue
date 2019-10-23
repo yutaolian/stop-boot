@@ -148,18 +148,6 @@
           >
           </el-table-column>
 
-
-          <el-table-column
-            label="地址"
-          >
-            <template  scope="scope">
-              <el-switch
-                v-model="scope.row.name"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
-              </el-switch>
-            </template>
-          </el-table-column>
           <el-table-column
             label="地址"
           >
@@ -172,25 +160,21 @@
             label="地址"
           >
           </el-table-column>
-          <el-table-column
-            label="地址"
-          >
-            <template  scope="scope">
-              <el-input v-model="input" placeholder="请输入内容"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="地址"
-          >
-            <template scope="scope">
-              <el-button size="small" type="success" @click="handleUpdate(scope.row)">修改
-              </el-button>
-            </template>
-          </el-table-column>
-
-
-
-
+<!--          <el-table-column-->
+<!--            label="地址"-->
+<!--          >-->
+<!--            <template  scope="scope">-->
+<!--              <el-input v-model="input" placeholder="请输入内容"></el-input>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+<!--          <el-table-column-->
+<!--            label="地址"-->
+<!--          >-->
+<!--            <template scope="scope">-->
+<!--              <el-button size="small" type="success" @click="handleUpdate(scope.row)">修改-->
+<!--              </el-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
         </el-table>
       </el-row>
 

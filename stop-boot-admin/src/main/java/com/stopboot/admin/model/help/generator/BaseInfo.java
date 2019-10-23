@@ -19,4 +19,13 @@ public class BaseInfo implements Serializable {
      */
     private String author;
 
+    /**
+     * 模板路径
+     */
+    private String templatePath;
+
+    private String viewPath;
+
+    private String fullPath;
+
 }

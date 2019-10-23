@@ -5,6 +5,7 @@ import com.stopboot.admin.dao.mybatis.mapper.SbTestMapper;
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
 import com.stopboot.admin.model.test.add.TestAddParams;
+import com.stopboot.admin.model.test.delete.TestDeleteParams;
 import com.stopboot.admin.model.test.one.TestOneParams;
 import com.stopboot.admin.model.test.one.TestOneVO;
 import com.stopboot.admin.model.test.list.TestListParams;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class AdminServiceImpl extends DefaultListServiceImpl<SbTestMapper, SbTest, SbTestExample, TestPageVO, TestListVO, TestOneVO, TestPageParams, TestListParams, TestOneParams, TestAddParams, TestUpdateParams> implements AdminServiceI {
+public class AdminServiceImpl extends DefaultListServiceImpl<SbTestMapper, SbTest, SbTestExample, TestPageVO, TestListVO, TestOneVO, TestPageParams, TestListParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams> implements AdminServiceI {
 
 
 }

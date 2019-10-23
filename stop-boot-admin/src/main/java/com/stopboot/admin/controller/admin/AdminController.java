@@ -3,6 +3,7 @@ package com.stopboot.admin.controller.admin;
 import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.entity.SbAdmin;
 import com.stopboot.admin.model.test.add.TestAddParams;
+import com.stopboot.admin.model.test.delete.TestDeleteParams;
 import com.stopboot.admin.model.test.one.TestOneParams;
 import com.stopboot.admin.model.test.page.TestPageParams;
 import com.stopboot.admin.model.test.update.TestUpdateParams;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("admin")
 public class AdminController extends DefaultController<AdminServiceI
         , SbAdmin, SbAdmin, TestPageParams
-        , TestOneParams, TestAddParams, TestUpdateParams> {
+        , TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams> {
 
 
 }

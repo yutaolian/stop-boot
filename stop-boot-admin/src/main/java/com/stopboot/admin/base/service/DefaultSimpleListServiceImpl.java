@@ -15,7 +15,7 @@ import com.stopboot.admin.base.params.BasePageParams;
  **/
 
 public class DefaultSimpleListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, VO, Params extends BasePageParams>
-        extends DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, VO, Params, Params, Params, Params, Params>
+        extends DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, VO, Params, Params, Params, Params, Params, Params>
         implements DefaultSimpleListServiceI<PageVO, ListVO, VO, Params> {
 
 }

@@ -20,8 +20,8 @@ import java.util.List;
  **/
 
 public class DefaultListController<Service extends DefaultListServiceI, PageVO, ListVO, OneVO, PageParams extends BasePageParams,
-        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams>
-        extends DefaultController<Service, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams> {
+        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
+        extends DefaultController<Service, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams,DeleteParams> {
     @PostMapping("list")
     public ResultData<ListVO> list(@Validated @RequestBody ListParams params) {
         ResultData resultData = ResultData.build();

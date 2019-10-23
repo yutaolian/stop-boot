@@ -15,9 +15,9 @@ import java.util.List;
  **/
 @Service
 public class DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, OneVO, PageParams extends BasePageParams,
-        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams>
-        extends DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams>
-        implements DefaultListServiceI<PageVO, ListVO, OneVO, PageParams, ListParams, OneParams, AddParams, UpdateParams> {
+        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
+        extends DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams,DeleteParams>
+        implements DefaultListServiceI<PageVO, ListVO, OneVO, PageParams, ListParams, OneParams, AddParams, UpdateParams,DeleteParams> {
 
     private static final int LIST_VO_INDEX = 4;
 

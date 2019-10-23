@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 
 public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, PageParams extends BasePageParams,
-        OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams> extends AbstractBaseController{
+        OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams> extends AbstractBaseController {
 
     /**
      * 此分页默认不加条件，如条件分页需在service 中重写page方法
@@ -41,6 +41,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, P
 
     /**
      * 侧方法只能通过id查找，多条件需在service方法中重写one方法
+     *
      * @param params
      * @return
      */
@@ -58,6 +59,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, P
 
     /**
      * 更新
+     *
      * @param params
      * @return
      */
@@ -75,6 +77,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, P
 
     /**
      * 添加
+     *
      * @param params
      * @return
      */
@@ -92,6 +95,26 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, P
 
     /**
      * 删除 线上通常是逻辑删除 需自行定义逻辑删除接口
+     *
+     * @param deleteParams
+     * @return
+     */
+    @PostMapping("delete")
+    public ResultData delete(@Validated @RequestBody DeleteParams deleteParams) {
+        ResultData resultData = ResultData.build();
+        boolean flag = service().delete(deleteParams);
+        if (flag) {
+            resultData.success();
+        } else {
+            resultData.fail().setFailCode(FailCodeAndMsg.FAIL_CODE_DELETE).setFailMsg(FailCodeAndMsg.FAIL_MSG_DELETE);
+        }
+        return resultData;
+    }
+
+
+    /**
+     * 删除 线上通常是逻辑删除 需自行定义逻辑删除接口
+     *
      * @param id
      * @return
      */

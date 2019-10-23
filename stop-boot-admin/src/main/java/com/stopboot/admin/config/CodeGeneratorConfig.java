@@ -18,7 +18,7 @@ public interface CodeGeneratorConfig {
     /**
      * 模板路径-后台代码 Controller
      */
-    String TEMPLATE_ADMIN_CONTROLLER = "admin/Controller.ftl";
+    String TEMPLATE_ADMIN_CONTROLLER = "admin/controller.ftl";
 
     /**
      * 模板路径-后台代码 Controller
@@ -28,7 +28,7 @@ public interface CodeGeneratorConfig {
     /**
      * 模板路径-后台代码 Controller
      */
-    String TEMPLATE_ADMIN_SERVICEIMPL = "admin/ServiceImpl.ftl";
+    String TEMPLATE_ADMIN_SERVICEIMPL = "admin/serviceImpl.ftl";
 
     /**
      * 模板路径-vue代码 列表
@@ -38,12 +38,12 @@ public interface CodeGeneratorConfig {
     /**
      * 模板路径-vue代码 添加
      */
-    String TEMPLATE_VUE_ADD = "vue/add.ftl";
+    String TEMPLATE_VUE_ADD = "vue/create.ftl";
 
     /**
      * 模板路径-vue代码 更新
      */
-    String TEMPLATE_VUE_UPDATE= "vue/update.ftl";
+    String TEMPLATE_VUE_UPDATE= "vue/edit.ftl";
 
     /**
      * 模板路径-vue代码 api

@@ -1,4 +1,4 @@
-package com.stopboot.admin.generator.impl.ios;
+package com.stopboot.admin.generator.impl.sdk.ios;
 
 
 import com.stopboot.admin.generator.SbGeneratorStrategy;

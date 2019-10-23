@@ -12,7 +12,7 @@ import com.stopboot.admin.base.params.BasePageParams;
  **/
 
 public class DefaultSimpleListController<Service extends DefaultListServiceI, VO, Params extends BasePageParams>
-        extends DefaultListController<Service, VO, VO, VO, Params, Params, Params, Params, Params> {
+        extends DefaultListController<Service, VO, VO, VO, Params, Params, Params, Params, Params, Params> {
 
 
 }

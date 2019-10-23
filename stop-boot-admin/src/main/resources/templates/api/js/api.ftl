@@ -21,7 +21,7 @@ import {api} from '@${httpConfigPath}/httpConfig'
  * desc: 详情
 </#if>
  */
-export class ${method}${apiType?cap_first}Request {
+export class ${model}${apiType?cap_first}Request {
 
     constructor() {
         this.data = {
@@ -55,7 +55,7 @@ export class ${method}${apiType?cap_first}Request {
 </#list>
 }
 
-export function ${method}${apiType?cap_first}(request) {
+export function ${model}${apiType?cap_first}(request) {
 
     let data = request.data
 <#list columsInfoList as colum>
@@ -77,10 +77,10 @@ export function ${method}${apiType?cap_first}(request) {
 
 /*
 //引用链接
-import {${method}${apiType?cap_first}Request, ${method}${apiType?cap_first}} from '@${httpConfigPath}/${path}/${apiType}'
+import {${model}${apiType?cap_first}Request, ${model}${apiType?cap_first}} from '@${httpConfigPath}/${path}/${apiType}'
 
 //使用方法
-let request = new ${method}${apiType?cap_first}Request()
+let request = new ${model}${apiType?cap_first}Request()
 
 <#if apiType =='page'>
 request.setPageNum(this.listQuery.pageNum)
@@ -90,7 +90,7 @@ request.setPageSize(this.listQuery.pageSize)
 request.set${colum.columnName?cap_first}(this.listQuery.${colum.columnName})
 </#list>
 
-${method}${apiType?cap_first}(request).then(res => {
+${model}${apiType?cap_first}(request).then(res => {
 <#if apiType =='page'>
     this.list = res['list']
     this.total = res['total']

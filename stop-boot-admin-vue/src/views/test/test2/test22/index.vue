@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <!--分页过滤条件-->
     <div class="filter-container">
       <el-input v-model="pageQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"/>
@@ -13,7 +14,7 @@
                  circle>
       </el-button>
     </div>
-
+    <!--表格-->
     <el-table
       :key="tableKey"
       v-loading="listLoading"
@@ -83,22 +84,22 @@
       </el-table-column>
     </el-table>
 
+    <!--分页组件-->
     <pagination v-show="total>0" :total="total" :page.sync="pageQuery.pageNum" :limit.sync="pageQuery.pageSize"
                 @pagination="getList"/>
 
-
+    <!--新增组件-->
     <create-form ref="createForm"></create-form>
 
+    <!--编辑组件-->
     <edit-form ref="editForm" :row='updateRowData'></edit-form>
 
-
-    <!--删除-->
     <!--删除-->
     <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-<!--      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">-->
-<!--        <el-table-column prop="key" label="Channel"/>-->
-<!--        <el-table-column prop="pv" label="Pv"/>-->
-<!--      </el-table>-->
+      <!--      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">-->
+      <!--        <el-table-column prop="key" label="Channel"/>-->
+      <!--        <el-table-column prop="pv" label="Pv"/>-->
+      <!--      </el-table>-->
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">Confirm</el-button>
       </span>
@@ -151,7 +152,7 @@
                 showReviewer: false,
                 temp: {},
                 dialogFormVisible: false,
-                dialogPvVisible:false,
+                dialogPvVisible: false,
                 updateRowData: {}
             }
         },
@@ -173,13 +174,6 @@
             handleFilter() {
                 this.pageQuery.page = 1
                 this.getList()
-            },
-            handleModifyStatus(row, status) {
-                this.$message({
-                    message: '操作Success',
-                    type: 'success'
-                })
-                row.status = status
             },
             sortChange(data) {
                 const {prop, order} = data
@@ -203,23 +197,23 @@
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
-                  this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('确认删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                  }).then(() => {
+                }).then(() => {
                     this.$message({
-                      type: 'success',
-                      message: '删除成功!'
+                        type: 'success',
+                        message: '删除成功!'
                     });
                     const index = this.list.indexOf(row)
                     this.list.splice(index, 1)
-                  }).catch(() => {
+                }).catch(() => {
                     this.$message({
-                      type: 'info',
-                      message: '已取消删除'
-                    });          
-                  });
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
             },
             getSortClass: function (key) {
                 const sort = this.pageQuery.sort

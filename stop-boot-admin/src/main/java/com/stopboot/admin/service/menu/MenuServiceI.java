@@ -14,7 +14,7 @@ import com.stopboot.admin.model.menu.list.MenuListVO;
  * @create: 2019-09-19 11:18
  * @version:
  **/
-public interface MenuServiceI extends DefaultListServiceI<BaseVO, MenuListVO, BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams> {
+public interface MenuServiceI extends DefaultListServiceI<BaseVO, MenuListVO, BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams,BaseDeleteParams> {
 
     /**
      * 根据menuId获得当前节点及全部父节点
