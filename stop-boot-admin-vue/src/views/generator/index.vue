@@ -7,89 +7,104 @@
           <el-divider>基础信息</el-divider>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="项目名称" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="项目名称" prop="projectName">
+                <el-input v-model="ruleForm.projectName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="项目作者" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="项目作者" prop="author">
+                <el-input v-model="ruleForm.author"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="项目描述" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="项目描述" prop="projectDesc">
+                <el-input v-model="ruleForm.projectDesc"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="代码版本号" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="代码版本号" prop="version">
+                <el-input v-model="ruleForm.version"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-divider>菜单信息</el-divider>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="模块名称" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="菜单标题" prop="menuInfo.title">
+                <el-input v-model="ruleForm.menuInfo.title"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="组件位置" prop="name">
-                <el-input placeholder="组件位置" v-model="ruleForm.name">
+              <el-form-item label="组件位置" prop="menuInfo.component">
+                <el-input placeholder="组件位置" v-model="ruleForm.menuInfo.component">
                   <template slot="prepend">项目/src/</template>
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-row>
-            <el-col :span="12">
-              <el-form-item label="menu name" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="来源于menu"></el-input>
+            <el-col :span="8">
+              <el-form-item label="模块名称" prop="menuInfo.name">
+                <el-input v-model="ruleForm.menuInfo.name" placeholder=""></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="menu path" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="来源于menu"></el-input>
+            <el-col :span="8">
+              <el-form-item label="菜单path" prop="menuInfo.path">
+                <el-input v-model="ruleForm.menuInfo.path" placeholder=""></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="菜单fullpath" prop="menuInfo.fullPath">
+                <el-input v-model="ruleForm.menuInfo.fullPath" placeholder=""></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
+          <el-divider>配置信息</el-divider>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="后端包名" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="com.xxx.yyy"></el-input>
+              <el-form-item label="基础包名" prop="basePackage">
+                <el-input v-model="ruleForm.basePackage" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="controller" prop="name">
-                <el-input placeholder="com.xxx.yyy.controller" v-model="ruleForm.name">
+             <el-col :span="12">
+              <el-form-item label="controller">
+                <el-input disabled placeholder="" :value="model('controller')">
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="service" prop="name">
-                <el-input placeholder="com.xxx.yyy.service" v-model="ruleForm.name">
+               </el-row>
+                <el-row>
+
+            <el-col :span="12">
+              <el-form-item label="service">
+                <el-input disabled :value="model('service')">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="model">
+                <el-input disabled placeholder="" :value="model('model')">
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-divider>表信息</el-divider>
           <el-row>
             <el-col :span="6">
-
-              <el-form-item label="选择表" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+              <el-form-item label="选择表">
+                <el-select v-model="ruleForm.selectedTableName" placeholder="请选择" @change="selectedTable">
+                  <el-option
+                    v-for="item in ruleForm.tableList"
+                    :key="item.tableName"
+                    :label="item.tableName"
+                    :value="item.tableName">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="18">
-              <el-form-item label="表信息" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="表信息">
+                <el-input :value="handletableData(ruleForm.selectedTableName)"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -109,19 +124,26 @@
 
               <el-table-column
                 label="字段名"
+                prop="columnName"
                 width="120">
               </el-table-column>
               <el-table-column
                 label="字段类型"
+                prop="dataType"
               >
               </el-table-column>
               <el-table-column
-                label="地址"
+                label="注释"
+                prop="columnComment"
               >
               </el-table-column>
               <el-table-column
-                label="地址"
+                label="是否必填"
               >
+                <template slot-scope="scope">
+                  <el-switch v-model="scope.row.nullable" active-value='YES' inactive-value="NO" >
+                  </el-switch>
+                </template>
               </el-table-column>
               <el-table-column
                 label="地址"
@@ -179,29 +201,21 @@
     import {GeneratorPreRequest, generatorPre} from '@/sdk/api/generator/pre'
     import {generatorTable} from '@/sdk/api/generator/table/list'
     import {TableColumnsRequest, tableColumns} from '@/sdk/api/generator/table/columns'
-
     export default {
+      name:'abc',
         data() {
             return {
                 activeName: 'first',
                 ruleForm: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                }, tableData: [{
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }],
+                    author: '',
+                    projectName: '',
+                    projectDesc: '',
+                    version: '',
+                    menuInfo:{},
+                    selectedTableName:''
+                },
+                tableData: [],
+                selsct_switch:false,
                 multipleSelection: [],
                 rules: {
                     name: [
@@ -237,24 +251,16 @@
             init() {
                 let menuId = this.$route.query.menuId;
                 let request = new GeneratorPreRequest();
-                request.setMenuId(menuId).api().then(res => {
-                    console.log("api ddddd generatorPre res:", res)
-                })
-
-
+                request.setMenuId(menuId);
                 generatorPre(request).then(res => {
                     console.log("generatorPre res:", res)
-                })
-
-                request.api().then(res => {
-                    console.log("api generatorPre res:", res)
+                    this.ruleForm = {...this.ruleForm,res}
                 })
 
                 generatorTable().then(res => {
                     console.log("generatorTable res:", res)
+                    this.ruleForm = {...this.ruleForm,tableList:res}
                 })
-
-
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -280,7 +286,35 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            selectedTable(){
+              let request = new TableColumnsRequest();
+              request.setTableName(this.ruleForm.selectedTableName)
+              tableColumns(request).then((res)=>{
+                this.tableData = res
+                console.log(res)
+              })
+            },
+        },
+        computed:{
+          model(){
+            return (type) =>{
+              if(this.ruleForm.basePackage && this.ruleForm.menuInfo){
+                return this.ruleForm.basePackage + `.${type}` + this.ruleForm.menuInfo.fullPath.replace(/\//g,'\.')
+              }else{
+                return ''
+              }
             }
+          },
+          handletableData(){
+            return (name) => {
+              if(this.ruleForm.tableList){
+                return JSON.stringify(this.ruleForm.tableList.filter((v)=>{
+                    return v.tableName == name
+                })) || ''
+              }
+            }
+          },
         }
     }
 </script>
