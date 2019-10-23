@@ -178,6 +178,7 @@
 <script>
     import {GeneratorPreRequest, generatorPre} from '@/sdk/api/generator/pre'
     import {generatorTable} from '@/sdk/api/generator/table/list'
+    import {TableColumnsRequest, tableColumns} from '@/sdk/api/generator/table/columns'
 
     export default {
         data() {
@@ -236,9 +237,17 @@
             init() {
                 let menuId = this.$route.query.menuId;
                 let request = new GeneratorPreRequest();
-                request.setMenuId(menuId);
+                request.setMenuId(menuId).api().then(res => {
+                    console.log("api ddddd generatorPre res:", res)
+                })
+
+
                 generatorPre(request).then(res => {
                     console.log("generatorPre res:", res)
+                })
+
+                request.api().then(res => {
+                    console.log("api generatorPre res:", res)
                 })
 
                 generatorTable().then(res => {

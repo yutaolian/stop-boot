@@ -14,7 +14,10 @@ import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.ListToTreeUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 
 /**
@@ -26,7 +29,7 @@ import java.util.List;
 
 @Service
 public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu, SbMenuExample, BaseVO, MenuListVO,
-        BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams,BaseDeleteParams> implements MenuServiceI {
+        BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams, BaseDeleteParams> implements MenuServiceI {
 
     @Override
     public List<MenuListVO> list(MenuListParams params) {
@@ -48,15 +51,23 @@ public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu
 
     @Override
     public MenuInfo getAllMenuInfoById(Integer menuId) {
-        return getAllParentNode(menuId);
+        List<String> fullPathArray = new ArrayList<>();
+        MenuInfo allParentNode = getAllParentNode(fullPathArray, menuId);
+        String fullPath = "";
+        for (String str : fullPathArray) {
+            fullPath += str.startsWith("/") ? str : "/" + str;
+        }
+        allParentNode.setFullPath(fullPath);
+        return allParentNode;
     }
 
-    private MenuInfo getAllParentNode(Integer menuId) {
+    private MenuInfo getAllParentNode(List<String> fullPathArray, Integer menuId) {
         SbMenu menu = this.oneFromDB(menuId);
         MenuInfo menuInfo = (MenuInfo) BeansHelper.getInstance().convert(menu, MenuInfo.class);
         if (1 != menu.getPid()) {
-            menuInfo.setParent(getAllParentNode(menuInfo.getPid()));
+            menuInfo.setParent(getAllParentNode(fullPathArray, menuInfo.getPid()));
         }
+        fullPathArray.add(menuInfo.getPath());
         return menuInfo;
     }
 

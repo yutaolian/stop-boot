@@ -24,9 +24,7 @@ public class MenuInfoVO implements Serializable {
     private String path;
     private String component;
     private String name;
-    private String icon;
     private String title;
-    private MenuInfo parent;
     private String fullPath;
 
 }
