@@ -21,6 +21,9 @@ public class ListToTreeUtil {
      */
     public static List<MenuListVO> listToTree(List<MenuListVO> list) {
         List<MenuListVO> treeList = new ArrayList<>();
+        if (list == null || list.size() == 0) {
+            return null;
+        }
         for (MenuListVO tree : list) {
             if (tree.getPid() == 0) {
                 treeList.add(findChildren(tree, list));

@@ -2,9 +2,9 @@ package com.stopboot.admin.service.test;
 
 import com.stopboot.admin.base.service.DefaultServiceImpl;
 import com.stopboot.admin.common.PageResult;
-import com.stopboot.admin.dao.mybatis.mapper.SbTestMapper;
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
+import com.stopboot.admin.mapper.mybatis.SbTestMapper;
 import com.stopboot.admin.model.test.add.TestAddParams;
 import com.stopboot.admin.model.test.delete.TestDeleteParams;
 import com.stopboot.admin.model.test.one.TestOneParams;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestServiceImpl extends
         DefaultServiceImpl<SbTestMapper, SbTest, SbTestExample, TestPageVO, TestOneVO,
-                TestPageParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams>
+                        TestPageParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams>
         implements TestServiceI {
 
     @Override

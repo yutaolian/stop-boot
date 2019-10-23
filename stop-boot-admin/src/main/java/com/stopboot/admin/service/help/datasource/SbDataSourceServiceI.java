@@ -8,7 +8,4 @@ import java.util.List;
 
 public interface SbDataSourceServiceI {
 
-    List<TableListVO> getTableList();
-
-    List<TableColumnsVO> getTableColumns(TableColumnsParams params);
 }

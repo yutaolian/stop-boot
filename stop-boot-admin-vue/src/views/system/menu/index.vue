@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small" @click="defaultExpandAll = false" round>折叠
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small"
+                 @click="defaultExpandAll = false" round>折叠
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-arrow-down" size="small"
                  @click="" round>展开
@@ -16,7 +17,7 @@
       default-expand-all
       ref="table">
 
-      <el-table-column label="ID"sortable="custom" align="center" width="80">
+      <el-table-column label="ID" sortable="custom" align="center" width="80">
         <template slot-scope="scope">
         </template>
       </el-table-column>
@@ -54,22 +55,26 @@
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-            <el-dropdown>
-                <el-button type="primary" size="small">
-                    更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click="addNode(scope.$index,scope.row)">新增</el-dropdown-item>
-                    <el-dropdown-item @click="editNode(scope.$index,scope.row)" v-if="scope.row.pid != 0">编辑</el-dropdown-item>
-                    <el-dropdown-item v-if="scope.row.pid != 0">删除</el-dropdown-item>
-                    <el-dropdown-item v-if="scope.row.pid != 0">生成代码</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+          <el-dropdown>
+            <el-button type="primary" size="small">
+              更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click="addNode(scope.$index,scope.row)">新增</el-dropdown-item>
+              <el-dropdown-item @click="editNode(scope.$index,scope.row)" v-if="scope.row.pid != 0">编辑
+              </el-dropdown-item>
+              <el-dropdown-item v-if="scope.row.pid != 0">删除</el-dropdown-item>
+              <el-dropdown-item v-if="scope.row.pid != 0">
+                <router-link :to="{ path: '/utils/generator', query: { menuId: scope.row.id}}">生成代码</router-link>
+              </el-dropdown-item>
+
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
-    <addDialog ref="addDialog" />
-    <editDialog ref="editDialog" :data='propdata' />
+    <addDialog ref="addDialog"/>
+    <editDialog ref="editDialog" :data='propdata'/>
     <!-- <dialogComponent ref="dialogComponent" :dialogTitle='dialogTitle' :data ='propdata' :vdata = 'vdata' :rules ='rules'/> -->
   </div>
 </template>
@@ -80,9 +85,10 @@
     import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
     import addDialog from './add'
     import editDialog from './edit'
+
     export default {
         name: 'ComplexTable',
-        components: {Pagination,addDialog,editDialog},
+        components: {Pagination, addDialog, editDialog},
         directives: {waves},
         filters: {
             statusFilter(status) {
@@ -96,7 +102,7 @@
         },
         data() {
             return {
-                expandKeys:[],
+                expandKeys: [],
                 tableKey: 0,
                 list: null,
                 total: 0,
@@ -138,24 +144,24 @@
                 },
                 downloadLoading: false,
                 tableData: null,
-                propdata:[], //dialog需要显示的东西
-                dialogTitle:'编辑',//dialog的title
-                vdata :{}, //表单验证和双向绑定需要用到的数据源
-                rules:{},  //表单验证的规则
+                propdata: [], //dialog需要显示的东西
+                dialogTitle: '编辑',//dialog的title
+                vdata: {}, //表单验证和双向绑定需要用到的数据源
+                rules: {},  //表单验证的规则
             }
         },
         created() {
             this.getList()
         },
-        mounted(){
+        mounted() {
 
         },
         methods: {
-            addNode(index,row){
+            addNode(index, row) {
                 console.log(row)
                 this.$refs.addDialog.dialogVisible = true;
             },
-            editNode(index,row){
+            editNode(index, row) {
                 this.$refs.editDialog.dialogVisible = true;
                 this.propdata = row;
             },
@@ -303,10 +309,10 @@
                         : ''
             }
         },
-        computed:{
-            istype(){
+        computed: {
+            istype() {
                 return (type) => {
-                    return type?'隐藏':'显示'
+                    return type ? '隐藏' : '显示'
                 }
             }
         }

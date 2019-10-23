@@ -1,7 +1,7 @@
 package com.stopboot.admin.annotation;
 
 
-import com.stopboot.admin.db.DataSourceEnum;
+import com.stopboot.admin.config.DataSourceEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

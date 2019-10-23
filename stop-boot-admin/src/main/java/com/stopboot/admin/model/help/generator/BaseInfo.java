@@ -20,6 +20,11 @@ public class BaseInfo implements Serializable {
     private String author;
 
     /**
+     * 模块名
+     */
+    private String model;
+
+    /**
      * 模板路径
      */
     private String templatePath;
@@ -27,5 +32,9 @@ public class BaseInfo implements Serializable {
     private String viewPath;
 
     private String fullPath;
+
+    private String httpConfigPath;
+
+    private String basePackageToPath;
 
 }

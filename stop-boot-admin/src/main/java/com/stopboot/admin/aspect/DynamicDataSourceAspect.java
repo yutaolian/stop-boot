@@ -1,19 +1,14 @@
 package com.stopboot.admin.aspect;
 
 import com.stopboot.admin.annotation.SbDataSource;
-import com.stopboot.admin.db.DataSourceEnum;
-import com.stopboot.admin.db.DynamicDataSourceContextHolder;
-import org.aspectj.lang.JoinPoint;
+import com.stopboot.admin.config.DataSourceEnum;
+import com.stopboot.admin.config.DynamicDataSourceContextHolder;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.SourceLocation;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 
 /**
  * @description: 数据源切换aspect

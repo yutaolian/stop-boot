@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.stopboot.admin.annotation.InvokeTime;
 import com.stopboot.admin.annotation.SbDataSource;
 import com.stopboot.admin.common.PageResult;
-import com.stopboot.admin.db.DataSourceEnum;
+import com.stopboot.admin.config.DataSourceEnum;
 import com.stopboot.admin.utils.ClassUtil;
 import com.stopboot.admin.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -2,9 +2,9 @@ package com.stopboot.admin.service.role;
 
 import com.stopboot.admin.base.service.BaseServiceImpl;
 import com.stopboot.admin.common.PageResult;
-import com.stopboot.admin.dao.mybatis.mapper.SbRoleMapper;
 import com.stopboot.admin.entity.SbRole;
 import com.stopboot.admin.entity.SbRoleExample;
+import com.stopboot.admin.mapper.mybatis.SbRoleMapper;
 import com.stopboot.admin.model.role.list.RoleListVOParams;
 import com.stopboot.admin.model.role.list.RoleListVO;
 import com.stopboot.admin.model.role.page.RolePageVOParams;

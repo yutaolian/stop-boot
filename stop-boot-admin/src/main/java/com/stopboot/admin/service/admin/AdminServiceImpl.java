@@ -1,9 +1,9 @@
 package com.stopboot.admin.service.admin;
 
 import com.stopboot.admin.base.service.DefaultListServiceImpl;
-import com.stopboot.admin.dao.mybatis.mapper.SbTestMapper;
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
+import com.stopboot.admin.mapper.mybatis.SbTestMapper;
 import com.stopboot.admin.model.test.add.TestAddParams;
 import com.stopboot.admin.model.test.delete.TestDeleteParams;
 import com.stopboot.admin.model.test.one.TestOneParams;

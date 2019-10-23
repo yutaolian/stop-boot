@@ -1,20 +1,9 @@
 package com.stopboot.admin.aspect;
 
 import com.stopboot.admin.annotation.InvokeTime;
-import com.stopboot.admin.annotation.SbDataSource;
-import com.stopboot.admin.db.DataSourceEnum;
-import com.stopboot.admin.db.DynamicDataSourceContextHolder;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.omg.SendingContext.RunTime;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description:

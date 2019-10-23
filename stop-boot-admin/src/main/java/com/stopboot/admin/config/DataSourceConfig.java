@@ -1,8 +1,6 @@
 package com.stopboot.admin.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.stopboot.admin.db.DataSourceEnum;
-import com.stopboot.admin.db.DynamicRoutingDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -25,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2019-09-19 16:49
  * @version:
  **/
-@MapperScan({"com.stopboot.admin.dao.*.mapper"})
+@MapperScan({"com.stopboot.admin.mapper.*"})
 @Configuration
 public class DataSourceConfig {
 
@@ -69,7 +67,7 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:dao/*/mapper/**/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 

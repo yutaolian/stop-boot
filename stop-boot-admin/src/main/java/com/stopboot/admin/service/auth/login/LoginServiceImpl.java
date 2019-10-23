@@ -1,9 +1,9 @@
 package com.stopboot.admin.service.auth.login;
 
 import com.stopboot.admin.base.service.BaseServiceImpl;
-import com.stopboot.admin.dao.mybatis.mapper.SbAdminMapper;
 import com.stopboot.admin.entity.SbAdmin;
 import com.stopboot.admin.entity.SbAdminExample;
+import com.stopboot.admin.mapper.mybatis.SbAdminMapper;
 import com.stopboot.admin.model.auth.login.LoginParams;
 import com.stopboot.admin.model.auth.login.LoginVO;
 import com.stopboot.admin.utils.BeansHelper;
