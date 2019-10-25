@@ -17,12 +17,7 @@
       default-expand-all
       ref="table">
 
-      <el-table-column label="ID" sortable="custom" align="center" width="80">
-        <template slot-scope="scope">
-        </template>
-      </el-table-column>
-      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80"
-                       :class-name="getSortClass('id')">
+      <el-table-column label="ID" prop="id" align="center" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>

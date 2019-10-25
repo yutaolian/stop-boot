@@ -1,10 +1,10 @@
 <template>
   <!--编辑-->
   <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-    <el-form ref="editFormRef" :rules="rules" :model="editForm" label-position="left" label-width="70px"
+    <el-form ref="editFormRef" :rules="rules" :model="editRowData" label-position="left" label-width="70px"
              style="width: 400px; margin-left:50px;">
-      <el-form-item label="Title" prop="name">
-        <el-input v-model="editForm.name"/>
+      <el-form-item label="name" prop="name">
+        <el-input v-model="editRowData.name"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -20,7 +20,7 @@
 <script>
     export default {
         name: 'edit_form',
-        props: ['row'],  //接收父组件的传值
+        props: ['editRowData'],  //接收父组件的传值
         data() {
             return {
                 loading: false,
@@ -52,7 +52,7 @@
                             this.$message({
                                 type: 'info',
                                 message: '已取消'
-                            });          
+                            });
                         });
                     } else {
                         console.log('error submit!!');

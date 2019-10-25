@@ -1,11 +1,11 @@
 <template>
     <!--编辑-->
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-        <el-form ref="editFormRef" :rules="rules" :model="editForm" label-position="left" label-width="70px"
+        <el-form ref="editFormRef" :rules="rules" :model="editRowData" label-position="left" label-width="70px"
                  style="width: 400px; margin-left:50px;">
             <#list tableColumnsData as colum>
             <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
-                <el-input v-model="editForm.${colum.camelColumnName}"/>
+                <el-input v-model="editRowData.${colum.camelColumnName}"/>
             </el-form-item>
             </#list>
         </el-form>
@@ -22,7 +22,7 @@
 <script>
     export default {
         name: 'edit_form',
-        props: ['row'],  //接收父组件的传值
+        props: ['editRowData'],  //接收父组件的传值
         data() {
             return {
                 loading: false,

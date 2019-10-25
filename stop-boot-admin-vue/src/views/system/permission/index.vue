@@ -7,100 +7,98 @@
       border
       default-expand-all
       :tree-props="{children: 'children'}">
+
+      <el-table-column label="ID" prop="id" align="center" width="80">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="菜单标题" prop="title">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="按钮权限tagName" prop="name" :class-name="getSortClass('id')">
+      <el-table-column label="菜单组件" prop="component">
         <template slot-scope="scope">
-          <el-tag closable>标签一</el-tag>
-          <el-tag type="success" closable>标签二</el-tag>
-          <el-tag type="info" closable>标签三</el-tag>
-          <el-tag type="warning" closable>标签四</el-tag>
-          <el-tag type="danger" closable>标签五</el-tag>
+          <span>{{ scope.row.component }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" prop="sort" align="center">
-        <template slot-scope="scope">
-          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>
+      <el-table-column label="按钮权限tagName" prop="tags">
+        <template slot-scope="scope"
+                  v-if="scope.row.pid != 0 && scope.row.component != 'Layout' && scope.row.component != 'Empty'">
+          <el-tag
+            :key="scope.row.id+tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">添加</el-button>
         </template>
       </el-table-column>
+
+      <!--      <el-table-column label="操作" prop="sort" align="center">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
   </div>
 </template>
 
+
+<style>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+</style>
+
 <script>
-    import waves from '@/directive/waves' // waves directive
-    import Pagination from '@/components/Pagination' // secondary package based on el-pagination
     import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
 
     export default {
-        name: 'Premission',
-        components: {Pagination},
-        directives: {waves},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            }
-        },
+        name: 'MenuList',
         data() {
             return {
                 tableKey: 0,
                 list: null,
-                total: 0,
                 listLoading: true,
-                listQuery: {
-                    pageNum: 1,
-                    pageSize: 10,
-                    importance: undefined,
-                    title: undefined,
-                    type: undefined,
-                    sort: '+id',
-                    status: undefined
-                },
-                importanceOptions: [1, 2, 3],
-                sortOptions: [{label: 'ID Ascending', key: '+id'}, {label: 'ID Descending', key: '-id'}],
-                statusOptions: ['published', 'draft', 'deleted'],
-                showReviewer: false,
-                temp: {
-                    id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    type: '',
-                    status: 'published'
-                },
-                dialogFormVisible: false,
-                dialogStatus: '',
-                textMap: {
-                    update: 'Edit',
-                    create: 'Create'
-                },
-                dialogPvVisible: false,
-                pvData: [],
-                rules: {
-                    type: [{required: true, message: 'type is required', trigger: 'change'}],
-                    timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
-                    title: [{required: true, message: 'title is required', trigger: 'blur'}]
-                },
-                downloadLoading: false,
-                tableData: null
+                tableData: null,
+                dynamicTags: ['标签一', '标签二', '标签三'],
+                inputVisible: false,
+                inputValue: ''
             }
         },
         created() {
-            this.getList()
+            this.loadData()
         },
         methods: {
-            getList() {
+            loadData() {
                 this.listLoading = true
                 var request = new MenuListRequest()
                 request.setUserId(7919)
@@ -110,147 +108,25 @@
                     this.tableData = res;
                 })
             },
-            handleFilter() {
-                this.listQuery.page = 1
-                this.getList()
+
+            handleClose(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
             },
-            handleModifyStatus(row, status) {
-                this.$message({
-                    message: '操作Success',
-                    type: 'success'
-                })
-                row.status = status
+
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
             },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
+
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
                 }
-            },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.listQuery.sort = '+id'
-                } else {
-                    this.listQuery.sort = '-id'
-                }
-                this.handleFilter()
-            },
-            resetTemp() {
-                this.temp = {
-                    id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    status: 'published',
-                    type: ''
-                }
-            },
-            handleCreate() {
-                this.resetTemp()
-                this.dialogStatus = 'create'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
-            },
-            createData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-                        this.temp.author = 'vue-element-admin'
-                        // createArticle(this.temp).then(() => {
-                        //     this.list.unshift(this.temp)
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Created Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
-            },
-            handleUpdate(row) {
-                this.temp = Object.assign({}, row) // copy obj
-                this.temp.timestamp = new Date(this.temp.timestamp)
-                this.dialogStatus = 'update'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
-            },
-            updateData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        const tempData = Object.assign({}, this.temp)
-                        tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-                        // updateArticle(tempData).then(() => {
-                        //     for (const v of this.list) {
-                        //         if (v.id === this.temp.id) {
-                        //             const index = this.list.indexOf(v)
-                        //             this.list.splice(index, 1, this.temp)
-                        //             break
-                        //         }
-                        //     }
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Update Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
-            },
-            handleDelete(row) {
-                this.$notify({
-                    title: 'Success',
-                    message: 'Delete Successfully',
-                    type: 'success',
-                    duration: 2000
-                })
-                const index = this.list.indexOf(row)
-                this.list.splice(index, 1)
-            },
-            handleFetchPv(pv) {
-                // fetchPv(pv).then(response => {
-                //     this.pvData = response.data.pvData
-                //     this.dialogPvVisible = true
-                // })
-            },
-            handleDownload() {
-                this.downloadLoading = true
-                // import('@/vendor/Export2Excel').then(excel => {
-                //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const data = this.formatJson(filterVal, this.list)
-                //     excel.export_json_to_excel({
-                //         header: tHeader,
-                //         data,
-                //         filename: 'table-list'
-                //     })
-                //     this.downloadLoading = false
-                // })
-            },
-            // formatJson(filterVal, jsonData) {
-            //     return jsonData.map(v => filterVal.map(j => {
-            //         if (j === 'timestamp') {
-            //             return parseTime(v[j])
-            //         } else {
-            //             return v[j]
-            //         }
-            //     }))
-            // },
-            getSortClass: function (key) {
-                const sort = this.listQuery.sort
-                return sort === `+${key}`
-                    ? 'ascending'
-                    : sort === `-${key}`
-                        ? 'descending'
-                        : ''
+                this.inputVisible = false;
+                this.inputValue = '';
             }
         }
     }

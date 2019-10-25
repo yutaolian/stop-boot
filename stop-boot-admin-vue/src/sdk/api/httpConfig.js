@@ -4,11 +4,6 @@ import {post} from '../http'
 const baseURL = 'http://10.39.1.195:8087/api'
 
 
-
-
-
-
-
 export function api(url, params = {}) {
   return new Promise((resolve, reject) => {
     post(baseURL + url, params).then(response => {

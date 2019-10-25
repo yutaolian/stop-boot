@@ -2,31 +2,63 @@
   <div class="app-container">
     <!--分页过滤条件-->
     <div class="filter-container">
-      <el-input v-model="pageQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"/>
-      <!--@click="cleanFilter"-->
-      <el-button class="filter-item" type="danger" icon="el-icon-close" circle/>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" @click="preCreate"
-                 circle>
-      </el-button>
+      <el-form ref="filterForm" :model="pageQuery">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item prop="name" label="名称">
+              <el-input v-model="pageQuery.name" placeholder="名称" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="age" label="年龄">
+              <el-input v-model="pageQuery.age" placeholder="年龄" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="age" label="年龄">
+              <el-input v-model="pageQuery.age" placeholder="年龄" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="age" label="年龄">
+              <el-input v-model="pageQuery.age" placeholder="年龄" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="age" label="年龄">
+              <el-input v-model="pageQuery.age" placeholder="年龄" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <!--@click="cleanFilter"-->
+          <el-col :span="4">
+            <el-form-item label="">
+              <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+              <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+              <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
     <!--表格-->
     <el-table
       :key="tableKey"
-      v-loading="listLoading"
-      :data="list"
+      v-loading="pageLoading"
+      :data="pageData"
       border
       stripe
       empty-text
       fit
       highlight-current-row
       style="width: 100%;"
-      @sort-change="sortChange"
     >
 
-      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80"
-                       :class-name="getSortClass('id')">
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -70,96 +102,74 @@
 
     <!--分页组件-->
     <pagination v-show="total>0" :total="total" :page.sync="pageQuery.pageNum" :limit.sync="pageQuery.pageSize"
-                @pagination="loadData"/>
+                @pagination="loadPageData"/>
 
     <!--新增组件-->
     <create-form ref="createForm"></create-form>
 
     <!--编辑组件-->
-    <edit-form ref="editForm" :row='updateRowData'></edit-form>
+    <edit-form ref="editForm" :editRowData='editRowData'></edit-form>
 
   </div>
 </template>
 
 <script>
     import Pagination from '@/components/Pagination'
-    //接口
-    import {TestPageRequest, testPage} from '@/sdk/api/test/test11/page'
     //新增组件
     import createForm from './create'
     //编辑组件
     import editForm from './edit'
+    //接口
+    import {TestPageRequest} from '@/sdk/api/test/test11/page'
+
 
     export default {
-        name: 'PageTable',
+        name: 'Test22PageTable',
         components: {Pagination, createForm, editForm},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            },
-            typeFilter(type) {
-                return calendarTypeKeyValue[type]
-            }
-        },
         data() {
             return {
                 tableKey: 0,
-                list: null,
+                pageData: null,
                 total: 0,
-                listLoading: true,
+                pageLoading: true,
                 pageQuery: {
                     pageNum: 1,
                     pageSize: 10,
-                    title: undefined,
+                    name: undefined,
+                    age: undefined,
                 },
                 dialogFormVisible: false,
-                dialogPvVisible: false,
-                updateRowData: {}
+                editRowData: {}
             }
         },
+        filters: {},
         created() {
-            this.loadData()
+            this.loadPageData()
         },
         methods: {
-            loadData() {
-                this.listLoading = true
-                let request = new TestPageRequest()
-                request.setPageNum(this.pageQuery.pageNum)
-                request.setPageSize(this.pageQuery.pageSize)
-                testPage(request).then(res => {
-                    this.listLoading = false
-                    this.list = res['list']
+            loadPageData() {
+                this.pageLoading = true
+                let request = new TestPageRequest();
+                request.setParams(this.pageQuery);
+                request.api().then(res => {
+                    this.pageLoading = false
+                    this.pageData = res['list']
                     this.total = res['total']
                 })
             },
             handleFilter() {
-                this.pageQuery.page = 1
-                this.loadData()
+                this.pageQuery.pageNum = 1
+                this.loadPageData()
             },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
-                }
-            },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.pageQuery.sort = '+id'
-                } else {
-                    this.pageQuery.sort = '-id'
-                }
-                this.handleFilter()
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadPageData()
             },
             preCreate() {
                 this.$refs.createForm.dialogFormVisible = true
             },
             preEdit(row) {
-                this.updateRowData = Object.assign({}, row)
+                this.editRowData = Object.assign({}, row)
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
@@ -172,22 +182,14 @@
                         type: 'success',
                         message: '删除成功!'
                     });
-                    const index = this.list.indexOf(row)
-                    this.list.splice(index, 1)
+                    const index = this.pageData.indexOf(row)
+                    this.pageData.splice(index, 1)
                 }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消'
                     });
                 });
-            },
-            getSortClass: function (key) {
-                const sort = this.pageQuery.sort
-                return sort === `+${key}`
-                    ? 'ascending'
-                    : sort === `-${key}`
-                        ? 'descending'
-                        : ''
             }
         }
     }

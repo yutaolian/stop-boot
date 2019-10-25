@@ -5,6 +5,7 @@ import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.ClassUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,8 @@ import java.util.List;
 @Service
 public class DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, OneVO, PageParams extends BasePageParams,
         ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
-        extends DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams,DeleteParams>
-        implements DefaultListServiceI<PageVO, ListVO, OneVO, PageParams, ListParams, OneParams, AddParams, UpdateParams,DeleteParams> {
+        extends DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams, DeleteParams>
+        implements DefaultListServiceI<PageVO, ListVO, OneVO, PageParams, ListParams, OneParams, AddParams, UpdateParams, DeleteParams> {
 
     private static final int LIST_VO_INDEX = 4;
 
@@ -34,7 +35,7 @@ public class DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListV
      */
     @Override
     public List<ListVO> list(ListParams params) {
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -46,7 +47,7 @@ public class DefaultListServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListV
      */
     @Override
     public List<ListVO> listWithBLOBs(ListParams params) {
-        return null;
+        return new ArrayList<>();
     }
 
 

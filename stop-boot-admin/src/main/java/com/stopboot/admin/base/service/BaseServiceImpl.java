@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -161,14 +162,14 @@ public class BaseServiceImpl<DBMapper, DBRecord, DBExample> implements BaseServi
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public PageResult<DBRecord> pageByExample(DBExample example, Integer pageNum, Integer pageSize) {
-        List<DBRecord> list = (List<DBRecord>) this.executePage("selectByExample", example, pageNum, pageSize);
+        List<DBRecord> list = this.executePage("selectByExample", example, pageNum, pageSize);
         return new PageResult<>(new PageInfo<>(list));
     }
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public PageResult<DBRecord> pageWithBLOBsByExample(DBExample example, Integer pageNum, Integer pageSize) {
-        List<DBRecord> list = (List<DBRecord>) this.executePage("selectByExampleWithBLOBs", example, pageNum, pageSize);
+        List<DBRecord> list = this.executePage("selectByExampleWithBLOBs", example, pageNum, pageSize);
         return new PageResult<>(new PageInfo<>(list));
     }
 
@@ -184,7 +185,7 @@ public class BaseServiceImpl<DBMapper, DBRecord, DBExample> implements BaseServi
         }
     }
 
-    public Object execute(String methodName, Object record, Object example) {
+    public Object execute(String methodName, Object record, DBExample example) {
         try {
             DBMapper mapper = this.mapper();
             if (example == null) {
@@ -199,7 +200,7 @@ public class BaseServiceImpl<DBMapper, DBRecord, DBExample> implements BaseServi
         }
     }
 
-    public Object executePage(String methodName, Object example, Integer pageNum, Integer pageSize) {
+    public List<DBRecord> executePage(String methodName, DBExample example, Integer pageNum, Integer pageSize) {
         try {
             DBMapper mapper = this.mapper();
             if (example == null) {
@@ -208,10 +209,10 @@ public class BaseServiceImpl<DBMapper, DBRecord, DBExample> implements BaseServi
             }
             Method method = mapper.getClass().getDeclaredMethod(methodName, example.getClass());
             PageHelper.startPage(pageNum, pageSize);
-            return method.invoke(mapper, example);
+            return (List<DBRecord>) method.invoke(mapper, example);
         } catch (Exception e) {
             log.error("BaseServiceImpl executePage invoke error:{}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

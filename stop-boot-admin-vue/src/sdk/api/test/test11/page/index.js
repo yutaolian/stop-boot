@@ -5,43 +5,47 @@ import {api} from '@/sdk/api/httpConfig'
  */
 export class TestPageRequest {
   constructor() {
-    this.data = {
+    this.params = {
       pageSize: undefined,
-      pageNum: undefined
+      pageNum: undefined,
+      // 姓名
+      name: undefined,
+      // 年龄
+      age: undefined,
     }
   }
 
   setPageSize(pageSize) {
-    this.data.pageSize = pageSize
+    this.params.pageSize = pageSize
   }
 
   setPageNum(pageNum) {
-    this.data.pageNum = pageNum
+    this.params.pageNum = pageNum
   }
-}
+  setName(name) {
+    this.params.name = name
+  }
 
-export function testPage(request) {
-  let data = request.data
-  const path = '/test/test11/page'
-  return new Promise(resolve => {
-    api(path, data)
-      .then(response => {
-        resolve(response)
-      })
-  })
+  setAge(age) {
+    this.params.age = age
+    return this;
+  }
+  //参数快捷设置
+  setParams(params) {
+    this.params = params
+    return this;
+  }
+
+  api() {
+    const path = '/test/test11/page'
+    return new Promise(resolve => {
+      api(path, this.params)
+        .then(response => {
+          resolve(response)
+        })
+    })
+  }
 }
 
 //导入方法
 //import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
-
-//使用方法
-// let request = new TestPageRequest()
-// request.setPageNum(this.listQuery.pageNum)
-// request.setPageSize(this.listQuery.pageSize)
-// testPage(request).then(res => {
-//   this.listLoading = false
-//   console.log("res:", res)
-//   console.log("data:", res.getData())
-//   this.list = res.getData()['list']
-//   this.total = res.getData()['total']
-// })

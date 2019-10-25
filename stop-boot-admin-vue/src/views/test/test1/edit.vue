@@ -1,37 +1,37 @@
 <template>
     <!--编辑-->
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-        <el-form ref="editFormRef" :rules="rules" :model="editForm" label-position="left" label-width="70px"
+        <el-form ref="editFormRef" :rules="rules" :model="editRowData" label-position="left" label-width="70px"
                  style="width: 400px; margin-left:50px;">
                         <el-form-item label="id" prop="id">
-                <el-input v-model="editForm.id"/>
+                <el-input v-model="editRowData.id"/>
             </el-form-item>
             <el-form-item label="name" prop="name">
-                <el-input v-model="editForm.name"/>
+                <el-input v-model="editRowData.name"/>
             </el-form-item>
             <el-form-item label="age" prop="age">
-                <el-input v-model="editForm.age"/>
+                <el-input v-model="editRowData.age"/>
             </el-form-item>
             <el-form-item label="birthday" prop="birthday">
-                <el-input v-model="editForm.birthday"/>
+                <el-input v-model="editRowData.birthday"/>
             </el-form-item>
             <el-form-item label="createTime" prop="createTime">
-                <el-input v-model="editForm.createTime"/>
+                <el-input v-model="editRowData.createTime"/>
             </el-form-item>
             <el-form-item label="info" prop="info">
-                <el-input v-model="editForm.info"/>
+                <el-input v-model="editRowData.info"/>
             </el-form-item>
             <el-form-item label="status" prop="status">
-                <el-input v-model="editForm.status"/>
+                <el-input v-model="editRowData.status"/>
             </el-form-item>
             <el-form-item label="headImg" prop="headImg">
-                <el-input v-model="editForm.headImg"/>
+                <el-input v-model="editRowData.headImg"/>
             </el-form-item>
             <el-form-item label="deleteFlag" prop="deleteFlag">
-                <el-input v-model="editForm.deleteFlag"/>
+                <el-input v-model="editRowData.deleteFlag"/>
             </el-form-item>
             <el-form-item label="updateTime" prop="updateTime">
-                <el-input v-model="editForm.updateTime"/>
+                <el-input v-model="editRowData.updateTime"/>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -47,7 +47,7 @@
 <script>
     export default {
         name: 'edit_form',
-        props: ['row'],  //接收父组件的传值
+        props: ['editRowData'],  //接收父组件的传值
         data() {
             return {
                 loading: false,

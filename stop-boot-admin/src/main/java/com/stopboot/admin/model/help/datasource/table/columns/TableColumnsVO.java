@@ -41,4 +41,6 @@ public class TableColumnsVO implements Serializable {
      */
     private boolean editShow;
 
+    private String realType;
+
 }

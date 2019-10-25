@@ -31,11 +31,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, OneVO, P
     public ResultData<PageVO> page(@Validated @RequestBody PageParams params) {
         ResultData resultData = ResultData.build();
         PageResult<PageVO> testPage = service().page(params);
-        if (testPage != null) {
-            resultData.success(testPage);
-        } else {
-            resultData.empty();
-        }
+        resultData.success(testPage);
         return resultData;
     }
 

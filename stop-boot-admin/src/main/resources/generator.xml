@@ -51,11 +51,11 @@
 
         <!--mvn stop-boot-admin mybatis-generator:generate-->
         <!-- 生成模型的包名和位置 -->
-        <table tableName="sb_dept"></table>
+<!--        <table tableName="sb_dept"></table>-->
 <!--        <table tableName="sb_admin"></table>-->
 <!--        <table tableName="sb_menu"></table>-->
 <!--        <table tableName="sb_role"></table>-->
-<!--        <table tableName="sb_test"></table>-->
+        <table tableName="sb_test"></table>
 
     </context>
 </generatorConfiguration>

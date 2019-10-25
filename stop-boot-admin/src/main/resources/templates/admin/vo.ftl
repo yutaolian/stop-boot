@@ -19,7 +19,7 @@ public class ${model?cap_first}${currentType?cap_first}VO extends BaseVO {
     *${colum.columnComment}
     *
     */
-    private String ${colum.camelColumnName};
+    private ${colum.realType} ${colum.camelColumnName};
 </#list>
 
 

@@ -1,5 +1,6 @@
 package ${basePackage}.service${fullPathToPackage};
 
+import com.stopboot.admin.common.PageResult;
 import ${entityMapperPackage}.${tableName?cap_first}Mapper;
 import ${entityPackage}.${tableName?cap_first};
 import ${entityExamplePackage}.${tableName?cap_first}Example;
@@ -31,5 +32,16 @@ public class ${model?cap_first}ServiceImpl extends DefaultServiceImpl<${tableNam
                                 implements ${model?cap_first}ServiceI {
 
 
+    @Override
+    public PageResult<${model?cap_first}PageVO> page(${model?cap_first}PageParams pageParams) {
+        ${tableName?cap_first}Example example = new ${tableName?cap_first}Example();
+        ${tableName?cap_first}Example.Criteria criteria = example.createCriteria();
+<#list tableColumnsData as colum>
+        if (!ObjectUtils.isEmpty(pageParams.get${colum.camelColumnName?cap_first}())) {
+            criteria.and${colum.camelColumnName?cap_first}EqualTo(pageParams.get${colum.camelColumnName?cap_first}());
+        }
+</#list>
+        return this.pageByExample(pageParams, example);
+    }
 
 }

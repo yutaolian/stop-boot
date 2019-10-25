@@ -19,7 +19,7 @@ import java.util.List;
 public class BeansHelper<FROM, TO> {
 
     /**
-     *     使用volatile关键字保其可见性
+     * 使用volatile关键字保其可见性
      */
     private volatile static BeansHelper instance = null;
 
@@ -74,7 +74,7 @@ public class BeansHelper<FROM, TO> {
      */
     public List<TO> convert(List<FROM> fromList, Class<TO> clazz) {
         if (fromList == null || fromList.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         List<TO> toList = new ArrayList<>();
         for (FROM from : fromList) {
@@ -87,12 +87,9 @@ public class BeansHelper<FROM, TO> {
      * 批量对象转换
      */
     public PageResult<TO> convert(PageResult<FROM> fromPage, Class<TO> clazz) {
-        if (fromPage == null || fromPage.getList() == null || fromPage.getList().isEmpty()) {
-            return null;
-        }
+        List<TO> toList = this.convert(fromPage.getList(), clazz);
         PageResult<TO> toPageResult = new PageResult<>();
         toPageResult.copyInfo(fromPage);
-        List<TO> toList = this.convert(fromPage.getList(), clazz);
         toPageResult.setList(toList);
         return toPageResult;
     }

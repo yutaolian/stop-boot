@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -100,6 +101,7 @@ public class SbGeneratorController {
                 hashMap.put("url", url);
             }
             hashMap.put("className", method.getMethod().getDeclaringClass().getName()); // 类名
+            hashMap.put("simpleName", method.getMethod().getDeclaringClass().getSimpleName()); // 类名
             hashMap.put("method", method.getMethod().getName()); // 方法名
             RequestMethodsRequestCondition methodsCondition = info.getMethodsCondition();
             String type = methodsCondition.toString();
@@ -109,7 +111,10 @@ public class SbGeneratorController {
             }
             urlList.add(hashMap);
         }
-        return resultData.success(urlList);
+
+        Map<String, List<HashMap<String, String>>> simpleName = urlList.stream().collect(Collectors.groupingBy(e -> e.get("simpleName")));
+
+        return resultData.success(simpleName);
     }
 
 

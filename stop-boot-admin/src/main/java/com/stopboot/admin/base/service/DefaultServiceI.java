@@ -12,7 +12,7 @@ import com.stopboot.admin.common.PageResult;
 
 public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParams,
         OneParams extends BaseParams,
-        CreateParams extends BaseParams,
+        AddParams extends BaseParams,
         UpdateParams extends BaseParams,
         DeleteParams extends BaseParams> {
 
@@ -43,7 +43,7 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
      * @param params
      * @return
      */
-    default boolean add(CreateParams params) {
+    default boolean add(AddParams params) {
         return false;
     }
 

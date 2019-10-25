@@ -146,7 +146,7 @@
 </template>
 
 <script>
-    import {TestPageRequest, testPage} from '@/sdk/api/test/test11/page'
+    import {TestPageRequest} from '@/sdk/api/test/test11/page'
     import waves from '@/directive/waves' // waves directive
     import {parseTime} from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -233,10 +233,10 @@
         methods: {
             getList() {
                 this.listLoading = true
-                let request = new TestPageRequest()
-                request.setPageNum(this.listQuery.pageNum)
-                request.setPageSize(this.listQuery.pageSize)
-                testPage(request).then(res => {
+                let request = new TestPageRequest();
+                request.setPageNum(this.listQuery.pageNum);
+                request.setPageSize(this.listQuery.pageSize);
+                request.api().then(res => {
                     this.listLoading = false
                     this.list = res['list']
                     this.total = res['total']

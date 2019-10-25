@@ -265,8 +265,43 @@
 
       </el-tab-pane>
       <el-tab-pane label="多语言SDK代码生成" name="second">
-
-        多语言SDK代码生成 待开发。。。。。
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-divider>基本信息</el-divider>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="全部控制器" prop="menuInfo.title">
+                  <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+<!--                <el-form-item label="组件位置" prop="menuInfo.component">-->
+<!--                  <el-input disabled placeholder="组件位置" v-model="ruleForm.menuInfo.component">-->
+<!--                    <template slot="prepend">项目/src/</template>-->
+<!--                  </el-input>-->
+<!--                </el-form-item>-->
+              </el-col>
+            </el-row>
+<!--            <el-row>-->
+<!--              <el-col :span="8">-->
+<!--                <el-form-item label="模块名称" prop="menuInfo.name">-->
+<!--                  <el-input disabled v-model="ruleForm.menuInfo.name" placeholder=""></el-input>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
+<!--              <el-col :span="8">-->
+<!--                <el-form-item label="菜单path" prop="menuInfo.path">-->
+<!--                  <el-input disabled v-model="ruleForm.menuInfo.path" placeholder=""></el-input>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
+<!--              <el-col :span="8">-->
+<!--                <el-form-item label="菜单fullpath" prop="menuInfo.fullPath">-->
+<!--                  <el-input disabled v-model="ruleForm.menuInfo.fullPath" placeholder=""></el-input>-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
+<!--            </el-row>-->
+        </el-form>
       </el-tab-pane>
     </el-tabs>
 

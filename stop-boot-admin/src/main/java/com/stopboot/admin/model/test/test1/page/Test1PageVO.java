@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * @description:  Test1 service
  * @author: Lianyutao
- * @create: 2019/10/25 10:03
+ * @create: 2019/10/25 19:02
  * @version: 1.0.1
  **/
 
@@ -18,7 +18,7 @@ public class Test1PageVO extends BaseVO {
     *
     *
     */
-    private String id;
+    private Integer id;
     /**
     *姓名
     *
@@ -28,17 +28,17 @@ public class Test1PageVO extends BaseVO {
     *年龄
     *
     */
-    private String age;
+    private Integer age;
     /**
     *生日
     *
     */
-    private String birthday;
+    private java.util.Date birthday;
     /**
     *创建时间
     *
     */
-    private String createTime;
+    private java.util.Date createTime;
     /**
     *信息
     *
@@ -48,7 +48,7 @@ public class Test1PageVO extends BaseVO {
     *状态
     *
     */
-    private String status;
+    private Integer status;
     /**
     *头像
     *
@@ -58,12 +58,12 @@ public class Test1PageVO extends BaseVO {
     *删除标记（1正常，0删除）
     *
     */
-    private String deleteFlag;
+    private Integer deleteFlag;
     /**
     *更新时间
     *
     */
-    private String updateTime;
+    private java.util.Date updateTime;
 
 
 

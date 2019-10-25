@@ -2,30 +2,41 @@
     <div class="app-container">
         <!--分页过滤条件-->
         <div class="filter-container">
-            <el-input v-model="pageQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
-                      @keyup.enter.native="handleFilter"/>
-            <!--      @click="cleanFilter"-->
-            <el-button class="filter-item" type="danger" icon="el-icon-close" circle/>
-            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-            <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" @click="preCreate"
-                       circle>
-            </el-button>
+            <el-form ref="filterForm" :model="pageQuery">
+                <el-row>
+                    <#list tableColumnsData as colum>
+                    <el-col :span="4">
+                        <el-form-item prop="${colum.camelColumnName}" label="${colum.camelColumnName}">
+                            <el-input v-model="pageQuery.${colum.camelColumnName}" placeholder="${colum.camelColumnName}" style="width: 180px;" class="filter-item"
+                                      @keyup.enter.native="handleFilter"/>
+                        </el-form-item>
+                    </el-col>
+                    </#list>
+                    <!--@click="cleanFilter"-->
+                    <el-col :span="4">
+                        <el-form-item label="">
+                            <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+                            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+                            <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
         </div>
         <!--表格-->
         <el-table
                 :key="tableKey"
-                v-loading="listLoading"
-                :data="list"
+                v-loading="pageLoading"
+                :data="pageData"
                 border
                 stripe
                 empty-text
                 fit
                 highlight-current-row
                 style="width: 100%;"
-                @sort-change="sortChange"
-            >
+        >
             <#list tableColumnsData as colum>
-            <el-table-column label="${colum.camelColumnName}" prop="${colum.camelColumnName}" align="center" width="80">
+            <el-table-column label="${colum.camelColumnName}" prop="${colum.camelColumnName}" align="center">
                 <template slot-scope="scope">
                     <span>{{ scope.row.${colum.camelColumnName} }}</span>
                 </template>
@@ -46,13 +57,13 @@
 
         <!--分页组件-->
         <pagination v-show="total>0" :total="total" :page.sync="pageQuery.pageNum" :limit.sync="pageQuery.pageSize"
-                    @pagination="getList"/>
+                    @pagination="loadPageData"/>
 
         <!--新增组件-->
         <create-form ref="createForm"></create-form>
 
         <!--编辑组件-->
-        <edit-form ref="editForm" :row='updateRowData'></edit-form>
+        <edit-form ref="editForm" :editRowData='editRowData'></edit-form>
 
     </div>
 </template>
@@ -66,80 +77,56 @@
     //接口
     import {${model?cap_first}PageRequest} from '@${jsSdkConfigPath}${fullPath}/page'
 
+
     export default {
         name: '${model?cap_first}PageTable',
         components: {Pagination, createForm, editForm},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            },
-            typeFilter(type) {
-                return calendarTypeKeyValue[type]
-            }
-        },
         data() {
             return {
-                tableKey: 0,
-                list: null,
+                tableKey: '${model?cap_first}',
+                pageData: null,
                 total: 0,
-                listLoading: true,
+                pageLoading: true,
                 pageQuery: {
                     pageNum: 1,
                     pageSize: 10,
+                    <#list tableColumnsData as colum>
+                    ${colum.camelColumnName}: undefined,
+                    </#list>
                 },
                 dialogFormVisible: false,
-                dialogPvVisible: false,
-                updateRowData: {}
+                editRowData: {}
             }
         },
+        filters: {},
         created() {
-            this.getList()
+            this.loadPageData()
         },
         methods: {
-            getList() {
-                this.listLoading = true
-                //单独设置参数方式二
+            loadPageData() {
+                this.pageLoading = true
                 let request = new ${model?cap_first}PageRequest();
-                <#list tableColumnsData as colum>
-                //request.set${colum.camelColumnName?cap_first}(${colum.camelColumnName});
-                </#list>
-                request.setPageNum(this.pageQuery.pageNum)
-                request.setPageSize(this.pageQuery.pageSize)
+                request.setParams(this.pageQuery);
                 request.api().then(res => {
-                    this.listLoading = false
-                    this.list = res['list']
+                    this.pageLoading = false
+                    this.pageData = res['list']
                     this.total = res['total']
-                    console.log("${model?cap_first}${currentType?cap_first}Request res:", res)
+                    console.log("${model?cap_first} page data res:", res)
                 })
             },
             handleFilter() {
-                this.pageQuery.page = 1
-                this.getList()
+                this.pageQuery.pageNum = 1
+                this.loadPageData()
             },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
-                }
-            },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.pageQuery.sort = '+id'
-                } else {
-                    this.pageQuery.sort = '-id'
-                }
-                this.handleFilter()
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadPageData()
             },
             preCreate() {
                 this.$refs.createForm.dialogFormVisible = true
             },
             preEdit(row) {
-                this.updateRowData = Object.assign({}, row)
+                this.editRowData = Object.assign({}, row)
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
@@ -152,22 +139,14 @@
                         type: 'success',
                         message: '删除成功!'
                     });
-                    const index = this.list.indexOf(row)
-                    this.list.splice(index, 1)
+                    const index = this.pageData.indexOf(row)
+                    this.pageData.splice(index, 1)
                 }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消'
                     });
                 });
-            },
-            getSortClass: function (key) {
-                const sort = this.pageQuery.sort
-                return sort === `+${key}`
-                    ? 'ascending'
-                    : sort === `-${key}`
-                        ? 'descending'
-                        : ''
             }
         }
     }

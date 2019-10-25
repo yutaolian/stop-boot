@@ -14,6 +14,7 @@ import com.stopboot.admin.model.test.page.TestPageVO;
 import com.stopboot.admin.model.test.update.TestUpdateParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 
 /**
@@ -27,14 +28,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestServiceImpl extends
         DefaultServiceImpl<SbTestMapper, SbTest, SbTestExample, TestPageVO, TestOneVO,
-                        TestPageParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams>
+                TestPageParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams>
         implements TestServiceI {
 
     @Override
     public PageResult<TestPageVO> page(TestPageParams pageParams) {
         SbTestExample example = new SbTestExample();
         SbTestExample.Criteria criteria = example.createCriteria();
-        criteria.andAgeEqualTo(14);
+        if (!ObjectUtils.isEmpty(pageParams.getAge())) {
+            criteria.andAgeEqualTo(pageParams.getAge());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getName())) {
+            criteria.andNameEqualTo(pageParams.getName());
+        }
         return this.pageByExample(pageParams, example);
     }
 

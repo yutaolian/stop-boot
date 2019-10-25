@@ -57,7 +57,7 @@ public class ${model?cap_first}${currentType?cap_first}Params extends BaseDelete
      *${colum.columnComment}
      *
      */
-    private String ${colum.camelColumnName};
+    private ${colum.realType} ${colum.camelColumnName};
     </#if>
 </#list>
 }

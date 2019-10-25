@@ -1,5 +1,6 @@
 package com.stopboot.admin.service.test.test1;
 
+import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.mapper.mybatis.SbTestMapper;
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 /**
  * @description:  Test1 service
  * @author: Lianyutao
- * @create: 2019/10/25 10:03
+ * @create: 2019/10/25 19:02
  * @version: 1.0.1
 **/
 
@@ -31,5 +32,41 @@ public class Test1ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, S
                                 implements Test1ServiceI {
 
 
+    @Override
+    public PageResult<Test1PageVO> page(Test1PageParams pageParams) {
+        SbTestExample example = new SbTestExample();
+        SbTestExample.Criteria criteria = example.createCriteria();
+        if (!ObjectUtils.isEmpty(pageParams.getId())) {
+            criteria.andIdEqualTo(pageParams.getId());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getName())) {
+            criteria.andNameEqualTo(pageParams.getName());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getAge())) {
+            criteria.andAgeEqualTo(pageParams.getAge());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getBirthday())) {
+            criteria.andBirthdayEqualTo(pageParams.getBirthday());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
+            criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getInfo())) {
+            criteria.andInfoEqualTo(pageParams.getInfo());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
+            criteria.andStatusEqualTo(pageParams.getStatus());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getHeadImg())) {
+            criteria.andHeadImgEqualTo(pageParams.getHeadImg());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
+            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getUpdateTime())) {
+            criteria.andUpdateTimeEqualTo(pageParams.getUpdateTime());
+        }
+        return this.pageByExample(pageParams, example);
+    }
 
 }

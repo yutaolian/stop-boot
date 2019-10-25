@@ -13,5 +13,8 @@ import lombok.Data;
 @Data
 public class TestPageParams extends BasePageParams {
 
+    private String name;
+
+    private Integer age;
 
 }

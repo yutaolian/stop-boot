@@ -25,6 +25,7 @@ import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitParams;
 import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitVO;
 import com.stopboot.admin.service.menu.MenuServiceI;
 import com.stopboot.admin.utils.BeansHelper;
+import com.stopboot.admin.utils.TypeConvertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,7 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         tableColumns.stream().forEach(tableColumnsVO -> {
             String toCamelCase = StrUtil.toCamelCase(tableColumnsVO.getColumnName());
             tableColumnsVO.setCamelColumnName(toCamelCase);
+            tableColumnsVO.setRealType(TypeConvertUtil.mysqlTypeToJava(tableColumnsVO.getDataType()));
         });
         return tableColumns;
     }
