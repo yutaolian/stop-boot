@@ -55,13 +55,13 @@
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-dropdown>
+          <el-dropdown @command='handledropdownCommand'>
             <el-button type="primary" size="small">
               更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click="addNode(scope.$index,scope.row)">新增</el-dropdown-item>
-              <el-dropdown-item @click="editNode(scope.$index,scope.row)" v-if="scope.row.pid != 0">编辑
+              <el-dropdown-item :command='{type:"add",index:scope.$index,row:scope.row}'>新增</el-dropdown-item>
+              <el-dropdown-item :command='{type:"edit",index:scope.$index,row:scope.row}' v-if="scope.row.pid != 0">编辑
               </el-dropdown-item>
               <el-dropdown-item v-if="scope.row.pid != 0">删除</el-dropdown-item>
               <el-dropdown-item v-if="scope.row.pid != 0">
@@ -164,6 +164,20 @@
             editNode(index, row) {
                 this.$refs.editDialog.dialogVisible = true;
                 this.propdata = row;
+            },
+            handledropdownCommand(data){
+              if(!data)return;
+              let {type,index,row} = data;
+              switch (type) {
+                case 'add':
+                  this.addNode(index, row)
+                  break;
+                case 'edit':
+                  this.editNode(index, row)
+                  break;
+                default:
+                  break;
+              }
             },
             getList() {
                 this.listLoading = true

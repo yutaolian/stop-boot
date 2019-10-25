@@ -392,7 +392,7 @@
                 let request = new TableColumnsRequest();
                 request.setTableName(this.ruleForm.selectedTableName)
                 tableColumns(request).then((res) => {
-                    this.ruleForm.tableColumnsData = res
+                    this.$set(this.ruleForm,'tableColumnsData',res)
                     console.log(res)
                 })
             },
