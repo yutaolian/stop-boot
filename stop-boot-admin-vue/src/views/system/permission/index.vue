@@ -13,21 +13,19 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="权限tag" prop="name" :class-name="getSortClass('id')">
+      <el-table-column label="按钮权限tagName" prop="name" :class-name="getSortClass('id')">
         <template slot-scope="scope">
-          <el-tag>标签一</el-tag>
-          <el-tag type="success">标签二</el-tag>
-          <el-tag type="info">标签三</el-tag>
-          <el-tag type="warning">标签四</el-tag>
-          <el-tag type="danger">标签五</el-tag>
+          <el-tag closable>标签一</el-tag>
+          <el-tag type="success" closable>标签二</el-tag>
+          <el-tag type="info" closable>标签三</el-tag>
+          <el-tag type="warning" closable>标签四</el-tag>
+          <el-tag type="danger" closable>标签五</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" prop="sort" align="center">
         <template slot-scope="scope">
           <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-info" size="mini" round>编辑</el-button>
-          <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="mini" round>删除</el-button>
         </template>
       </el-table-column>
     </el-table>
