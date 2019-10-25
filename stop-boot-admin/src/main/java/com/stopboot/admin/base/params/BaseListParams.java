@@ -2,7 +2,6 @@ package com.stopboot.admin.base.params;
 
 import lombok.Data;
 
-import java.io.Serializable;
 
 /**
  * @description:
@@ -12,7 +11,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class BaseListParams implements Serializable {
+public class BaseListParams extends BaseParams {
 
 
 }

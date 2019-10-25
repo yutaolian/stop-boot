@@ -78,5 +78,20 @@ public class GeneratorConfig {
      */
     private String entityMapperPackage;
 
+    /**
+     * 后台代码的路径
+     */
+    private String adminPath;
+
+    /**
+     * sdk路径
+     */
+    private String sdkPath;
+
+    /**
+     * vue 代码路径
+     */
+    private String viewPath;
+
 
 }

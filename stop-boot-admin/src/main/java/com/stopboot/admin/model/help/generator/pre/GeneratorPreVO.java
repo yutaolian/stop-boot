@@ -1,8 +1,10 @@
 package com.stopboot.admin.model.help.generator.pre;
 
+import com.stopboot.admin.model.help.datasource.table.list.TableListVO;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @description:
@@ -70,5 +72,24 @@ public class GeneratorPreVO implements Serializable {
      * 菜单信息
      */
     private MenuInfoVO menuInfo;
+
+    /**
+     * 表信息
+     */
+    private List<TableListVO> tableList;
+
+
+    /**
+     * 默认代码输出路径
+     */
+    private String defaultGeneratorPath;
+
+    private String adminPath;
+
+    private String sdkPath;
+
+    private String viewPath;
+
+
 
 }

@@ -1,107 +1,118 @@
-import {api} from '@${httpConfigPath}/httpConfig'
+import {api} from '@${jsSdkConfigPath}/httpConfig'
 
 /**
  * projectName：${projectName} jssdk
  * author: ${author}
  * date: ${date?string("yyyy/MM/dd HH:mm")}
  * version: ${version}
-<#if apiType =='page'>
+<#if currentType =='page'>
  * desc: 分页
 </#if>
-<#if apiType =='list'>
+<#if currentType =='list'>
  * desc: 列表
 </#if>
-<#if apiType =='add'>
+<#if currentType =='add'>
  * desc: 新增
 </#if>
-<#if apiType =='update'>
+<#if currentType =='update'>
  * desc: 更新
 </#if>
-<#if apiType =='one'>
+<#if currentType =='one'>
  * desc: 详情
 </#if>
+<#if currentType =='delete'>
+    * desc: 详情
+</#if>
  */
-export class ${model}${apiType?cap_first}Request {
+export class ${model?cap_first}${currentType?cap_first}Request {
 
     constructor() {
-        this.data = {
-<#if apiType =='page'>
+        this.params = {
+<#if currentType =='page'>
             // 第几页
             pageNum: undefined,
             // 页面大小
             pageSize: undefined,
 </#if>
-<#list columsInfoList as colum>
-            // ${colum.title}
-            ${colum.columnName}: undefined,
+<#list tableColumnsData as colum>
+            // ${colum.columnComment}
+            ${colum.camelColumnName}: undefined,
 </#list>
         }
     }
 
-<#if apiType =='page'>
+<#if currentType =='page'>
+    //设置分页参数
     setPageSize(pageSize) {
-        this.data.pageSize = pageSize
+        this.params.pageSize = pageSize
+        return this;
     }
 
     setPageNum(pageNum) {
-        this.data.pageNum = pageNum
+        this.params.pageNum = pageNum
+        return this;
     }
 </#if>
-<#list columsInfoList as colum>
+<#list tableColumnsData as colum>
 
-    set${colum.columnName?cap_first}(${colum.columnName}) {
-        this.data.${colum.columnName} = ${colum.columnName}
+    set${colum.camelColumnName?cap_first}(${colum.camelColumnName}) {
+        this.params.${colum.camelColumnName} = ${colum.camelColumnName}
+        return this;
     }
 </#list>
-}
 
-export function ${model}${apiType?cap_first}(request) {
-
-    let data = request.data
-<#list columsInfoList as colum>
-<#if colum.nullable =='YES'>
-
-    if (data['${colum.columnName}'] == undefined) {
-        console.error('${colum.columnName} 参数不能为空')
+    //参数快捷设置
+    setParams(params) {
+        this.params = params
+        return this;
     }
-</#if>
-</#list>
-    const path = '${path}/${apiType}'
 
-    return new Promise(resolve => {
-        api(path, data).then(response => {
-            resolve(response)
+    api() {
+        const path = '${fullPath}/${currentType}'
+        return new Promise(resolve => {
+            api(path, this.params)
+            .then(response => {
+                resolve(response)
+            })
         })
-    })
+    }
 }
 
-/*
 //引用链接
-import {${model}${apiType?cap_first}Request, ${model}${apiType?cap_first}} from '@${httpConfigPath}/${path}/${apiType}'
+//import {${model?cap_first}${currentType?cap_first}Request} from '@${jsSdkConfigPath}${fullPath}/${currentType}'
+/*
+    //快捷参数使用方式（params需满足如下格式,可设置在Vue的data()中）
+    data() {
+        return {
+            ${model}${currentType?cap_first}Params: {
+            <#list tableColumnsData as colum>
+                    // ${colum.columnComment}
+                    ${colum.camelColumnName}: undefined,
+            </#list>
+            },
+        }
+    },
 
-//使用方法
-let request = new ${model}${apiType?cap_first}Request()
+    let request = new ${model?cap_first}${currentType?cap_first}Request();
+    request.setParams(${model}${currentType?cap_first}Params).api().then(res => {
+        console.log("${model?cap_first}${currentType?cap_first}Request res:", res)
+    })
 
-<#if apiType =='page'>
-request.setPageNum(this.listQuery.pageNum)
-request.setPageSize(this.listQuery.pageSize)
-</#if>
-<#list columsInfoList as colum>
-request.set${colum.columnName?cap_first}(this.listQuery.${colum.columnName})
-</#list>
+    //单独设置参数方式一
+    let request = new ${model?cap_first}${currentType?cap_first}Request();
+    request.<#list tableColumnsData as colum>
+            set${colum.camelColumnName?cap_first}(${colum.camelColumnName}).</#list>
+            api().then(res => {
+                console.log("${model?cap_first}${currentType?cap_first}Request res:", res)
+    })
 
-${model}${apiType?cap_first}(request).then(res => {
-<#if apiType =='page'>
-    this.list = res['list']
-    this.total = res['total']
-</#if>
-<#list columsInfoList as colum>
-    this.${colum.columnName} = res['${colum.columnName}']
-</#list>
-
-})
+    //单独设置参数方式二
+    let request = new ${model?cap_first}${currentType?cap_first}Request();
+    <#list tableColumnsData as colum>
+    request.set${colum.camelColumnName?cap_first}(${colum.camelColumnName});
+    </#list>
+    request.api().then(res => {
+        console.log("${model?cap_first}${currentType?cap_first}Request res:", res)
+    })
 
 */
-
-
-

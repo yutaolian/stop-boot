@@ -1,11 +1,8 @@
 package com.stopboot.admin.model.test.list;
 
 import com.stopboot.admin.base.params.BaseListParams;
-import com.stopboot.admin.base.params.BaseParams;
 import lombok.Data;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
 
 /**
  * @description:
@@ -15,7 +12,7 @@ import javax.validation.constraints.NotNull;
  **/
 
 @Data
-public class TestListParams extends BaseParams {
+public class TestListParams extends BaseListParams {
 
 
 }

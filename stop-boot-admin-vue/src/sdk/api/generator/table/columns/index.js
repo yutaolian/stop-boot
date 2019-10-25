@@ -14,7 +14,7 @@ export class TableColumnsRequest {
 
 export function tableColumns(request) {
   let data = request.data
-  const path = 'generator/table/columns'
+  const path = '/generator/table/columns'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

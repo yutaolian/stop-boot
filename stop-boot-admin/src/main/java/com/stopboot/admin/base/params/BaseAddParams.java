@@ -1,5 +1,6 @@
 package com.stopboot.admin.base.params;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  **/
 
 @Data
-public class BaseAddParams implements Serializable {
+public class BaseAddParams extends BaseParams {
 
 
 }

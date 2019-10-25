@@ -18,11 +18,11 @@ export const constantRoutes = [
     name: 'Login',
     hidden: true,
     component: () => import('@/views/login/index')
+  },
+  {
+    path: '',
+    component: Layout,
+    hidden: true,
+    redirect:'/dashboard'
   }
-  // {
-  //   path: '',
-  //   component: Layout,
-  //   hidden: true,
-  //   redirect:'/dashboard'
-  // }
 ]

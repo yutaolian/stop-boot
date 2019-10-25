@@ -3,7 +3,7 @@ import {api} from '@/sdk/api/httpConfig'
 
 export function generatorTable() {
   let data = undefined
-  const path = 'generator/table/list'
+  const path = '/generator/table/list'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

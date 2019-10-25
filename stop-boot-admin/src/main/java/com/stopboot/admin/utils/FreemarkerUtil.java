@@ -44,7 +44,7 @@ public class FreemarkerUtil {
         }
     }
 
-    public static StringWriter process(String templateName, Map<String, Object> params)
+    public static StringWriter process(String templateName, Object params)
             throws IOException, TemplateException {
         Template template = configuration.getTemplate(templateName);
         StringWriter result = new StringWriter();

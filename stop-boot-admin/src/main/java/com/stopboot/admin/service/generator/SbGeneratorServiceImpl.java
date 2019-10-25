@@ -1,22 +1,28 @@
 package com.stopboot.admin.service.generator;
 
+import cn.hutool.core.util.StrUtil;
 import com.stopboot.admin.annotation.SbDataSource;
 import com.stopboot.admin.config.DataSourceEnum;
 import com.stopboot.admin.config.GeneratorConfig;
 import com.stopboot.admin.dto.MenuInfo;
-import com.stopboot.admin.generator.SbGeneratorStrategyContext;
-import com.stopboot.admin.generator.SbGeneratorStrategyParams;
+import com.stopboot.admin.strategy.generator.SbGeneratorStrategyContext;
+import com.stopboot.admin.strategy.generator.SbGeneratorStrategyParams;
+import com.stopboot.admin.strategy.generator.impl.admin.SbAdminGeneratorStrategyImpl;
+import com.stopboot.admin.strategy.generator.impl.sdk.js.SbJsGeneratorStrategyImpl;
+import com.stopboot.admin.strategy.generator.impl.ui.SbUiGeneratorStrategyImpl;
 import com.stopboot.admin.mapper.custom.help.StopBootTableMapper;
 import com.stopboot.admin.model.help.datasource.table.columns.TableColumnsParams;
 import com.stopboot.admin.model.help.datasource.table.columns.TableColumnsVO;
 import com.stopboot.admin.model.help.datasource.table.list.TableListVO;
-import com.stopboot.admin.model.help.generator.BaseInfo;
+import com.stopboot.admin.model.help.generator.GeneratorInfo;
 import com.stopboot.admin.model.help.generator.dowm.ColumInfo;
 import com.stopboot.admin.model.help.generator.dowm.GeneratorParams;
 import com.stopboot.admin.model.help.generator.dowm.GeneratorVO;
 import com.stopboot.admin.model.help.generator.pre.GeneratorPreParams;
 import com.stopboot.admin.model.help.generator.pre.GeneratorPreVO;
 import com.stopboot.admin.model.help.generator.pre.MenuInfoVO;
+import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitParams;
+import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitVO;
 import com.stopboot.admin.service.menu.MenuServiceI;
 import com.stopboot.admin.utils.BeansHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +34,12 @@ import java.util.*;
 
 
 /**
- * @author 91haoke
- */
+ * @version:0.0.1
+ * @author: Lianyutao
+ * @create: 2019-10-23 10:01
+ * @description: 生成后台逻辑代码
+ **/
+
 @Slf4j
 @Service
 public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
@@ -46,17 +56,24 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
     @Resource
     private StopBootTableMapper stopBootTableMapper;
 
-    @SbDataSource(DataSourceEnum.DB_MASTER)
-    @Override
-    public List<TableListVO> getTableList() {
-        List<TableListVO> tableList = stopBootTableMapper.getTableList();
-        return tableList;
-    }
+    @Resource
+    private SbJsGeneratorStrategyImpl sbJsGeneratorStrategy;
+
+    @Resource
+    private SbAdminGeneratorStrategyImpl sbAdminGeneratorStrategy;
+
+    @Resource
+    private SbUiGeneratorStrategyImpl sbUiGeneratorStrategy;
+
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
     @Override
     public List<TableColumnsVO> getTableColumns(TableColumnsParams params) {
         List<TableColumnsVO> tableColumns = stopBootTableMapper.getTableColumns(params.getTableName());
+        tableColumns.stream().forEach(tableColumnsVO -> {
+            String toCamelCase = StrUtil.toCamelCase(tableColumnsVO.getColumnName());
+            tableColumnsVO.setCamelColumnName(toCamelCase);
+        });
         return tableColumns;
     }
 
@@ -75,7 +92,87 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         MenuInfo menuInfo = menuService.getAllMenuInfoById(menuId);
         MenuInfoVO menuInfoVO = (MenuInfoVO) BeansHelper.getInstance().convert(menuInfo, MenuInfoVO.class);
         generatorPreVO.setMenuInfo(menuInfoVO);
+        //获得数据库的全部表名
+        List<TableListVO> tableList = this.getTableList();
+        generatorPreVO.setTableList(tableList);
+        //代码输出路径
+        String templatePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        templatePath = templatePath + "generator/";
+        generatorPreVO.setDefaultGeneratorPath(templatePath);
+
         return generatorPreVO;
+    }
+
+    @SbDataSource(DataSourceEnum.DB_MASTER)
+    private List<TableListVO> getTableList() {
+        List<TableListVO> tableList = stopBootTableMapper.getTableList();
+        return tableList;
+    }
+
+
+    @Override
+    public GeneratorSubmitVO submit(GeneratorSubmitParams params) {
+        GeneratorSubmitVO generatorSubmitVO = new GeneratorSubmitVO();
+        GeneratorInfo generatorInfo = new GeneratorInfo();
+
+        //基本信息
+        generatorInfo.setDate(new Date());
+        generatorInfo.setAuthor(params.getAuthor());
+        generatorInfo.setProjectName(params.getProjectName());
+        generatorInfo.setProjectDesc(params.getProjectDesc());
+        generatorInfo.setVersion(params.getVersion());
+        String generatorPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        generatorPath = generatorPath + "generator/";
+        generatorInfo.setDefaultGeneratorPath(generatorPath);
+
+        generatorInfo.setAdminPath(params.getAdminPath());
+        generatorInfo.setSdkPath(params.getSdkPath());
+        generatorInfo.setViewPath(params.getViewPath());
+
+        //菜单信息
+        MenuInfoVO menuInfo = params.getMenuInfo();
+        generatorInfo.setPath(menuInfo.getPath());
+
+        generatorInfo.setMenuComponent(menuInfo.getComponent());
+        generatorInfo.setTitle(menuInfo.getTitle());
+
+        String fullPath = menuInfo.getFullPath();
+        generatorInfo.setFullPath(fullPath);
+        generatorInfo.setFullPathToPackage(fullPath.replaceAll("/", "."));
+
+        generatorInfo.setModel(params.getMenuInfo().getName());
+
+        generatorInfo.setJsSdkConfigPath(params.getJsSdkConfigPath());
+
+        //其他配置
+        String basePackage = params.getBasePackage();
+        generatorInfo.setBasePackage(basePackage);
+
+        String basePackageToPath = basePackage.replaceAll("\\.", "\\" + File.separator);
+        generatorInfo.setBasePackageToPath(basePackageToPath);
+
+        String entityPackage = params.getEntityPackage();
+        generatorInfo.setEntityPackage(entityPackage);
+
+        String entityExamplePackage = params.getEntityExamplePackage();
+        generatorInfo.setEntityExamplePackage(entityExamplePackage);
+
+        String entityMapperPackage = params.getEntityMapperPackage();
+        generatorInfo.setEntityMapperPackage(entityMapperPackage);
+
+        String tableName = StrUtil.toCamelCase(params.getSelectedTableName());
+        generatorInfo.setTableName(tableName);
+
+        generatorInfo.setTableColumnsData(params.getTableColumnsData());
+
+        //生成后端方法
+        context.execute(new SbGeneratorStrategyParams(sbAdminGeneratorStrategy, generatorInfo));
+        //生成后端UI接口策略
+        context.execute(new SbGeneratorStrategyParams(sbJsGeneratorStrategy, generatorInfo));
+        //生成后端view页面
+        context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
+        generatorSubmitVO.setUrl(generatorPath);
+        return generatorSubmitVO;
     }
 
     /**
@@ -100,7 +197,7 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
 
 
             System.out.println("templatePath==========" + templatePath);
-            Integer menuId = params.getMenuId();
+//            Integer menuId = params.getMenuId();
             //根据menuId获得menu信息(包含所有父节点)
             MenuInfo menuInfo = menuService.getAllMenuInfoById(19);
 
@@ -139,58 +236,13 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
             }
 
 
-            Map<String, Object> map = new HashMap<>(10);
+//            BaseInfo baseInfo = new BaseInfo();
+//            baseInfo.setAuthor("lyt");
+//            baseInfo.setTemplatePath(templatePath);
+//            baseInfo.setViewPath(viewPath);
+//            baseInfo.setFullPath(fullPath);
+//            baseInfo.setHttpConfigPath(httpConfigPath);
 
-
-            map.put("author", "lyt");
-            map.put("date", new Date());
-            map.put("projectName", "");
-            map.put("version", "1.0.1");
-            map.put("desc", "描述");
-            map.put("tableName", "sb_test");
-
-            String basePackage = "com.stopboot.admin";
-            String model = "test22";
-            String httpConfigPath = "/sdk/api";
-            String viewPath = "/views";
-            String fullPath = "/test/test2/test22";
-
-            map.put("basePackage", basePackage);
-            map.put("model", model);
-            map.put("path", fullPath);
-            map.put("pathToPackage", fullPath.replaceAll("/", "."));
-            map.put("httpConfigPath", httpConfigPath);
-            map.put("columsInfoList", columsInfoList);
-
-            String basePackageToPath = basePackage.replaceAll("\\.", "\\" + File.separator);
-            map.put("basePackageToPath", basePackageToPath);
-
-            String entityPackage = "com.stopboot.admin.entity.SbTest";
-            map.put("entityPackage", entityPackage);
-            map.put("entityName", entityPackage.substring(entityPackage.lastIndexOf(".") + 1, entityPackage.length()));
-
-            String entityExamplePackage = "com.stopboot.admin.entity.SbTestExample";
-            map.put("entityExamplePackage", entityExamplePackage);
-            map.put("entityExampleName", entityExamplePackage.substring(entityExamplePackage.lastIndexOf(".") + 1, entityExamplePackage.length()));
-
-            String entityMapperPackage = "com.stopboot.admin.mapper.mybatis.SbTestMapper";
-            map.put("entityMapperPackage", entityMapperPackage);
-            map.put("entityMapperName", entityMapperPackage.substring(entityMapperPackage.lastIndexOf(".") + 1, entityMapperPackage.length()));
-
-
-            BaseInfo baseInfo = new BaseInfo();
-            baseInfo.setAuthor("lyt");
-            baseInfo.setTemplatePath(templatePath);
-            baseInfo.setViewPath(viewPath);
-            baseInfo.setFullPath(fullPath);
-            baseInfo.setHttpConfigPath(httpConfigPath);
-
-            //生成后端方法
-            context.execute(new SbGeneratorStrategyParams("admin", baseInfo, map));
-            //生成ui接口
-            context.execute(new SbGeneratorStrategyParams("js", baseInfo, map));
-            //生成后端view页面
-            context.execute(new SbGeneratorStrategyParams("ui", baseInfo, map));
 
         } catch (Exception e) {
             log.error(e.getMessage());

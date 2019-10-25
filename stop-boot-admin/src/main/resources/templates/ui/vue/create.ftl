@@ -3,11 +3,11 @@
     <el-dialog title="新增" :visible.sync="dialogFormVisible">
         <el-form ref="createFormRef" :rules="rules" :model="createForm" label-position="left" label-width="70px"
                  style="width: 400px; margin-left:50px;">
-
-            <el-form-item label="Title" prop="name">
-                <el-input v-model="createForm.name"/>
+            <#list tableColumnsData as colum>
+            <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
+                <el-input v-model="createForm.${colum.camelColumnName}"/>
             </el-form-item>
-
+            </#list>
 
             <el-form-item label="Title" prop="name">
                 <el-input v-model="createForm.name"/>

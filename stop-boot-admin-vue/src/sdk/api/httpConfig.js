@@ -1,7 +1,7 @@
 import {post} from '../http'
 //自定义api地址
-// const baseURL = 'http://localhost:8087/api/'
-const baseURL = 'http://10.39.1.158:8087/api/'
+const baseURL = 'http://localhost:8087/api'
+// const baseURL = 'http://10.39.1.158:8087/api/'
 
 
 

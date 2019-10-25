@@ -49,7 +49,7 @@ export function login (request) {
   if (data['password'] == undefined) {
     console.error('password 参数不能为空')
   }
-  const path = 'course/detail'
+  const path = '/course/detail'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

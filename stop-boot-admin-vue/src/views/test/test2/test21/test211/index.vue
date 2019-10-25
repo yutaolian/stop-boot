@@ -146,7 +146,7 @@
 </template>
 
 <script>
-    import {TestPageRequest, testPage} from '@/sdk/api/test/test1/page'
+    import {TestPageRequest, testPage} from '@/sdk/api/test/test11/page'
     import waves from '@/directive/waves' // waves directive
     import {parseTime} from '@/utils'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination

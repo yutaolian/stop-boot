@@ -34,7 +34,7 @@ export function rolePage(request) {
   if (data['pageSize'] == undefined) {
     console.error('pageSize 参数不能为空')
   }
-  const path = 'role/page'
+  const path = '/role/page'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

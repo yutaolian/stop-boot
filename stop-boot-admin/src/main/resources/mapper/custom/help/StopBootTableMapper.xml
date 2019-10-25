@@ -18,6 +18,7 @@
         <result column="data_type" property="dataType" jdbcType="VARCHAR" />
         <result column="is_nullable" property="nullable" jdbcType="VARCHAR" />
         <result column="column_comment" property="columnComment" jdbcType="VARCHAR" />
+        <result column="column_key" property="columnKey" jdbcType="VARCHAR" />
     </resultMap>
     <!--根据姓名模糊查询 -->
     <select id="getTableList" resultMap="TableListResultMap">
@@ -35,7 +36,8 @@
                column_name,
                data_type,
                is_nullable,
-               column_comment
+               column_comment,
+               column_key
         from information_schema.columns
         where table_schema = (SELECT DATABASE())
           and table_name =  #{tableName,jdbcType=VARCHAR}

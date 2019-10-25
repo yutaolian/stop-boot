@@ -14,7 +14,7 @@ export class MenuListRequest {
 
 export function menuList(request) {
   let data = request.data
-  const path = 'system/menu/list'
+  const path = '/system/menu/list'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

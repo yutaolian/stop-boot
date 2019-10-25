@@ -18,7 +18,7 @@ export function roleList(request) {
   if (data['userId'] == undefined) {
     console.error('userId 参数不能为空')
   }
-  const path = 'role/list'
+  const path = '/role/list'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

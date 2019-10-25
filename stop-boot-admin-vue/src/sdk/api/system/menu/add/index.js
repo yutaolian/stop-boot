@@ -54,7 +54,7 @@ export class MenuAddRequest {
 
 export function menuAdd(request) {
   let data = request.data
-  const path = 'system/menu/add'
+  const path = '/system/menu/add'
   return new Promise(resolve => {
     api(path, data)
       .then(response => {

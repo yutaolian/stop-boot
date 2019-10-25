@@ -8,6 +8,8 @@ import com.stopboot.admin.model.help.generator.dowm.GeneratorParams;
 import com.stopboot.admin.model.help.generator.dowm.GeneratorVO;
 import com.stopboot.admin.model.help.generator.pre.GeneratorPreParams;
 import com.stopboot.admin.model.help.generator.pre.GeneratorPreVO;
+import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitParams;
+import com.stopboot.admin.model.help.generator.submit.GeneratorSubmitVO;
 import com.stopboot.admin.service.generator.SbGeneratorServiceI;
 import com.stopboot.admin.service.help.datasource.SbDataSourceServiceI;
 import lombok.extern.slf4j.Slf4j;
@@ -71,10 +73,10 @@ public class SbGeneratorController {
      *
      * @return
      */
-    @PostMapping("done")
-    public ResultData<GeneratorVO> done(GeneratorParams params) {
+    @PostMapping("submit")
+    public ResultData<GeneratorSubmitVO> submit(@RequestBody  GeneratorSubmitParams params) {
         ResultData resultData = ResultData.build();
-        GeneratorVO vo = generatorService.done(params);
+        GeneratorSubmitVO vo = generatorService.submit(params);
         if (!ObjectUtils.isEmpty(vo)) {
             resultData.success().setData(vo);
         } else {
@@ -116,18 +118,6 @@ public class SbGeneratorController {
      *
      * @return
      */
-    @PostMapping("table/list")
-    public ResultData<TableListVO> tableList() {
-        ResultData resultData = ResultData.build();
-        List<TableListVO> list = generatorService.getTableList();
-        if (!ObjectUtils.isEmpty(list)) {
-            resultData.success().setData(list);
-        } else {
-            resultData.empty();
-        }
-        return resultData;
-    }
-
 
     /**
      * 根据表名获得表的全部字段
@@ -146,8 +136,6 @@ public class SbGeneratorController {
         }
         return resultData;
     }
-
-
 
 
 }

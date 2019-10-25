@@ -3,9 +3,11 @@
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
         <el-form ref="editFormRef" :rules="rules" :model="editForm" label-position="left" label-width="70px"
                  style="width: 400px; margin-left:50px;">
-            <el-form-item label="Title" prop="name">
-                <el-input v-model="editForm.name"/>
+            <#list tableColumnsData as colum>
+            <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
+                <el-input v-model="editForm.${colum.camelColumnName}"/>
             </el-form-item>
+            </#list>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancleForm">

@@ -1,4 +1,4 @@
-package com.stopboot.admin.model.test.page;
+package com.stopboot.admin.model${fullPathToPackage}.${currentType};
 
 import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
@@ -12,22 +12,15 @@ import lombok.Data;
  **/
 
 @Data
-public class TestPageVO extends BaseVO {
+public class ${model?cap_first}${currentType?cap_first}VO extends BaseVO {
 
+<#list tableColumnsData as colum>
     /**
-     *
-     */
-    private Integer id;
-
-    /**
-     * 姓名
-     */
-    private String name;
-
-    /**
-     * 年龄
-     */
-    private Integer age;
+    *${colum.columnComment}
+    *
+    */
+    private String ${colum.camelColumnName};
+</#list>
 
 
 
