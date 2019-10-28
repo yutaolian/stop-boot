@@ -3,6 +3,7 @@ import {resetRouter} from '@/router'
 import {login, LoginRequest} from '@/sdk/api/login'
 import {logout, LogoutRequest} from '@/sdk/api/logout'
 import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+
 const user = {
   state: {
     token: getToken(),
@@ -12,7 +13,7 @@ const user = {
     roles: [],
     permissions: [],
     loadMenus: false,
-    menus:[]
+    menus: []
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -33,7 +34,7 @@ const user = {
   },
   actions: {
     // login
-    login ({commit}, userInfo) {
+    login({commit}, userInfo) {
       const {username, password} = userInfo
       return new Promise((resolve, reject) => {
         var request = new LoginRequest()
@@ -45,27 +46,27 @@ const user = {
           // 设置store
           commit('SET_TOKEN', res.getName())
           commit('SET_ROLES', ['admin'])
-          commit('SET_PERMISSIONS', ['TEST_ADD','TEST_UPDATE','TEST_CREATE'])
+          commit('SET_PERMISSIONS', ['TEST_ADD', 'TEST_UPDATE', 'TEST_CREATE'])
           // 设置cookies
           setToken(res.getToken())
           resolve()
         })
       })
     },
-    // login
-    menus ({commit}) {
+    // menus
+    menus({commit}) {
       return new Promise((resolve, reject) => {
         let request = new MenuListRequest()
         menuList(request).then(res => {
           commit('SET_LOAD_MENUS', true)
-          commit('SET_MENUS', res)
-          commit('SET_PERMISSIONS', ['TEST_ADD','TEST_UPDATE','TEST_CREATE'])
+          // commit('SET_MENUS', res)
+          // commit('SET_PERMISSIONS', ['TEST_ADD1','TEST_UPDATE','TEST_CREATE'])
           resolve(res)
         })
       })
     },
     // logout
-    logout ({commit, state}) {
+    logout({commit, state}) {
       return new Promise((resolve, reject) => {
         var request = new LogoutRequest()
         request.setUserId(7919)
@@ -78,7 +79,13 @@ const user = {
         })
       })
     },
-    updateLoadMenus ({ commit }) {
+    permissions({commit}, routes) {
+      return new Promise(resolve => {
+        commit('SET_PERMISSIONS', ['TEST_ADD1', 'TEST_UPDATE', 'TEST_CREATE'])
+        resolve(routes)
+      })
+    },
+    updateLoadMenus({commit}) {
       return new Promise((resolve, reject) => {
         commit('SET_LOAD_MENUS', false)
       })

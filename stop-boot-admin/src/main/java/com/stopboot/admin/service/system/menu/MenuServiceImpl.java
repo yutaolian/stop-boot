@@ -1,23 +1,18 @@
-package com.stopboot.admin.service.menu;
+package com.stopboot.admin.service.system.menu;
 
-import com.stopboot.admin.base.params.*;
-import com.stopboot.admin.base.service.DefaultListServiceImpl;
-import com.stopboot.admin.base.vo.BaseVO;
 import com.stopboot.admin.dto.MenuInfo;
 import com.stopboot.admin.entity.SbMenu;
 import com.stopboot.admin.entity.SbMenuExample;
 import com.stopboot.admin.mapper.mybatis.SbMenuMapper;
-import com.stopboot.admin.model.menu.add.MenuAddParams;
 import com.stopboot.admin.model.menu.list.MenuListParams;
 import com.stopboot.admin.model.menu.list.MenuListVO;
 import com.stopboot.admin.utils.BeansHelper;
-import com.stopboot.admin.utils.ListToTreeUtil;
+import com.stopboot.admin.utils.MenuListToTreeUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 
 /**
@@ -28,19 +23,35 @@ import java.util.Stack;
  **/
 
 @Service
-public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu, SbMenuExample, BaseVO, MenuListVO,
-        BaseVO, BasePageParams, MenuListParams, BaseOneParams, MenuAddParams, BaseUpdateParams, BaseDeleteParams> implements MenuServiceI {
+public class MenuServiceImpl implements MenuServiceI {
+
+    @Resource
+    private SbMenuMapper sbMenuMapper;
+
 
     @Override
-    public List<MenuListVO> list(MenuListParams params) {
+    public List<SbMenu> getAllMenus() {
         SbMenuExample sbMenuExample = new SbMenuExample();
         sbMenuExample.setOrderByClause(" pid , sort ,id ");
         SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
         criteria.andDeleteFlagEqualTo(1);
         criteria.andStatusEqualTo(1);
-        List<SbMenu> sbMenuList = this.selectByExample(sbMenuExample);
-        List<MenuListVO> menuLists = BeansHelper.getInstance().convert(sbMenuList, MenuListVO.class);
-        List<MenuListVO> menuListVOList = ListToTreeUtil.listToTree(menuLists);
+        List<SbMenu> sbMenuList = sbMenuMapper.selectByExample(sbMenuExample);
+        return sbMenuList;
+    }
+
+    /**
+     * 1.根据用户id 获得用户全部角色
+     * 2.根据角色获得用户的菜单
+     * 3.根据角色获得用户菜单的权限
+     *
+     * @param params
+     * @return
+     */
+    @Override
+    public List<MenuListVO> list(MenuListParams params) {
+        List<MenuListVO> menuLists = BeansHelper.getInstance().convert(getAllMenus(), MenuListVO.class);
+        List<MenuListVO> menuListVOList = MenuListToTreeUtil.getInstance().listToTree(menuLists);
         if (menuListVOList != null && menuListVOList.size() > 0) {
             return menuListVOList;
         } else {
@@ -61,8 +72,9 @@ public class MenuServiceImpl extends DefaultListServiceImpl<SbMenuMapper, SbMenu
         return allParentNode;
     }
 
+
     private MenuInfo getAllParentNode(List<String> fullPathArray, Integer menuId) {
-        SbMenu menu = this.oneFromDB(menuId);
+        SbMenu menu = sbMenuMapper.selectByPrimaryKey(menuId);
         MenuInfo menuInfo = (MenuInfo) BeansHelper.getInstance().convert(menu, MenuInfo.class);
         if (1 != menu.getPid()) {
             menuInfo.setParent(getAllParentNode(fullPathArray, menuInfo.getPid()));

@@ -1,7 +1,7 @@
 package com.stopboot.admin.controller.test;
 
 import com.stopboot.admin.base.controller.DefaultSimpleController;
-import com.stopboot.admin.base.simple.BaseSimpleParams;
+import com.stopboot.admin.base.params.BaseSimpleParams;
 import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.common.ResultData;
 import com.stopboot.admin.entity.SbTest;

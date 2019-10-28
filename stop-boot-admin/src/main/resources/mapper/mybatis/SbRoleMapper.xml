@@ -9,7 +9,6 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="op_user_id" property="opUserId" jdbcType="INTEGER" />
     <result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -71,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, description, tag, status, create_time, update_time, op_user_id, delete_flag
+    id, name, description, tag, status, create_time, update_time, delete_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.stopboot.admin.entity.SbRoleExample" >
     select
@@ -88,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
     from sb_role
     where id = #{id,jdbcType=INTEGER}
@@ -104,14 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.stopboot.admin.entity.SbRole" >
-    insert into sb_role (id, name, description,
-      tag, status, create_time,
-      update_time, op_user_id, delete_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
-      #{tag,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-      #{updateTime,jdbcType=TIMESTAMP}, #{opUserId,jdbcType=INTEGER}, #{deleteFlag,jdbcType=INTEGER}
-      )
+    insert into sb_role (id, name, description, 
+      tag, status, create_time, 
+      update_time, delete_flag)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{tag,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.stopboot.admin.entity.SbRole" >
     insert into sb_role
@@ -136,9 +133,6 @@
       </if>
       <if test="updateTime != null" >
         update_time,
-      </if>
-      <if test="opUserId != null" >
-        op_user_id,
       </if>
       <if test="deleteFlag != null" >
         delete_flag,
@@ -165,9 +159,6 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="opUserId != null" >
-        #{opUserId,jdbcType=INTEGER},
       </if>
       <if test="deleteFlag != null" >
         #{deleteFlag,jdbcType=INTEGER},
@@ -204,9 +195,6 @@
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.opUserId != null" >
-        op_user_id = #{record.opUserId,jdbcType=INTEGER},
-      </if>
       <if test="record.deleteFlag != null" >
         delete_flag = #{record.deleteFlag,jdbcType=INTEGER},
       </if>
@@ -224,7 +212,6 @@
       status = #{record.status,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      op_user_id = #{record.opUserId,jdbcType=INTEGER},
       delete_flag = #{record.deleteFlag,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -251,9 +238,6 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="opUserId != null" >
-        op_user_id = #{opUserId,jdbcType=INTEGER},
-      </if>
       <if test="deleteFlag != null" >
         delete_flag = #{deleteFlag,jdbcType=INTEGER},
       </if>
@@ -268,7 +252,6 @@
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      op_user_id = #{opUserId,jdbcType=INTEGER},
       delete_flag = #{deleteFlag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

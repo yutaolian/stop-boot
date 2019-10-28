@@ -14,12 +14,12 @@ import com.stopboot.admin.model.test.test1.update.Test1UpdateParams;
 import com.stopboot.admin.model.test.test1.delete.Test1DeleteParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.ObjectUtils;
 
 /**
  * @description:  Test1 service
  * @author: Lianyutao
- * @create: 2019/10/25 19:02
+ * @create: 2019/10/25 20:09
  * @version: 1.0.1
 **/
 
@@ -50,9 +50,6 @@ public class Test1ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, S
         }
         if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
             criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getInfo())) {
-            criteria.andInfoEqualTo(pageParams.getInfo());
         }
         if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
             criteria.andStatusEqualTo(pageParams.getStatus());

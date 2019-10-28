@@ -1,8 +1,7 @@
 package com.stopboot.admin.service.test2;
 
 import com.stopboot.admin.base.service.DefaultSimpleServiceI;
-import com.stopboot.admin.base.vo.BaseVO;
-import com.stopboot.admin.base.simple.BaseSimpleParams;
+import com.stopboot.admin.base.params.BaseSimpleParams;
 import com.stopboot.admin.entity.SbTest;
 
 

@@ -1,4 +1,4 @@
-import { constantRoutes } from '@/router/routes'
+import {constantRoutes} from '@/router/routes'
 
 const state = {
   routes: [],
@@ -9,12 +9,12 @@ const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
-    console.log("routes",routes)
+    console.log(" all routes", routes)
   }
 }
 
 const actions = {
-  generateRoutes ({ commit }, routes) {
+  generateRoutes({commit}, routes) {
     return new Promise(resolve => {
       commit('SET_ROUTES', routes)
       resolve(routes)

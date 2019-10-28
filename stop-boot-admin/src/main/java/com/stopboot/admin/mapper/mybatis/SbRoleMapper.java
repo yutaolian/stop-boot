@@ -2,9 +2,8 @@ package com.stopboot.admin.mapper.mybatis;
 
 import com.stopboot.admin.entity.SbRole;
 import com.stopboot.admin.entity.SbRoleExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SbRoleMapper {
     int countByExample(SbRoleExample example);

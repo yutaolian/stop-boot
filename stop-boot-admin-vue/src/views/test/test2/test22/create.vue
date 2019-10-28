@@ -20,6 +20,10 @@
       <el-button type="primary" @click="onSubmit">
         创建
       </el-button>
+
+<!--      user permission : {{this.$route.meta.permission}}-->
+      <span v-permission="['TEST_ADD']">permission : TEST_ADD</span>
+      <span v-permission="['TEST_ADD1']">permission : TEST_ADD1</span>
     </div>
   </el-dialog>
 </template>

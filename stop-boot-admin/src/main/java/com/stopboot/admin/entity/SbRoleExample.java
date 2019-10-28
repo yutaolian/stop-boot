@@ -5,19 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 public class SbRoleExample {
-    /**
-     * sb_role
-     */
     protected String orderByClause;
 
-    /**
-     * sb_role
-     */
     protected boolean distinct;
 
-    /**
-     * sb_role
-     */
     protected List<Criteria> oredCriteria;
 
     public SbRoleExample() {
@@ -73,9 +64,6 @@ public class SbRoleExample {
         distinct = false;
     }
 
-    /**
-     * sb_role 2019-09-23
-     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -567,66 +555,6 @@ public class SbRoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andOpUserIdIsNull() {
-            addCriterion("op_user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdIsNotNull() {
-            addCriterion("op_user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdEqualTo(Integer value) {
-            addCriterion("op_user_id =", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdNotEqualTo(Integer value) {
-            addCriterion("op_user_id <>", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdGreaterThan(Integer value) {
-            addCriterion("op_user_id >", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("op_user_id >=", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdLessThan(Integer value) {
-            addCriterion("op_user_id <", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("op_user_id <=", value, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdIn(List<Integer> values) {
-            addCriterion("op_user_id in", values, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdNotIn(List<Integer> values) {
-            addCriterion("op_user_id not in", values, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("op_user_id between", value1, value2, "opUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("op_user_id not between", value1, value2, "opUserId");
-            return (Criteria) this;
-        }
-
         public Criteria andDeleteFlagIsNull() {
             addCriterion("delete_flag is null");
             return (Criteria) this;
@@ -688,9 +616,6 @@ public class SbRoleExample {
         }
     }
 
-    /**
-     * sb_role
-     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -698,9 +623,6 @@ public class SbRoleExample {
         }
     }
 
-    /**
-     * sb_role 2019-09-23
-     */
     public static class Criterion {
         private String condition;
 

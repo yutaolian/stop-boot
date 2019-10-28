@@ -34,9 +34,9 @@ public class RoleController {
     public ResultData<RoleListVO> roleList(@RequestBody RoleListVOParams params) {
         ResultData resultData = ResultData.build();
         List<RoleListVO> roleListVOList = roleServiceI.getRoleList(params);
-        if (!ObjectUtils.isEmpty(roleListVOList)){
+        if (!ObjectUtils.isEmpty(roleListVOList)) {
             resultData.success().setData(roleListVOList);
-        }else{
+        } else {
             resultData.empty();
         }
         return resultData;
@@ -46,9 +46,9 @@ public class RoleController {
     public ResultData<RolePageVO> roleList(@RequestBody RolePageVOParams params) {
         ResultData resultData = ResultData.build();
         PageResult<RolePageVO> rolePageVOPageResult = roleServiceI.getRolePage(params);
-        if (!ObjectUtils.isEmpty(rolePageVOPageResult)){
+        if (!ObjectUtils.isEmpty(rolePageVOPageResult)) {
             resultData.success().setData(rolePageVOPageResult);
-        }else{
+        } else {
             resultData.empty();
         }
         return resultData;

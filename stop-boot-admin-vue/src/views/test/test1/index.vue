@@ -65,8 +65,10 @@
                         </el-form-item>
                     </el-col>
                     <!--@click="cleanFilter"-->
+
                     <el-col :span="4">
                         <el-form-item label="">
+                          <span v-permission="['test22_ADD']">permission : test22_ADD</span>
                             <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
                             <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
                             <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>

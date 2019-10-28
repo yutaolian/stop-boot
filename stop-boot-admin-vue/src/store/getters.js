@@ -9,9 +9,10 @@ const getters = {
   name: state => state.user.name,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
-  permission_routes: state => state.permission.routes,
-  errorLogs: state => state.errorLog.logs,
   loadMenus: state => state.user.loadMenus,
-  permissions: state => state.user.permissions
+  permissions: state => state.user.permissions,
+  permission_routes: state => state.router.routes,
+  menuRoutes: state => state.router.menuRoutes,
+  errorLogs: state => state.errorLog.logs
 }
 export default getters

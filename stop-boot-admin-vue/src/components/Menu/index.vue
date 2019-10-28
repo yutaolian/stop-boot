@@ -9,19 +9,19 @@
              :active-text-color="variables.menuActiveText"
              :collapse-transition="false"
              mode="vertical">
-      <sub-menu v-for="item in permission_routes" :key="item.name" :item="item" :base-path="item.path" ></sub-menu>
+      <sub-menu v-for="item in menuRoutes" :key="item.name" :item="item" :base-path="item.path"></sub-menu>
     </el-menu>
-<!--    <el-menu router @open="handleOpen" @close="handleClose"-->
-<!--             :default-active="activeMenu"-->
-<!--             :collapse="isCollapse"-->
-<!--             :background-color="variables.menuBg"-->
-<!--             :text-color="variables.menuText"-->
-<!--             :unique-opened="true"-->
-<!--             :active-text-color="variables.menuActiveText"-->
-<!--             :collapse-transition="false"-->
-<!--             mode="vertical">-->
-<!--      <NavMenu :navMenus="permission_routes"></NavMenu>-->
-<!--    </el-menu>-->
+    <!--    <el-menu router @open="handleOpen" @close="handleClose"-->
+    <!--             :default-active="activeMenu"-->
+    <!--             :collapse="isCollapse"-->
+    <!--             :background-color="variables.menuBg"-->
+    <!--             :text-color="variables.menuText"-->
+    <!--             :unique-opened="true"-->
+    <!--             :active-text-color="variables.menuActiveText"-->
+    <!--             :collapse-transition="false"-->
+    <!--             mode="vertical">-->
+    <!--      <NavMenu :navMenus="permission_routes"></NavMenu>-->
+    <!--    </el-menu>-->
   </div>
 </template>
 <script>
@@ -34,10 +34,10 @@
     import SubMenu from '@/components/SubMenu'
 
     export default {
-        components: {Logo, SubMenu,NavMenu},
+        components: {Logo, SubMenu, NavMenu},
         computed: {
             ...mapGetters([
-                'permission_routes',
+                'menuRoutes',
                 'sidebar'
             ]),
             activeMenu() {

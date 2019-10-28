@@ -56,14 +56,11 @@ router.beforeEach(async (to, from, next) => {
           let subMenuList = menuList[0]["children"];
           //重置menu（将单节点添加父节点）
           let newMenuList = resetMenuList(subMenuList);
-
-          console.log("newMenuList", newMenuList);
           //menu转为router
           let accessRoutes = menuTree2Routes(newMenuList);
-
-          console.log("accessRoutes", accessRoutes)
-          let accessRoutes2 = await store.dispatch('permission/generateRoutes', accessRoutes)
-          router.addRoutes(accessRoutes2) // 动态添加可访问路由表
+          //合并router
+          let allAccessRoutes = await store.dispatch('router/generateRoutes', accessRoutes)
+          router.addRoutes(allAccessRoutes) // 动态添加可访问路由表
           next({...to, replace: true})
         } catch (e) {
           console.error("e:", e)
@@ -139,7 +136,7 @@ function menuTree2Routes(menuTree) {
         name: menu["name"],
         meta: {
           title: menu['title'],
-          icon: menu['icon']
+          icon: menu['icon'],
         },
         hidden: menu["hidden"] == 1,
         component: Layout,
@@ -163,7 +160,8 @@ function menuTree2Routes(menuTree) {
         name: menu["name"],
         meta: {
           title: menu['title'],
-          icon: menu['icon']
+          icon: menu['icon'],
+          permission: [menu["path"] + '_ADD', menu["path"] + '_UPDATE', menu["path"] + '__CREATE']
         },
         hidden: menu["hidden"] == 1 ? true : false,
         component: loadView(menu['component']),
@@ -175,16 +173,7 @@ function menuTree2Routes(menuTree) {
 }
 
 export const loadView = (view) => { // 路由懒加载
-
-  console.log("aaaa-----", `@/views/${view}`)
-
-  console.log("bbbb-----", `@${view}`)
-
-  // return () => import(`@/views/${view}`)
-  // let componentStr = '@'+view;
-  const componentStr = '@/components/HelloWorld';
-  console.log("componentStr-----", componentStr)
-
+  // console.log("view-----", view)
   return () => import(`@/${view}`)
 }
 

@@ -19,7 +19,6 @@
         components: {SidebarItem, Logo, Menu},
         computed: {
             ...mapGetters([
-                'permission_routes',
                 'sidebar'
             ]),
             activeMenu() {

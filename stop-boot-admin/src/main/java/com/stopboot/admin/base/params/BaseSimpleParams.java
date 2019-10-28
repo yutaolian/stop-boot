@@ -1,7 +1,6 @@
-package com.stopboot.admin.base.simple;
+package com.stopboot.admin.base.params;
 
 
-import com.stopboot.admin.base.params.BasePageParams;
 import lombok.Data;
 
 

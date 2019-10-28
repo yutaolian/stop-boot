@@ -6,7 +6,7 @@ package com.stopboot.admin.service.test2;/**
  **/
 
 import com.stopboot.admin.base.service.DefaultSimpleServiceImpl;
-import com.stopboot.admin.base.simple.BaseSimpleParams;
+import com.stopboot.admin.base.params.BaseSimpleParams;
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
 import com.stopboot.admin.mapper.mybatis.SbTestMapper;

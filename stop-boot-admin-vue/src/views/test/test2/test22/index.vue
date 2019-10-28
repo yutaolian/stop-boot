@@ -40,6 +40,10 @@
               <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
               <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
               <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+
+              user permission : {{this.$route.meta.permission}}
+              <span v-permission="['test22_ADD']">permission : test22_ADD</span>
+              <span v-permission="['TEST_ADD1']">permission : TEST_ADD1</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -171,6 +175,7 @@
             preEdit(row) {
                 this.editRowData = Object.assign({}, row)
                 this.$refs.editForm.dialogFormVisible = true
+                console.log("this.$router:",this.$route)
             },
             handleDelete(row) {
                 this.$confirm('确认删除, 是否继续?', '提示', {

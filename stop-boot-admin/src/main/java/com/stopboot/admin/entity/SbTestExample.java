@@ -6,19 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SbTestExample {
-    /**
-     * sb_test
-     */
     protected String orderByClause;
 
-    /**
-     * sb_test
-     */
     protected boolean distinct;
 
-    /**
-     * sb_test
-     */
     protected List<Criteria> oredCriteria;
 
     public SbTestExample() {
@@ -74,9 +65,6 @@ public class SbTestExample {
         distinct = false;
     }
 
-    /**
-     * sb_test 2019-10-11
-     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -705,9 +693,6 @@ public class SbTestExample {
         }
     }
 
-    /**
-     * sb_test
-     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -715,9 +700,6 @@ public class SbTestExample {
         }
     }
 
-    /**
-     * sb_test 2019-10-11
-     */
     public static class Criterion {
         private String condition;
 

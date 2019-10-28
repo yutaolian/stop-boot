@@ -1,7 +1,6 @@
 package com.stopboot.admin.model.test.one;
 
-import com.stopboot.admin.base.params.BaseParams;
-import com.stopboot.admin.base.simple.BaseSimpleParams;
+import com.stopboot.admin.base.params.BaseSimpleParams;
 import lombok.Data;
 
 /**

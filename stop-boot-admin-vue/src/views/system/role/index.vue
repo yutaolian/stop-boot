@@ -1,12 +1,10 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"/>
-      <el-input v-model="listQuery.title" placeholder="tag" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"/>
+      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"/>
+      <el-input v-model="listQuery.title" placeholder="tag" style="width: 200px;" class="filter-item"/>
       <el-button class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" size="small" round>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" size="small" round>
         搜索
       </el-button>
       <el-button class="filter-item" type="success" icon="el-icon-plus" @click="handleCreate" size="small" round>
@@ -26,7 +24,6 @@
           fit
           highlight-current-row
           style="width: 100%;"
-          @sort-change="sortChange"
         >
 
           <el-table-column type="expand">
@@ -101,7 +98,7 @@
               <el-row>
                 <el-col :span="8">
               <el-tree
-                :data="data2"
+                :data="menuTreeData"
                 default-expand-all
                 show-checkbox
                 node-key="id"
@@ -118,7 +115,7 @@
               </template>
                 </el-col>
               </el-row>
-              <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存2</el-button>
+              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存2</el-button>
             </el-tab-pane>
           </el-tabs>
 
@@ -133,6 +130,7 @@
 <script>
     import {RolePageRequest, rolePage} from '@/sdk/api/role/page'
     import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+    import {PermissionListRequest} from '@/sdk/api/system/permission/list'
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
     export default {
@@ -192,79 +190,10 @@
                 },
                 downloadLoading: false,
                 filterText: '',
-                data: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
-                data2: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
+                menuTreeData: [],
                 defaultProps: {
                     children: 'children',
-                    label: 'label'
+                    label: 'title'
                 },
             };
         },
@@ -282,6 +211,13 @@
                     this.listLoading = false
                     this.list = res['list']
                     this.total = res['total']
+                })
+
+                let request2 = new PermissionListRequest()
+                request2.api().then(res => {
+                    this.listLoading = false
+                    console.log("res", res)
+                    this.menuTreeData = res;
                 })
             },
             handleCreate() {

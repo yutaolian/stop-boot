@@ -1,6 +1,6 @@
 package com.stopboot.admin.model.menu.list;
 
-import com.stopboot.admin.base.vo.BaseVO;
+import com.stopboot.admin.base.vo.BaseMenuTreeVO;
 import lombok.Data;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
  * @version:
  **/
 @Data
-public class MenuListVO extends BaseVO {
+public class MenuListVO extends BaseMenuTreeVO {
 
-    private Integer id;
-    private Integer pid;
     private String path;
     private String component;
     private String name;
     private String icon;
     private String title;
     private Integer hidden;
-    private List<MenuListVO> children;
+    private List<String> permissions;
+
+
 }

@@ -14,5 +14,8 @@ import lombok.Data;
 @Data
 public class MenuListParams extends BaseParams {
 
+    private Integer userId;
+
+
 
 }

@@ -1,6 +1,8 @@
 package com.stopboot.admin.utils;
 
-import com.stopboot.admin.model.menu.list.MenuListVO;
+import cn.hutool.core.lang.Singleton;
+import com.stopboot.admin.base.vo.BaseMenuTreeVO;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +14,31 @@ import java.util.List;
  * @version: list结构转成tree
  **/
 
-public class ListToTreeUtil {
+public class MenuListToTreeUtil<MenuVO extends BaseMenuTreeVO> {
+
+    private MenuListToTreeUtil() {
+    }
+
+    private static class MenuListToTreeUtilInstance {
+        private static final MenuListToTreeUtil INSTANCE = new MenuListToTreeUtil();
+    }
+
+    public static MenuListToTreeUtil getInstance() {
+        return MenuListToTreeUtilInstance.INSTANCE;
+    }
+
     /**
      * 递归处理
      *
      * @param list
      * @return
      */
-    public static List<MenuListVO> listToTree(List<MenuListVO> list) {
-        List<MenuListVO> treeList = new ArrayList<>();
+    public List<MenuVO> listToTree(List<MenuVO> list) {
+        List<MenuVO> treeList = new ArrayList<>();
         if (list == null || list.size() == 0) {
             return null;
         }
-        for (MenuListVO tree : list) {
+        for (MenuVO tree : list) {
             if (tree.getPid() == 0) {
                 treeList.add(findChildren(tree, list));
             }
@@ -32,8 +46,8 @@ public class ListToTreeUtil {
         return treeList;
     }
 
-    private static MenuListVO findChildren(MenuListVO tree, List<MenuListVO> list) {
-        for (MenuListVO node : list) {
+    private MenuVO findChildren(MenuVO tree, List<MenuVO> list) {
+        for (MenuVO node : list) {
             if (node.getPid().equals(tree.getId())) {
                 if (null == tree.getChildren()) {
                     tree.setChildren(new ArrayList<>());

@@ -2,9 +2,8 @@ package com.stopboot.admin.mapper.mybatis;
 
 import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SbTestMapper {
     int countByExample(SbTestExample example);

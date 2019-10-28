@@ -1,11 +1,17 @@
 package com.stopboot.admin.controller.system.permission;
 
+import com.stopboot.admin.common.FailCodeAndMsg;
 import com.stopboot.admin.common.ResultData;
 import com.stopboot.admin.model.menu.list.MenuListParams;
 import com.stopboot.admin.model.menu.list.MenuListVO;
-import com.stopboot.admin.service.menu.MenuServiceI;
+import com.stopboot.admin.model.system.permission.add.PermissionAddParams;
+import com.stopboot.admin.model.system.permission.list.PermissionMenuListParams;
+import com.stopboot.admin.model.system.permission.list.PermissionMenuListVO;
+import com.stopboot.admin.service.system.menu.MenuServiceI;
+import com.stopboot.admin.service.system.permission.PermissionServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +28,16 @@ import java.util.List;
  **/
 @Slf4j
 @RestController
-@RequestMapping("permission")
+@RequestMapping("system/permission")
 public class PermissionController {
 
     @Resource
-    private MenuServiceI menuServiceI;
+    private PermissionServiceI permissionService;
 
-    @PostMapping("menu/list")
-    public ResultData<MenuListVO> menuList(@RequestBody MenuListParams params) {
+    @PostMapping("list")
+    public ResultData<PermissionMenuListVO> menuList(@RequestBody PermissionMenuListParams params) {
         ResultData resultData = ResultData.build();
-        List<MenuListVO> menuTreeList = menuServiceI.list(params);
+        List<PermissionMenuListVO> menuTreeList = permissionService.permissionMenuList(params);
         if (!ObjectUtils.isEmpty(menuTreeList)) {
             resultData.success().setData(menuTreeList);
         } else {
@@ -40,4 +46,22 @@ public class PermissionController {
         return resultData;
     }
 
+
+    /**
+     * 添加
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("add")
+    public ResultData add(@Validated @RequestBody PermissionAddParams params) {
+        ResultData resultData = ResultData.build();
+        boolean flag = permissionService.add(params);
+        if (flag) {
+            resultData.success();
+        } else {
+            resultData.fail().setFailCode(FailCodeAndMsg.FAIL_CODE_ADD).setFailMsg(FailCodeAndMsg.FAIL_MSG_ADD);
+        }
+        return resultData;
+    }
 }

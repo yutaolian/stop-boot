@@ -15,13 +15,13 @@
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
         <!--自动以生成注释-->
-        <commentGenerator type="com.gaosiedu.live.mybatis.MyCommentGenerator">
+        <!--        <commentGenerator type="com.gaosiedu.live.mybatis.MyCommentGenerator">-->
+        <!--        </commentGenerator>-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!--		<commentGenerator>
-                    <property name="suppressDate" value="true" />
-                    &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;
-                    <property name="suppressAllComments" value="true" />
-                </commentGenerator>-->
         <!-- 数据库链接URL、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/stop_boot" userId="root"
@@ -51,11 +51,12 @@
 
         <!--mvn stop-boot-admin mybatis-generator:generate-->
         <!-- 生成模型的包名和位置 -->
-<!--        <table tableName="sb_dept"></table>-->
-<!--        <table tableName="sb_admin"></table>-->
-<!--        <table tableName="sb_menu"></table>-->
-<!--        <table tableName="sb_role"></table>-->
-        <table tableName="sb_test"></table>
+        <!--        <table tableName="sb_dept"></table>-->
+        <!--        <table tableName="sb_admin"></table>-->
+        <!--        <table tableName="sb_menu"></table>-->
+        <!--        <table tableName="sb_role"></table>-->
+<!--        <table tableName="sb_admin_roles"></table>-->
+        <table tableName="sb_menu_permissions"></table>
 
     </context>
 </generatorConfiguration>

@@ -237,6 +237,12 @@
             </activation>
         </profile>
         <profile>
+            <id>dev1</id>
+            <properties>
+                <env>dev1</env>
+            </properties>
+        </profile>
+        <profile>
             <id>test</id>
             <properties>
                 <env>test</env>

@@ -30,7 +30,7 @@
                   v-if="scope.row.pid != 0 && scope.row.component != 'Layout' && scope.row.component != 'Empty'">
           <el-tag
             :key="scope.row.id+tag"
-            v-for="tag in dynamicTags"
+            v-for="tag in scope.row.permissions"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)">
@@ -64,6 +64,7 @@
   .el-tag + .el-tag {
     margin-left: 10px;
   }
+
   .button-new-tag {
     margin-left: 10px;
     height: 32px;
@@ -71,6 +72,7 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
@@ -79,10 +81,10 @@
 </style>
 
 <script>
-    import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+    import {PermissionListRequest} from '@/sdk/api/system/permission/list'
 
     export default {
-        name: 'MenuList',
+        name: 'PermissionListTable',
         data() {
             return {
                 tableKey: 0,
@@ -100,9 +102,8 @@
         methods: {
             loadData() {
                 this.listLoading = true
-                var request = new MenuListRequest()
-                request.setUserId(7919)
-                menuList(request).then(res => {
+                let request = new PermissionListRequest()
+                request.api().then(res => {
                     this.listLoading = false
                     console.log("res", res)
                     this.tableData = res;
@@ -110,6 +111,8 @@
             },
 
             handleClose(tag) {
+
+                alert(tag + ":delete");
                 this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
             },
 

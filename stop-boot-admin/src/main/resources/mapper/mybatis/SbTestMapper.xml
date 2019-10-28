@@ -110,7 +110,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -128,13 +128,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.stopboot.admin.entity.SbTest" >
-    insert into sb_test (id, name, age,
-      birthday, create_time, status,
-      head_img, delete_flag, update_time,
+    insert into sb_test (id, name, age, 
+      birthday, create_time, status, 
+      head_img, delete_flag, update_time, 
       info)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
-      #{birthday,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
-      #{headImg,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{headImg,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{info,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.stopboot.admin.entity.SbTest" >

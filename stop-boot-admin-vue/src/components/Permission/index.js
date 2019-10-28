@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import store from '@/store'
 // 删除节点dom
 const remove = (el) => el.parentNode.removeChild(el)
 
@@ -16,9 +15,10 @@ const permission = Vue.directive('permission', {
     }
     /**
      * 判断条件
-     * access 为用户拥有的权限列表
+     * access 为用户菜单拥有的权限列表
      */
-    let access = store.getters.permissions;
+    let access = vNode.context.$route.meta.permission;
+    console.log("access====",access);
     if (value.some(v => !access.includes(v))) {
       remove(el)
     }

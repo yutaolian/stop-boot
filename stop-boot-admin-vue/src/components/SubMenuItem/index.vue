@@ -55,7 +55,7 @@
                 if (isExternal(this.basePath)) {
                     return this.basePath
                 }
-                console.log("this.basePath", this.basePath, "routePath", routePath, "path", path.resolve(this.basePath, routePath))
+                // console.log("this.basePath", this.basePath, "routePath", routePath, "path", path.resolve(this.basePath, routePath))
                 return path.resolve(this.basePath, routePath)
             }
         }
