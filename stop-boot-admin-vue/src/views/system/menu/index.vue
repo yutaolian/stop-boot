@@ -52,7 +52,7 @@
         <template slot-scope="scope">
           <el-dropdown @command='handledropdownCommand'>
             <el-button type="primary" size="small">
-              更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+              更多<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item :command='{type:"add",index:scope.$index,row:scope.row}'>新增</el-dropdown-item>
@@ -62,7 +62,6 @@
               <el-dropdown-item v-if="scope.row.pid != 0">
                 <router-link :to="{ path: '/utils/generator', query: { menuId: scope.row.id}}">生成代码</router-link>
               </el-dropdown-item>
-
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -77,7 +76,7 @@
 <script>
     import waves from '@/directive/waves' // waves directive
     import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-    import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+    import {MenuListRequest} from '@/sdk/api/system/menu/list'
     import addDialog from './add'
     import editDialog from './edit'
 
@@ -160,25 +159,24 @@
                 this.$refs.editDialog.dialogVisible = true;
                 this.propdata = row;
             },
-            handledropdownCommand(data){
-              if(!data)return;
-              let {type,index,row} = data;
-              switch (type) {
-                case 'add':
-                  this.addNode(index, row)
-                  break;
-                case 'edit':
-                  this.editNode(index, row)
-                  break;
-                default:
-                  break;
-              }
+            handledropdownCommand(data) {
+                if (!data) return;
+                let {type, index, row} = data;
+                switch (type) {
+                    case 'add':
+                        this.addNode(index, row)
+                        break;
+                    case 'edit':
+                        this.editNode(index, row)
+                        break;
+                    default:
+                        break;
+                }
             },
             getList() {
                 this.listLoading = true
-                var request = new MenuListRequest()
-                request.setUserId(7919)
-                menuList(request).then(res => {
+                let request = new MenuListRequest()
+                request.api().then(res => {
                     this.listLoading = false
                     this.tableData = res;
                 })

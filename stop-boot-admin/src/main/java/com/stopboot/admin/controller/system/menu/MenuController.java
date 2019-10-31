@@ -31,6 +31,11 @@ public class MenuController {
     @Resource
     private MenuServiceI menuService;
 
+    /**
+     * 根据用户id获得用户可显示的菜单列表
+     * @param params
+     * @return
+     */
     @PostMapping("list")
     public ResultData<MenuListVO> list(@Validated @RequestBody MenuListParams params) {
         ResultData resultData = ResultData.build();
@@ -42,6 +47,4 @@ public class MenuController {
         }
         return resultData;
     }
-
-//    List<MenuListVO> list(MenuListParams params) {
 }

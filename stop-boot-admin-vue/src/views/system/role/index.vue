@@ -1,23 +1,39 @@
 <template>
   <div class="app-container">
+    <!--分页过滤条件-->
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"/>
-      <el-input v-model="listQuery.title" placeholder="tag" style="width: 200px;" class="filter-item"/>
-      <el-button class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" size="small" round>
-        搜索
-      </el-button>
-      <el-button class="filter-item" type="success" icon="el-icon-plus" @click="handleCreate" size="small" round>
-        新增
-      </el-button>
+      <el-form ref="filterForm" :model="tableQuery">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item prop="name" label="name">
+              <el-input v-model="tableQuery.name" placeholder="name" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="tag" label="tag">
+              <el-input v-model="tableQuery.tag" placeholder="tag" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <!--@click="cleanFilter"-->
+          <el-col :span="4">
+            <el-form-item label=" ">
+              <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+              <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+              <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
     <el-row>
-      <el-col :span="12">
-
+      <el-col :span="10">
+        <!--表格-->
         <el-table
           :key="tableKey"
-          v-loading="listLoading"
-          :data="list"
+          v-loading="tableLoading"
+          :data="tableData"
           border
           stripe
           empty-text
@@ -25,229 +41,341 @@
           highlight-current-row
           style="width: 100%;"
         >
-
-          <el-table-column type="expand">
-            <template slot-scope="scope">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="ID">
-                  <span>{{ scope.row.id }}</span>
-                </el-form-item>
-                <el-form-item label="角色描述">
-                  <span>{{ scope.row.description }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="ID" prop="id" align="center" width="80">
+          <el-table-column label="id" prop="id" align="center" width="60px">
             <template slot-scope="scope">
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="角色名称" align="center">
+          <el-table-column label="name" prop="name" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.name}}</span>
+              <el-link type="primary" @click="roleSelected(scope.row)">{{ scope.row.name }}</el-link>
             </template>
           </el-table-column>
-          <el-table-column label="角色tag" align="center">
+          <!--      <el-table-column label="description" prop="description" align="center">-->
+          <!--        <template slot-scope="scope">-->
+          <!--          <span>{{ scope.row.description }}</span>-->
+          <!--        </template>-->
+          <!--      </el-table-column>-->
+          <el-table-column label="tag" prop="tag" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.tag}}</span>
+              <span>{{ scope.row.tag }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="center">
+          <el-table-column label="状态" prop="status" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.status}}</span>
+              <el-switch
+                v-model="scope.row.status"
+                active-text="激活"
+                inactive-text="冻结"
+                active-value="1"
+                inactive-value="0">
+              </el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
-            <template slot-scope="{row}">
-              <el-button type="primary" size="mini" @click="handleUpdate(row)">
-                Edit
-              </el-button>
-              <el-button v-if="row.status!='deleted'" size="mini" type="danger"
-                         @click="handleModifyStatus(row,'deleted')">
-                Delete
-              </el-button>
+          <!--      <el-table-column label="createTime" prop="createTime" align="center">-->
+          <!--        <template slot-scope="scope">-->
+          <!--          <span>{{ scope.row.createTime }}</span>-->
+          <!--        </template>-->
+          <!--      </el-table-column>-->
+          <!--      <el-table-column label="updateTime" prop="updateTime" align="center">-->
+          <!--        <template slot-scope="scope">-->
+          <!--          <span>{{ scope.row.updateTime }}</span>-->
+          <!--        </template>-->
+          <!--      </el-table-column>-->
+
+          <el-table-column label="操作" align="center" width="100px">
+            <template slot-scope="scope">
+              <el-dropdown @command='handledropdownCommand' trigger="click">
+                <el-button type="primary" size="small">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command='{type:"edit",index:scope.$index,row:scope.row}'>编辑</el-dropdown-item>
+                  <el-dropdown-item :command='{type:"delete",index:scope.$index,row:scope.row}'>删除</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.pageSize"
-                    @pagination="getList"/>
 
       </el-col>
-
-      <el-col :span="12">
+      <el-col :span="14">
         <div style="margin-left: 20px;">
           <el-tabs type="border-card">
-<!--            <el-tab-pane>-->
-<!--              <span slot="label"><i class="el-icon-date"></i> 菜单分配</span>-->
-<!--              <el-tree-->
-<!--                :data="data"-->
-<!--                default-expand-all-->
-<!--                show-checkbox-->
-<!--                node-key="id"-->
-<!--                :default-expanded-keys="[2, 3]"-->
-<!--                :default-checked-keys="[5]"-->
-<!--                :props="defaultProps">-->
-<!--              </el-tree>-->
-
-<!--              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存</el-button>-->
-<!--            </el-tab-pane>-->
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i> 菜单权限分配</span>
+              <span slot="label"><i class="el-icon-date"></i>菜单权限分配</span>
               <el-row>
                 <el-col :span="8">
-              <el-tree
-                :data="menuTreeData"
-                default-expand-all
-                show-checkbox
-                node-key="id"
-                :default-expanded-keys="[1, 3]"
-                :default-checked-keys="[5]"
-                :props="defaultProps">
-              </el-tree>
+                  <el-tree
+                    :data="menuTreeData"
+                    ref="menuTree"
+                    highlight-current
+                    default-expand-all
+                    show-checkbox
+                    node-key="id"
+                    :props="defaultProps"
+                    @check="handleMenuTreeNodeClick">
+                  </el-tree>
                 </el-col>
                 <el-col :span="16">
-              <template>
-                <el-transfer v-model="value"
-                             :titles="['未分配权限', '已分配权限']"
-                             :data="transferData"></el-transfer>
-              </template>
+                  <template>
+                    <el-transfer v-model="selectedPermission"
+                                 :titles="['未分配权限', '已分配权限']"
+                                 :data="transferData"
+                                 :props="{
+                                    key: 'id',
+                                    label: 'tagName'
+                                  }"
+                    ></el-transfer>
+                  </template>
                 </el-col>
               </el-row>
-              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存2</el-button>
+              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
+                         @click="saveRoleMenuAndPermission">保存
+              </el-button>
             </el-tab-pane>
           </el-tabs>
 
         </div>
       </el-col>
     </el-row>
+    <!--分页组件-->
+    <pagination v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+                @pagination="loadData"/>
 
+    <!--新增组件-->
+    <create-form ref="createForm" :rowData='createRowData' @loadData="loadData"></create-form>
+
+    <!--编辑组件-->
+    <edit-form ref="editForm" :rowData='editRowData' @loadData="loadData"></edit-form>
 
   </div>
 </template>
 
 <script>
-    import {RolePageRequest, rolePage} from '@/sdk/api/role/page'
-    import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+    //分页组件
+    import Pagination from '@/components/Pagination'
+    //新增组件
+    import createForm from './create'
+    //编辑组件
+    import editForm from './edit'
+    //Role page 接口
+    import {RolePageRequest} from '@/sdk/api/system/role/page'
+    //Role delete 接口
+    import {RoleDeleteRequest} from '@/sdk/api/system/role/delete'
+
+    //router菜单列表
+    import {MenuListRequest} from '@/sdk/api/system/menu/list'
+    //
     import {PermissionListRequest} from '@/sdk/api/system/permission/list'
-    import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+
+    import {RoleMenuRequest} from '@/sdk/api/system/role/menu'
+
+    import {RoleRequest} from '@/sdk/api/system/role'
+
+    import {RolePermissionRequest} from '@/sdk/api/system/role/permission'
+
+    import {RoleSaveRequest} from '@/sdk/api/system/role/save'
 
     export default {
-        name: 'RolePageTable',
-        components: {Pagination},
+        name: 'Role-Table',
+        components: {Pagination, createForm, editForm},
         data() {
-            const generateData = _ => {
-                const data = [];
-                for (let i = 1; i <= 5; i++) {
-                    data.push({
-                        key: i,
-                        label: `备选项 ${ i }`,
-                        disabled: i % 3 === 0
-                    });
-                }
-                return data;
-            };
             return {
-                transferData: generateData(),
-                value: [1, 4],
-                tableKey: 0,
-                list: null,
+                tableKey: 'Role',
+                tableData: null,
                 total: 0,
-                listLoading: true,
-                listQuery: {
+                tableLoading: true,
+                tableQuery: {
                     pageNum: 1,
                     pageSize: 10,
-                    importance: undefined,
-                    title: undefined,
-                    type: undefined,
-                    sort: '+id',
-                    status: undefined
+                    name: undefined,
+                    tag: undefined,
                 },
-                importanceOptions: [1, 2, 3],
-                showReviewer: false,
-                temp: {
-                    id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    type: '',
-                    status: 'published'
+                menuQuery: {
+                    roleId: undefined
                 },
                 dialogFormVisible: false,
-                dialogStatus: '',
-                textMap: {
-                    update: 'Edit',
-                    create: 'Create'
-                },
-                dialogPvVisible: false,
-                pvData: [],
-                rules: {
-                    type: [{required: true, message: 'type is required', trigger: 'change'}],
-                    timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
-                    title: [{required: true, message: 'title is required', trigger: 'blur'}]
-                },
-                downloadLoading: false,
-                filterText: '',
+                editRowData: {},
+                createRowData: {},
                 menuTreeData: [],
+                transferData: [],
                 defaultProps: {
                     children: 'children',
                     label: 'title'
                 },
-            };
+                selectedPermission: [],
+                selectedMenus: []
+            }
+
+
         },
         created() {
-            this.getList()
+            this.loadData();
         },
         methods: {
-            getList() {
-                this.listLoading = true
-                var request = new RolePageRequest()
-                request.setUserId(7919)
-                request.setPageNum(this.listQuery.pageNum)
-                request.setPageSize(this.listQuery.pageSize)
-                rolePage(request).then(res => {
-                    this.listLoading = false
-                    this.list = res['list']
-                    this.total = res['total']
-                })
-
-                let request2 = new PermissionListRequest()
-                request2.api().then(res => {
-                    this.listLoading = false
-                    console.log("res", res)
-                    this.menuTreeData = res;
-                })
-            },
-            handleCreate() {
-                this.resetTemp()
-                this.dialogStatus = 'create'
-                this.dialogFormVisible = true
+            loadData() {
                 this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
+                    this.tableLoading = true
+                    let request = new RolePageRequest();
+                    request.setParams(this.tableQuery);
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res['list']
+                        this.total = res['total']
+                    })
+                })
+                //加载菜单
+                this.$nextTick(() => {
+                    let request2 = new PermissionListRequest()
+                    request2.setParams(this.menuQuery).api().then(res => {
+                        this.menuTreeData = res;
+                    })
                 })
             },
-            createData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-                        this.temp.author = 'vue-element-admin'
+            loadMenuAndPermission() {
+                this.$nextTick(() => {
+                    if (this.menuQuery.roleId != undefined) {
+                        //获得已选菜单
+                        let request = new RoleMenuRequest()
+                        request.setParams(this.menuQuery).api().then(res => {
+                            console.log(" RolePermissionRequest res :", res)
+                            this.selectedMenus = res;
+                            this.$refs['menuTree'].setCheckedKeys(this.selectedMenus);
+                            //获取选中菜单的全部权限
+                            let node = this.$refs['menuTree'].getCheckedNodes();
+                            let tempData = [];
+                            node.forEach((item, index, arr) => {
+                                if (item.permissions != undefined) {
+                                    tempData = tempData.concat(item.permissions);
+                                }
+                            })
+                            this.transferData = tempData;
+                        })
+                        //获得已有权限
+                        let request3 = new RolePermissionRequest()
+                        request3.setParams(this.menuQuery).api().then(res => {
+                            console.log("res RolePermissiontRequest", res)
+                            this.selectedPermission = res
+                        })
                     }
                 })
             },
-            handleUpdate(row) {
-                this.temp = Object.assign({}, row) // copy obj
-                this.temp.timestamp = new Date(this.temp.timestamp)
-                this.dialogStatus = 'update'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
+            handleFilter() {
+                this.tableQuery.pageNum = 1
+                this.loadData()
             },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.label.indexOf(value) !== -1;
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadData()
+            },
+            preCreate() {
+                this.$refs.createForm.dialogFormVisible = true
+            },
+            preEdit(row) {
+                this.editRowData = Object.assign({}, row)
+                this.$refs.editForm.dialogFormVisible = true
+            },
+            handleDelete(row) {
+                this.$confirm('确认删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let request = new RoleDeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'error',
+                        message: '删除错误'
+                    });
+                });
+            },
+            handledropdownCommand(data) {
+                if (!data) return;
+                let {type, index, row} = data;
+                switch (type) {
+                    case 'delete':
+                        this.handleDelete(row)
+                        break;
+                    case 'edit':
+                        this.preEdit(row)
+                        break;
+                    default:
+                        break;
+                }
+            },
+            handleMenuTreeNodeClick(data, checked, indeterminate) {
+                let node = this.$refs['menuTree'].getCheckedNodes();
+                let tempData = [];
+                node.forEach((item, index, arr) => {
+                    if (item.permissions != undefined) {
+                        tempData = tempData.concat(item.permissions);
+                    }
+                })
+                this.transferData = tempData;
+            },
+            roleSelected(row) {
+                this.menuQuery.roleId = row.id;
+                this.loadMenuAndPermission();
+                console.log("xxx--this.selectedMenus = res;", this.selectedMenus)
+            },
+            saveRoleMenuAndPermission: function () {
+                console.log("已选 roleId ", this.menuQuery.roleId)
+                console.log("已选 permission ", this.selectedPermission)
+
+                if (this.menuQuery.roleId) {
+                    this.$confirm('确认修改, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '修改成功!'
+                        });
+                        let node = this.$refs['menuTree'].getCheckedNodes(true, true);
+                        console.log("已选 node ", node)
+                        let node2 = this.$refs['menuTree'].getCheckedKeys(true);
+                        console.log("已选 node2 true ", node2)
+
+                        let node23 = this.$refs['menuTree'].getCheckedKeys(false);
+                        console.log("已选 node23 false ", node23)
+
+                        let node24 = this.$refs['menuTree'].getHalfCheckedKeys();
+                        console.log("已选 node24 getHalfCheckedKeys ", node24)
+
+                        let node25 = this.$refs['menuTree'].getHalfCheckedNodes();
+                        console.log("已选 node24 getHalfCheckedNodes ", node25)
+
+                        let menuIds = node.map(n => {
+                            return n.id
+                        });
+                        let request = new RoleSaveRequest();
+                        request.setRoleId(this.menuQuery.roleId);
+                        request.setMenuIds(menuIds);
+                        request.setPermissionIds(this.selectedPermission);
+                        request.api().then(res => {
+                            this.loadMenuAndPermission();
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'error',
+                            message: '保存失败'
+                        });
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: '请选择角色!'
+                    });
+                }
             }
         }
     }

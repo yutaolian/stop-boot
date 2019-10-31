@@ -1,25 +1,21 @@
 package com.stopboot.admin.service.system.permission;
 
+import com.stopboot.admin.base.service.DefaultServiceI;
 import com.stopboot.admin.model.system.permission.add.PermissionAddParams;
-import com.stopboot.admin.model.system.permission.list.PermissionMenuListParams;
-import com.stopboot.admin.model.system.permission.list.PermissionMenuListVO;
+import com.stopboot.admin.model.system.permission.list.PermissionListParams;
+import com.stopboot.admin.model.system.permission.list.PermissionListVO;
+import com.stopboot.admin.model.system.permission.one.PermissionOneParams;
+import com.stopboot.admin.model.system.permission.one.PermissionOneVO;
+import com.stopboot.admin.model.system.permission.page.PermissionPageParams;
+import com.stopboot.admin.model.system.permission.page.PermissionPageVO;
+import com.stopboot.admin.model.system.permission.update.PermissionUpdateParams;
+import com.stopboot.admin.model.system.permission.delete.PermissionDeleteParams;
 
-import java.util.List;
 
-public interface PermissionServiceI {
+public interface PermissionServiceI extends DefaultServiceI<PermissionPageVO, PermissionListVO, PermissionOneVO,
+        PermissionPageParams, PermissionListParams, PermissionOneParams,
+        PermissionAddParams, PermissionUpdateParams, PermissionDeleteParams> {
 
 
-    /**
-     * 权限管理-菜单权限列表
-     * @param params
-     * @return
-     */
-    List<PermissionMenuListVO> permissionMenuList(PermissionMenuListParams params);
 
-    /**
-     *  添加权限
-     * @param params
-     * @return
-     */
-    boolean add(PermissionAddParams params);
 }

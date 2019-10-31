@@ -6,6 +6,8 @@ import com.stopboot.admin.entity.SbTest;
 import com.stopboot.admin.entity.SbTestExample;
 import com.stopboot.admin.base.service.DefaultServiceImpl;
 import com.stopboot.admin.model.test.test1.add.Test1AddParams;
+import com.stopboot.admin.model.test.test1.list.Test1ListVO;
+import com.stopboot.admin.model.test.test1.list.Test1ListParams;
 import com.stopboot.admin.model.test.test1.one.Test1OneParams;
 import com.stopboot.admin.model.test.test1.one.Test1OneVO;
 import com.stopboot.admin.model.test.test1.page.Test1PageParams;
@@ -19,17 +21,17 @@ import org.springframework.util.ObjectUtils;
 /**
  * @description:  Test1 service
  * @author: Lianyutao
- * @create: 2019/10/25 20:09
+ * @create: 2019/10/30 12:17
  * @version: 1.0.1
 **/
 
 @Slf4j
 @Service
 public class Test1ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, SbTestExample,
-                                Test1PageVO, Test1OneVO,
-                                Test1PageParams, Test1OneParams,
-                                Test1AddParams, Test1UpdateParams, Test1DeleteParams>
-                                implements Test1ServiceI {
+        Test1PageVO, Test1ListVO, Test1OneVO,
+        Test1PageParams, Test1ListParams, Test1OneParams,
+        Test1AddParams, Test1UpdateParams, Test1DeleteParams>
+        implements Test1ServiceI {
 
 
     @Override

@@ -2,6 +2,8 @@ package com.stopboot.admin.controller.test.test1;
 
 import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.model.test.test1.add.Test1AddParams;
+import com.stopboot.admin.model.test.test1.list.Test1ListParams;
+import com.stopboot.admin.model.test.test1.list.Test1ListVO;
 import com.stopboot.admin.model.test.test1.one.Test1OneParams;
 import com.stopboot.admin.model.test.test1.one.Test1OneVO;
 import com.stopboot.admin.model.test.test1.page.Test1PageParams;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @description:
  * @author: Lianyutao
- * @create: 2019/10/25 20:09
+ * @create: 2019/10/30 12:17
  * @version: 1.0.1
  **/
 
@@ -24,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test/test1")
 public class Test1Controller extends DefaultController<Test1ServiceI,
-                                Test1PageVO,Test1OneVO,
-                                Test1PageParams, Test1OneParams,
-                                Test1AddParams, Test1UpdateParams, Test1DeleteParams> {
+        Test1PageVO,Test1ListVO,Test1OneVO,
+        Test1PageParams, Test1ListParams,  Test1OneParams,
+        Test1AddParams, Test1UpdateParams, Test1DeleteParams> {
 
 
 }

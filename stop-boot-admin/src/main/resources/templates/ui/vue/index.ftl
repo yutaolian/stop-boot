@@ -2,12 +2,12 @@
     <div class="app-container">
         <!--分页过滤条件-->
         <div class="filter-container">
-            <el-form ref="filterForm" :model="pageQuery">
+            <el-form ref="filterForm" :model="tableQuery">
                 <el-row>
                     <#list tableColumnsData as colum>
                     <el-col :span="4">
                         <el-form-item prop="${colum.camelColumnName}" label="${colum.camelColumnName}">
-                            <el-input v-model="pageQuery.${colum.camelColumnName}" placeholder="${colum.camelColumnName}" style="width: 180px;" class="filter-item"
+                            <el-input v-model="tableQuery.${colum.camelColumnName}" placeholder="${colum.camelColumnName}" style="width: 180px;" class="filter-item"
                                       @keyup.enter.native="handleFilter"/>
                         </el-form-item>
                     </el-col>
@@ -26,8 +26,8 @@
         <!--表格-->
         <el-table
                 :key="tableKey"
-                v-loading="pageLoading"
-                :data="pageData"
+                v-loading="tableLoading"
+                :data="tableData"
                 border
                 stripe
                 empty-text
@@ -48,7 +48,7 @@
                     <el-button type="primary" size="mini" @click="preEdit(row)">
                         Edit
                     </el-button>
-                    <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
+                    <el-button size="mini" type="danger" @click="handleDelete(row)">
                         Delete
                     </el-button>
                 </template>
@@ -56,38 +56,40 @@
         </el-table>
 
         <!--分页组件-->
-        <pagination v-show="total>0" :total="total" :page.sync="pageQuery.pageNum" :limit.sync="pageQuery.pageSize"
-                    @pagination="loadPageData"/>
+        <pagination v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+                    @pagination="loadData"/>
 
         <!--新增组件-->
-        <create-form ref="createForm"></create-form>
+        <create-form ref="createForm" :rowData='createRowData'  @loadData="loadData"></create-form>
 
         <!--编辑组件-->
-        <edit-form ref="editForm" :editRowData='editRowData'></edit-form>
+        <edit-form ref="editForm" :rowData='editRowData'  @loadData="loadData"></edit-form>
 
     </div>
 </template>
 
 <script>
+    //分页组件
     import Pagination from '@/components/Pagination'
     //新增组件
     import createForm from './create'
     //编辑组件
     import editForm from './edit'
-    //接口
+    //${model?cap_first} page 接口
     import {${model?cap_first}PageRequest} from '@${jsSdkConfigPath}${fullPath}/page'
-
+    //${model?cap_first} delete 接口
+    import {${model?cap_first}DeleteRequest} from '@${jsSdkConfigPath}${fullPath}/delete'
 
     export default {
-        name: '${model?cap_first}PageTable',
+        name: '${model?cap_first}-Table',
         components: {Pagination, createForm, editForm},
         data() {
             return {
                 tableKey: '${model?cap_first}',
-                pageData: null,
+                tableData: null,
                 total: 0,
-                pageLoading: true,
-                pageQuery: {
+                tableLoading: true,
+                tableQuery: {
                     pageNum: 1,
                     pageSize: 10,
                     <#list tableColumnsData as colum>
@@ -95,32 +97,35 @@
                     </#list>
                 },
                 dialogFormVisible: false,
-                editRowData: {}
+                editRowData: {},
+                createRowData:{}
             }
         },
         filters: {},
         created() {
-            this.loadPageData()
+            this.loadData()
         },
         methods: {
-            loadPageData() {
-                this.pageLoading = true
-                let request = new ${model?cap_first}PageRequest();
-                request.setParams(this.pageQuery);
-                request.api().then(res => {
-                    this.pageLoading = false
-                    this.pageData = res['list']
-                    this.total = res['total']
-                    console.log("${model?cap_first} page data res:", res)
+            loadData() {
+                this.$nextTick(() => {
+                    this.tableLoading = true
+                    let request = new ${model?cap_first}PageRequest();
+                    request.setParams(this.tableQuery);
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res['list']
+                        this.total = res['total']
+                        console.log("${model?cap_first} tableData res:", res)
+                    })
                 })
             },
             handleFilter() {
-                this.pageQuery.pageNum = 1
-                this.loadPageData()
+                this.tableQuery.pageNum = 1
+                this.loadData()
             },
             cleanFilter() {
                 this.$refs['filterForm'].resetFields();
-                this.loadPageData()
+                this.loadData()
             },
             preCreate() {
                 this.$refs.createForm.dialogFormVisible = true
@@ -135,12 +140,14 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                    const index = this.pageData.indexOf(row)
-                    this.pageData.splice(index, 1)
+                    let request = new ${model?cap_first}DeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',

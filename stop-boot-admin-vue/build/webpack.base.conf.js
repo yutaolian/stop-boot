@@ -38,8 +38,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        // loader: 'babel-loader',
+        loader: 'happypack/loader?id=happyBabel',
+        // include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+        include: [resolve('src')],
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

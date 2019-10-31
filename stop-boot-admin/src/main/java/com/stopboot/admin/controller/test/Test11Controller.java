@@ -1,17 +1,8 @@
 package com.stopboot.admin.controller.test;
 
-import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.test.add.TestAddParams;
-import com.stopboot.admin.model.test.delete.TestDeleteParams;
-import com.stopboot.admin.model.test.one.TestOneParams;
-import com.stopboot.admin.model.test.one.TestOneVO;
 import com.stopboot.admin.model.test.list.TestListParams;
 import com.stopboot.admin.model.test.list.TestListVO;
-import com.stopboot.admin.model.test.page.TestPageParams;
-import com.stopboot.admin.model.test.page.TestPageVO;
-import com.stopboot.admin.model.test.update.TestUpdateParams;
-import com.stopboot.admin.service.admin.AdminServiceI;
 import com.stopboot.admin.service.test.TestServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -33,13 +24,11 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("test/test11")
-public class Test11Controller extends DefaultController<TestServiceI, TestPageVO, TestOneVO, TestPageParams, TestOneParams, TestAddParams, TestUpdateParams, TestDeleteParams> {
+public class Test11Controller extends com.stopboot.admin.base.controller.AbstractBaseController {
 
     @Resource
     private TestServiceI testService;
 
-    @Resource
-    private AdminServiceI adminServiceI;
 
     /**
      * @param params
@@ -48,7 +37,7 @@ public class Test11Controller extends DefaultController<TestServiceI, TestPageVO
     @PostMapping("list")
     public ResultData<TestListVO> list(@Validated @RequestBody TestListParams params) {
         ResultData resultData = ResultData.build();
-        List<TestListVO> testPage = adminServiceI.list(params);
+        List<TestListVO> testPage = null;//testService.list(params);
         if (testPage != null) {
             resultData.success(testPage);
         } else {

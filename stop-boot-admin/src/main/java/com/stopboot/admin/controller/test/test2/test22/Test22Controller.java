@@ -5,7 +5,6 @@ package com.stopboot.admin.controller.test.test2.test22;/**
  * @description:
  **/
 
-import com.stopboot.admin.base.controller.DefaultController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +21,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("test/test2/test22")
-public class Test22Controller extends DefaultController {
+public class Test22Controller extends com.stopboot.admin.base.controller.AbstractBaseController {
 }

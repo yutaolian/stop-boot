@@ -6,6 +6,7 @@ import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.ClassUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,19 +16,70 @@ import java.util.List;
  * @version:
  **/
 @Service
-public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
-        PageParams extends BasePageParams, OneParams extends BaseParams,
-        AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
+public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, OneVO, PageParams extends BasePageParams,
+        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams>
         extends BaseServiceImpl<DBMapper, DBRecord, DBExample>
-        implements DefaultServiceI<PageVO, OneVO, PageParams, OneParams, AddParams, UpdateParams, DeleteParams> {
+        implements DefaultServiceI<PageVO, ListVO, OneVO, PageParams, ListParams, OneParams, AddParams, UpdateParams, DeleteParams> {
 
     private static final int DBRECORD_INDEX = 1;
     private static final int PAGEVO_INDEX = 3;
-    private static final int ONEVO_INDEX = 4;
+    private static final int LIST_VO_INDEX = 4;
+    private static final int ONEVO_INDEX = 5;
 
     private Class<?> getClass(Integer index) {
         return ClassUtil.getClass(getClass(), index);
     }
+
+    /**
+     * 列表
+     * 多条件查询需要子类重写
+     *
+     * @param params
+     * @return
+     */
+    @Override
+    public List<ListVO> list(ListParams params) {
+        return new ArrayList<>();
+    }
+
+    /**
+     * 列表
+     * 多条件查询需要子类重写
+     *
+     * @param params
+     * @return
+     */
+    @Override
+    public List<ListVO> listWithBLOBs(ListParams params) {
+        return new ArrayList<>();
+    }
+
+
+    /**
+     * 多条件查询 list
+     * 含 Example 方法对外隐藏
+     *
+     * @param example
+     * @return
+     */
+    public List<ListVO> listByExample(DBExample example) {
+        List<DBRecord> records = this.selectByExample(example);
+        List<ListVO> listVOS = (List<ListVO>) BeansHelper.getInstance().convert(records, getClass(LIST_VO_INDEX));
+        return listVOS;
+    }
+
+    /**
+     * 多条件查询 list
+     *
+     * @param example
+     * @return
+     */
+    public List<ListVO> listByExampleWithBLOBs(DBExample example) {
+        List<DBRecord> records = this.selectByExampleWithBLOBs(example);
+        List<ListVO> listVOS = (List<ListVO>) BeansHelper.getInstance().convert(records, getClass(LIST_VO_INDEX));
+        return listVOS;
+    }
+
 
     /**
      * 删除
@@ -38,6 +90,11 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
     @Override
     public boolean delete(Integer id) {
         return this.deleteByPrimaryKey(id) > 0 ? true : false;
+    }
+
+    @Override
+    public boolean delete(DeleteParams deleteParams) {
+        return this.deleteByPrimaryKey(deleteParams.getId()) > 0 ? true : false;
     }
 
     /**
@@ -208,5 +265,6 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, OneVO,
             return null;
         }
     }
+
 
 }

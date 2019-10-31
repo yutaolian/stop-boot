@@ -2,23 +2,19 @@ import {api} from '@/sdk/api/httpConfig'
 
 export class MenuListRequest {
   constructor() {
-    this.data = {
-      userId: undefined
+    this.params = {
+
     }
   }
 
-  setUserId(userId) {
-    this.data.userId = userId
+  api() {
+    const path = '/system/menu/list'
+    return new Promise(resolve => {
+      api(path, this.params)
+        .then(response => {
+          resolve(response)
+        })
+    })
   }
 }
 
-export function menuList(request) {
-  let data = request.data
-  const path = '/system/menu/list'
-  return new Promise(resolve => {
-    api(path, data)
-      .then(response => {
-        resolve(response)
-      })
-  })
-}

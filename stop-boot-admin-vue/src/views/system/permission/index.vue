@@ -1,6 +1,8 @@
 <template>
   <div class="app-container">
+    <!--表格-->
     <el-table
+      v-loading="tableLoading"
       :data="tableData"
       style="width: 100%;margin-bottom: 20px;"
       row-key="id"
@@ -13,87 +15,86 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单标题" prop="title">
+      <el-table-column label="菜单标题" prop="title" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="菜单FullPath" prop="title" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.fullPath }}</span>
+        </template>
+      </el-table-column>
 
-      <el-table-column label="菜单组件" prop="component">
+      <el-table-column label="菜单组件" prop="component" align="center" width="350">
         <template slot-scope="scope">
           <span>{{ scope.row.component }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="按钮权限tagName" prop="tags">
+      <el-table-column label="权限" align="center">
         <template slot-scope="scope"
-                  v-if="scope.row.pid != 0 && scope.row.component != 'Layout' && scope.row.component != 'Empty'">
-          <el-tag
-            :key="scope.row.id+tag"
-            v-for="tag in scope.row.permissions"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)">
-            {{tag}}
-          </el-tag>
-          <el-input
-            class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-          >
-          </el-input>
-          <el-button v-else class="button-new-tag" size="small" @click="showInput">添加</el-button>
+                  v-if="scope.row.flag == true">
+          <el-table
+            :data="scope.row.permissions">
+            <el-table-column
+              prop="tagName"
+              label="tag名称">
+            </el-table-column>
+            <el-table-column
+              prop="tag"
+              label="tag">
+            </el-table-column>
+            <el-table-column
+              label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" size="small" @click="preEdit(scope.row)">编辑</el-button>
+                <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </template>
       </el-table-column>
-
-      <!--      <el-table-column label="操作" prop="sort" align="center">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" size="mini" round>新增</el-button>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+      <el-table-column label="操作" prop="sort" align="center" width="120">
+        <template slot-scope="scope" v-if="scope.row.flag == true">
+          <el-button type="primary" size="small" @click="preCreate(scope.row)">添加权限</el-button>
+        </template>
+      </el-table-column>
     </el-table>
+    <!--新增组件-->
+    <create-form ref="createForm" :rowData="createRowData" @loadData="loadData"></create-form>
+
+    <!--编辑组件-->
+    <edit-form ref="editForm" :rowData='editRowData' @loadData="loadData"></edit-form>
+
   </div>
 </template>
 
-
-<style>
-  .el-tag + .el-tag {
-    margin-left: 10px;
-  }
-
-  .button-new-tag {
-    margin-left: 10px;
-    height: 32px;
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .input-new-tag {
-    width: 90px;
-    margin-left: 10px;
-    vertical-align: bottom;
-  }
-</style>
-
 <script>
+    //新增组件
+    import createForm from './create'
+    //编辑组件
+    import editForm from './edit'
+    //接口
     import {PermissionListRequest} from '@/sdk/api/system/permission/list'
 
+    import {PermissionDeleteRequest} from '@/sdk/api/system/permission/delete'
+
     export default {
-        name: 'PermissionListTable',
+        name: 'PermissionPageTable',
+        components: {createForm, editForm},
         data() {
             return {
-                tableKey: 0,
-                list: null,
-                listLoading: true,
+                tableKey: 'Permission',
                 tableData: null,
-                dynamicTags: ['标签一', '标签二', '标签三'],
-                inputVisible: false,
-                inputValue: ''
+                tableLoading: true,
+                dialogFormVisible: false,
+                editRowData: {},
+                createRowData: {
+                    menuId: undefined,
+                    tagPrefix: undefined,
+                    tagNamePrefix: undefined
+                }
             }
         },
         created() {
@@ -101,35 +102,47 @@
         },
         methods: {
             loadData() {
-                this.listLoading = true
-                let request = new PermissionListRequest()
-                request.api().then(res => {
-                    this.listLoading = false
-                    console.log("res", res)
-                    this.tableData = res;
+                this.$nextTick(() => {
+                    this.tableLoading = true
+                    let request = new PermissionListRequest();
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res
+                    })
                 })
             },
-
-            handleClose(tag) {
-
-                alert(tag + ":delete");
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            preCreate(row) {
+                this.createRowData = Object.assign({}, row)
+                this.createRowData.tagPrefix = "P" + row.fullPath.replace(/\//g, '\_').toUpperCase() + "_";
+                this.createRowData.tagNamePrefix = row.title + "_";
+                this.createRowData.menuId = row.id;
+                this.$refs.createForm.dialogFormVisible = true
             },
-
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
+            preEdit(row) {
+                this.editRowData = Object.assign({}, row)
+                this.$refs.editForm.dialogFormVisible = true
+            },
+            handleDelete(row) {
+                this.$confirm('确认删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let request = new PermissionDeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
+                }).catch((err) => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                    console.log("err:", err);
                 });
-            },
-
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    this.dynamicTags.push(inputValue);
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
             }
         }
     }

@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BasePageParams extends BaseParams {
 
-
     @NotNull
     @Max(Integer.MAX_VALUE)
     private Integer pageNum;

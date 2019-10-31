@@ -6,6 +6,8 @@ import ${entityPackage}.${tableName?cap_first};
 import ${entityExamplePackage}.${tableName?cap_first}Example;
 import ${basePackage}.base.service.DefaultServiceImpl;
 import ${basePackage}.model${fullPathToPackage}.add.${model?cap_first}AddParams;
+import ${basePackage}.model${fullPathToPackage}.list.${model?cap_first}ListVO;
+import ${basePackage}.model${fullPathToPackage}.list.${model?cap_first}ListParams;
 import ${basePackage}.model${fullPathToPackage}.one.${model?cap_first}OneParams;
 import ${basePackage}.model${fullPathToPackage}.one.${model?cap_first}OneVO;
 import ${basePackage}.model${fullPathToPackage}.page.${model?cap_first}PageParams;
@@ -26,10 +28,10 @@ import org.springframework.util.ObjectUtils;
 @Slf4j
 @Service
 public class ${model?cap_first}ServiceImpl extends DefaultServiceImpl<${tableName?cap_first}Mapper, ${tableName?cap_first}, ${tableName?cap_first}Example,
-                                ${model?cap_first}PageVO, ${model?cap_first}OneVO,
-                                ${model?cap_first}PageParams, ${model?cap_first}OneParams,
-                                ${model?cap_first}AddParams, ${model?cap_first}UpdateParams, ${model?cap_first}DeleteParams>
-                                implements ${model?cap_first}ServiceI {
+        ${model?cap_first}PageVO, ${model?cap_first}ListVO, ${model?cap_first}OneVO,
+        ${model?cap_first}PageParams, ${model?cap_first}ListParams, ${model?cap_first}OneParams,
+        ${model?cap_first}AddParams, ${model?cap_first}UpdateParams, ${model?cap_first}DeleteParams>
+        implements ${model?cap_first}ServiceI {
 
 
     @Override

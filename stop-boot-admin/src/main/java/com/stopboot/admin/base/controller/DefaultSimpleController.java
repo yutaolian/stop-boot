@@ -1,7 +1,7 @@
 package com.stopboot.admin.base.controller;
 
-import com.stopboot.admin.base.service.DefaultServiceI;
 import com.stopboot.admin.base.params.BasePageParams;
+import com.stopboot.admin.base.service.DefaultServiceI;
 
 
 /**
@@ -12,7 +12,7 @@ import com.stopboot.admin.base.params.BasePageParams;
  **/
 
 public class DefaultSimpleController<Service extends DefaultServiceI, VO, Params extends BasePageParams>
-        extends DefaultController<Service, VO, VO, Params, Params, Params, Params,Params> {
+        extends DefaultController<Service, VO, VO, VO, Params, Params, Params, Params, Params, Params> {
 
 
 }

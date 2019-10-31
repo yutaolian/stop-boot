@@ -2,9 +2,8 @@ package com.stopboot.admin.mapper.mybatis;
 
 import com.stopboot.admin.entity.SbAdmin;
 import com.stopboot.admin.entity.SbAdminExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SbAdminMapper {
     int countByExample(SbAdminExample example);

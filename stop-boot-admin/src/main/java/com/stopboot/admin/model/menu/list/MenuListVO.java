@@ -23,4 +23,6 @@ public class MenuListVO extends BaseMenuTreeVO {
     private List<String> permissions;
 
 
+
+
 }

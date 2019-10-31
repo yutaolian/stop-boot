@@ -2,6 +2,8 @@ package ${basePackage}.controller${fullPathToPackage};
 
 import ${basePackage}.base.controller.DefaultController;
 import ${basePackage}.model${fullPathToPackage}.add.${model?cap_first}AddParams;
+import ${basePackage}.model${fullPathToPackage}.list.${model?cap_first}ListParams;
+import ${basePackage}.model${fullPathToPackage}.list.${model?cap_first}ListVO;
 import ${basePackage}.model${fullPathToPackage}.one.${model?cap_first}OneParams;
 import ${basePackage}.model${fullPathToPackage}.one.${model?cap_first}OneVO;
 import ${basePackage}.model${fullPathToPackage}.page.${model?cap_first}PageParams;
@@ -24,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${fullPath}")
 public class ${model?cap_first}Controller extends DefaultController<${model?cap_first}ServiceI,
-                                ${model?cap_first}PageVO,${model?cap_first}OneVO,
-                                ${model?cap_first}PageParams, ${model?cap_first}OneParams,
-                                ${model?cap_first}AddParams, ${model?cap_first}UpdateParams, ${model?cap_first}DeleteParams> {
+        ${model?cap_first}PageVO,${model?cap_first}ListVO,${model?cap_first}OneVO,
+        ${model?cap_first}PageParams, ${model?cap_first}ListParams,  ${model?cap_first}OneParams,
+        ${model?cap_first}AddParams, ${model?cap_first}UpdateParams, ${model?cap_first}DeleteParams> {
 
 
 }

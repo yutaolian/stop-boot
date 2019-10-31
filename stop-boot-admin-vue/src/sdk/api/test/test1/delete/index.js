@@ -3,7 +3,7 @@ import {api} from '@/sdk/api/httpConfig'
 /**
  * projectName：stop-boot jssdk
  * author: Lianyutao
- * date: 2019/10/25 20:09
+ * date: 2019/10/30 12:17
  * version: 1.0.1
     * desc: 详情
  */

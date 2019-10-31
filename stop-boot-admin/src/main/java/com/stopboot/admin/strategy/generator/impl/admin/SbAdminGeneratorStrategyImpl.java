@@ -68,7 +68,7 @@ public class SbAdminGeneratorStrategyImpl implements SbGeneratorStrategy {
                             }
                             FileUtils.write(new File(packageDir, StringUtil.captureName(generatorInfo.getModel()) + StringUtil.captureName(type2) + "Params.java"), writer.getBuffer());
                         }
-                        if (type2.equals("page") || type2.equals("one")) {
+                        if (type2.equals("page") || type2.equals("list") || type2.equals("one")) {
                             {
                                 StringWriter writer = FreemarkerUtil.process("admin/vo.ftl", generatorInfo);
                                 StringBuffer buffer = writer.getBuffer();

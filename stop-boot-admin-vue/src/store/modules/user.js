@@ -2,7 +2,7 @@ import {getToken, removeToken, setToken} from '@/utils/cookieUtil'
 import {resetRouter} from '@/router'
 import {login, LoginRequest} from '@/sdk/api/login'
 import {logout, LogoutRequest} from '@/sdk/api/logout'
-import {menuList, MenuListRequest} from '@/sdk/api/system/menu/list'
+import {MenuListRequest} from '@/sdk/api/system/menu/list'
 
 const user = {
   state: {
@@ -11,9 +11,6 @@ const user = {
     avatar: '',
     introduction: '',
     roles: [],
-    permissions: [],
-    loadMenus: false,
-    menus: []
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -21,15 +18,6 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
-    },
-    SET_PERMISSIONS: (state, permissions) => {
-      state.permissions = permissions
-    },
-    SET_LOAD_MENUS: (state, loadMenus) => {
-      state.loadMenus = loadMenus
-    },
-    SET_MENUS: (state, menus) => {
-      state.menus = menus
     }
   },
   actions: {
@@ -53,18 +41,6 @@ const user = {
         })
       })
     },
-    // menus
-    menus({commit}) {
-      return new Promise((resolve, reject) => {
-        let request = new MenuListRequest()
-        menuList(request).then(res => {
-          commit('SET_LOAD_MENUS', true)
-          // commit('SET_MENUS', res)
-          // commit('SET_PERMISSIONS', ['TEST_ADD1','TEST_UPDATE','TEST_CREATE'])
-          resolve(res)
-        })
-      })
-    },
     // logout
     logout({commit, state}) {
       return new Promise((resolve, reject) => {
@@ -79,17 +55,11 @@ const user = {
         })
       })
     },
-    permissions({commit}, routes) {
-      return new Promise(resolve => {
-        commit('SET_PERMISSIONS', ['TEST_ADD1', 'TEST_UPDATE', 'TEST_CREATE'])
-        resolve(routes)
-      })
-    },
-    updateLoadMenus({commit}) {
-      return new Promise((resolve, reject) => {
-        commit('SET_LOAD_MENUS', false)
-      })
-    }
+    // updateLoadMenus({commit}) {
+    //   return new Promise((resolve, reject) => {
+    //     commit('SET_LOAD_MENUS', false)
+    //   })
+    // }
   }
 }
 

@@ -28,6 +28,11 @@ public class GeneratorInfo implements Serializable {
 
     private String menuComponent;
 
+
+    /**
+     * 菜单ID
+     */
+    private Integer menuId;
     /**
      * 菜单标题
      */

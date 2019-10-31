@@ -1,14 +1,26 @@
 package com.stopboot.admin.controller.system.role;
 
-import com.stopboot.admin.common.PageResult;
+import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.role.list.RoleListVOParams;
-import com.stopboot.admin.model.role.list.RoleListVO;
-import com.stopboot.admin.model.role.page.RolePageVOParams;
-import com.stopboot.admin.model.role.page.RolePageVO;
-import com.stopboot.admin.service.role.RoleServiceI;
+import com.stopboot.admin.model.system.permission.list.PermissionInfoVO;
+import com.stopboot.admin.model.system.permission.list.PermissionListParams;
+import com.stopboot.admin.model.system.permission.list.PermissionListVO;
+import com.stopboot.admin.model.system.role.add.RoleAddParams;
+import com.stopboot.admin.model.system.role.list.RoleListParams;
+import com.stopboot.admin.model.system.role.list.RoleListVO;
+import com.stopboot.admin.model.system.role.menu.MenuAndPermissionAddParams;
+import com.stopboot.admin.model.system.role.menu.RoleMenuParams;
+import com.stopboot.admin.model.system.role.one.RoleOneParams;
+import com.stopboot.admin.model.system.role.one.RoleOneVO;
+import com.stopboot.admin.model.system.role.page.RolePageParams;
+import com.stopboot.admin.model.system.role.page.RolePageVO;
+import com.stopboot.admin.model.system.role.permission.RolePermissionParams;
+import com.stopboot.admin.model.system.role.update.RoleUpdateParams;
+import com.stopboot.admin.model.system.role.delete.RoleDeleteParams;
+import com.stopboot.admin.service.system.role.RoleServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,41 +30,64 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @description: 菜单
+ * @description:
  * @author: Lianyutao
- * @create: 2019-09-19 11:17
- * @version:
+ * @create: 2019/10/30 14:06
+ * @version: 1.0.1
  **/
+
 @Slf4j
 @RestController
-@RequestMapping("role")
-public class RoleController {
+@RequestMapping("/system/role")
+public class RoleController extends DefaultController<RoleServiceI,
+        RolePageVO, RoleListVO, RoleOneVO,
+        RolePageParams, RoleListParams, RoleOneParams,
+        RoleAddParams, RoleUpdateParams, RoleDeleteParams> {
+
     @Resource
-    private RoleServiceI roleServiceI;
+    private RoleServiceI roleService;
 
-    @PostMapping("list")
-    public ResultData<RoleListVO> roleList(@RequestBody RoleListVOParams params) {
+    /**
+     * 保存角色的菜单和权限
+     * @param params
+     * @return
+     */
+    @PostMapping("save")
+    public ResultData save(@Validated @RequestBody MenuAndPermissionAddParams params) {
         ResultData resultData = ResultData.build();
-        List<RoleListVO> roleListVOList = roleServiceI.getRoleList(params);
-        if (!ObjectUtils.isEmpty(roleListVOList)) {
-            resultData.success().setData(roleListVOList);
-        } else {
-            resultData.empty();
+        boolean flag = roleService.roleMenuAndPermissionAdd(params);
+        if (flag) {
+            resultData.success();
         }
         return resultData;
     }
 
-    @PostMapping("page")
-    public ResultData<RolePageVO> roleList(@RequestBody RolePageVOParams params) {
+    /**
+     * 获得指定角色的全部权限
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("permission")
+    public ResultData<List<Integer>> rolePermissions(@Validated @RequestBody RolePermissionParams params) {
         ResultData resultData = ResultData.build();
-        PageResult<RolePageVO> rolePageVOPageResult = roleServiceI.getRolePage(params);
-        if (!ObjectUtils.isEmpty(rolePageVOPageResult)) {
-            resultData.success().setData(rolePageVOPageResult);
-        } else {
-            resultData.empty();
-        }
+        List<Integer> rolePermissions = roleService.rolePermissions(params);
+        resultData.success(rolePermissions);
         return resultData;
     }
 
 
+    /**
+     * 获得指定角色的全部权限
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("menu")
+    public ResultData<List<Integer>> roleMenus(@Validated @RequestBody RoleMenuParams params) {
+        ResultData resultData = ResultData.build();
+        List<Integer> rolePermissions = roleService.roleMenus(params);
+        resultData.success(rolePermissions);
+        return resultData;
+    }
 }

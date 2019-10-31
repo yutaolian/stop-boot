@@ -1,8 +1,6 @@
 package com.stopboot.admin.utils;
 
-import cn.hutool.core.lang.Singleton;
 import com.stopboot.admin.base.vo.BaseMenuTreeVO;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +39,8 @@ public class MenuListToTreeUtil<MenuVO extends BaseMenuTreeVO> {
         for (MenuVO tree : list) {
             if (tree.getPid() == 0) {
                 treeList.add(findChildren(tree, list));
+            }else{
+//                tree.setChildren(new ArrayList<>());
             }
         }
         return treeList;

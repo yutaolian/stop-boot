@@ -1,9 +1,7 @@
 package com.stopboot.admin.base.params;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Data;
 
-import java.io.Serializable;
 
 /**
  * @description:

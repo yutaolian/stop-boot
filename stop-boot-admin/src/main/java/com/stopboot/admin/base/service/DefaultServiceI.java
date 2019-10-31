@@ -1,7 +1,11 @@
 package com.stopboot.admin.base.service;
 
+
 import com.stopboot.admin.base.params.*;
 import com.stopboot.admin.common.PageResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @description:
@@ -10,11 +14,26 @@ import com.stopboot.admin.common.PageResult;
  * @version:
  **/
 
-public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParams,
-        OneParams extends BaseParams,
-        AddParams extends BaseParams,
-        UpdateParams extends BaseParams,
-        DeleteParams extends BaseParams> {
+public interface DefaultServiceI<PageVO, ListVO, OneVO, PageParams extends BasePageParams,
+        ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams> {
+
+    /**
+     * 根据params 获得列表
+     *
+     * @param params
+     * @return
+     */
+    default List<ListVO> list(ListParams params) {
+        return new ArrayList<>();
+    }
+
+    /**
+     * @param params
+     * @return
+     */
+    default List<ListVO> listWithBLOBs(ListParams params) {
+        return new ArrayList<>();
+    }
 
     /**
      * 删除
@@ -29,10 +48,10 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
     /**
      * 删除
      *
-     * @param id
+     * @param deleteParams
      * @return
      */
-    default boolean delete(DeleteParams id) {
+    default boolean delete(DeleteParams deleteParams) {
         return false;
     }
 
@@ -106,5 +125,4 @@ public interface DefaultServiceI<PageVO, OneVO, PageParams extends BasePageParam
     default PageResult<PageVO> page(PageParams params) {
         return null;
     }
-
 }

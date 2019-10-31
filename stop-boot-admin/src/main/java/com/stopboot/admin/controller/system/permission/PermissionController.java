@@ -1,13 +1,16 @@
 package com.stopboot.admin.controller.system.permission;
 
-import com.stopboot.admin.common.FailCodeAndMsg;
+import com.stopboot.admin.base.controller.DefaultController;
 import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.menu.list.MenuListParams;
-import com.stopboot.admin.model.menu.list.MenuListVO;
 import com.stopboot.admin.model.system.permission.add.PermissionAddParams;
-import com.stopboot.admin.model.system.permission.list.PermissionMenuListParams;
-import com.stopboot.admin.model.system.permission.list.PermissionMenuListVO;
-import com.stopboot.admin.service.system.menu.MenuServiceI;
+import com.stopboot.admin.model.system.permission.list.PermissionListParams;
+import com.stopboot.admin.model.system.permission.list.PermissionListVO;
+import com.stopboot.admin.model.system.permission.one.PermissionOneParams;
+import com.stopboot.admin.model.system.permission.one.PermissionOneVO;
+import com.stopboot.admin.model.system.permission.page.PermissionPageParams;
+import com.stopboot.admin.model.system.permission.page.PermissionPageVO;
+import com.stopboot.admin.model.system.permission.update.PermissionUpdateParams;
+import com.stopboot.admin.model.system.permission.delete.PermissionDeleteParams;
 import com.stopboot.admin.service.system.permission.PermissionServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -21,25 +24,30 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @description: 权限
+ * @description:
  * @author: Lianyutao
- * @create: 2019-09-24 11:21
- * @version:
+ * @create: 2019/10/29 19:16
+ * @version: 1.0.1
  **/
+
 @Slf4j
 @RestController
-@RequestMapping("system/permission")
-public class PermissionController {
+@RequestMapping("/system/permission")
+public class PermissionController extends DefaultController<PermissionServiceI,
+        PermissionPageVO, PermissionListVO, PermissionOneVO,
+        PermissionPageParams, PermissionListParams, PermissionOneParams,
+        PermissionAddParams, PermissionUpdateParams, PermissionDeleteParams> {
 
     @Resource
     private PermissionServiceI permissionService;
 
     @PostMapping("list")
-    public ResultData<PermissionMenuListVO> menuList(@RequestBody PermissionMenuListParams params) {
+    @Override
+    public ResultData<PermissionListVO> list(@Validated @RequestBody PermissionListParams params) {
         ResultData resultData = ResultData.build();
-        List<PermissionMenuListVO> menuTreeList = permissionService.permissionMenuList(params);
+        List<PermissionListVO> menuTreeList = permissionService.list(params);
         if (!ObjectUtils.isEmpty(menuTreeList)) {
-            resultData.success().setData(menuTreeList);
+            resultData.success(menuTreeList);
         } else {
             resultData.empty();
         }
@@ -47,21 +55,4 @@ public class PermissionController {
     }
 
 
-    /**
-     * 添加
-     *
-     * @param params
-     * @return
-     */
-    @PostMapping("add")
-    public ResultData add(@Validated @RequestBody PermissionAddParams params) {
-        ResultData resultData = ResultData.build();
-        boolean flag = permissionService.add(params);
-        if (flag) {
-            resultData.success();
-        } else {
-            resultData.fail().setFailCode(FailCodeAndMsg.FAIL_CODE_ADD).setFailMsg(FailCodeAndMsg.FAIL_MSG_ADD);
-        }
-        return resultData;
-    }
 }

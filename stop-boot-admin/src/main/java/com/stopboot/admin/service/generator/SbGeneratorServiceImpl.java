@@ -6,6 +6,7 @@ import com.stopboot.admin.config.DataSourceEnum;
 import com.stopboot.admin.config.GeneratorConfig;
 import com.stopboot.admin.dto.MenuInfo;
 import com.stopboot.admin.service.system.menu.MenuServiceI;
+import com.stopboot.admin.service.system.permission.PermissionServiceI;
 import com.stopboot.admin.strategy.generator.SbGeneratorStrategyContext;
 import com.stopboot.admin.strategy.generator.SbGeneratorStrategyParams;
 import com.stopboot.admin.strategy.generator.impl.admin.SbAdminGeneratorStrategyImpl;
@@ -65,6 +66,9 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
 
     @Resource
     private SbUiGeneratorStrategyImpl sbUiGeneratorStrategy;
+
+    @Resource
+    private PermissionServiceI permissionService;
 
 
     @SbDataSource(DataSourceEnum.DB_MASTER)
@@ -134,7 +138,7 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         //菜单信息
         MenuInfoVO menuInfo = params.getMenuInfo();
         generatorInfo.setPath(menuInfo.getPath());
-
+        generatorInfo.setMenuId(menuInfo.getId());
         generatorInfo.setMenuComponent(menuInfo.getComponent());
         generatorInfo.setTitle(menuInfo.getTitle());
 
@@ -174,6 +178,11 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         //生成后端view页面
         context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
         generatorSubmitVO.setUrl(generatorPath);
+
+        //默认认生成 add , update , delete 三个权限标签
+
+//        permissionService.addGeneratorPermission(generatorInfo);
+
         return generatorSubmitVO;
     }
 

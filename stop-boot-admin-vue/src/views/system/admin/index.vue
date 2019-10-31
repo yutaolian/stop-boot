@@ -1,110 +1,151 @@
 <template>
   <div class="app-container">
+    <!--分页过滤条件-->
+    <div class="filter-container">
+      <el-form ref="filterForm" :model="tableQuery">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item prop="id" label="id">
+              <el-input v-model="tableQuery.id" placeholder="id" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="name" label="name">
+              <el-input v-model="tableQuery.name" placeholder="name" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="mobile" label="mobile">
+              <el-input v-model="tableQuery.mobile" placeholder="mobile" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="email" label="email">
+              <el-input v-model="tableQuery.email" placeholder="email" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="status" label="status">
+              <el-input v-model="tableQuery.status" placeholder="status" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <!--@click="cleanFilter"-->
+          <el-col :span="4">
+            <el-form-item label="">
+              <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+              <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+
+              <el-button v-permission="['P_SYSTEM_ADMIN_ADD']" class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
     <el-row>
-      <el-col :span="16">
-        <div class="filter-container">
-          <el-input v-model="listQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"/>
-          <el-input v-model="listQuery.title" placeholder="tag" style="width: 200px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"/>
-          <el-button v-waves class="filter-item" type="danger" icon="el-icon-close" size="small" round>清空</el-button>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" size="small" round>搜索</el-button>
-          <el-button v-waves class="filter-item" type="success" icon="el-icon-plus" @click="handleCreate" size="small" round>新增</el-button>
-        </div>
+      <el-col :span="18">
+        <!--表格-->
         <el-table
           :key="tableKey"
-          v-loading="listLoading"
-          :data="list"
+          v-loading="tableLoading"
+          :data="tableData"
           border
           stripe
           empty-text
           fit
           highlight-current-row
           style="width: 100%;"
-          @sort-change="sortChange"
         >
-
-          <el-table-column type="expand">
-            <template slot-scope="scope">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="ID">
-                  <span>{{ scope.row.id }}</span>
-                </el-form-item>
-                <el-form-item label="角色描述">
-                  <span>{{ scope.row.description }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="ID" prop="id" align="center" width="80">
+          <el-table-column label="id" prop="id" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="角色名称" align="center">
+          <el-table-column label="name" prop="name" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.name}}</span>
+              <el-link type="primary" @click="adminSelected(scope.row)">{{ scope.row.name }}</el-link>
             </template>
           </el-table-column>
-          <el-table-column label="角色tag" align="center">
+          <el-table-column label="mobile" prop="mobile" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.tag}}</span>
+              <span>{{ scope.row.mobile }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="center">
+          <el-table-column label="password" prop="password" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.status}}</span>
+              <span>{{ scope.row.password }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="email" prop="email" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.email }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="status" prop="status" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.status }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="deleteFlag" prop="deleteFlag" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.deleteFlag }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="createTime" prop="createTime" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.createTime }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="updateTime" prop="updateTime" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.updateTime }}</span>
+            </template>
+          </el-table-column>
+
           <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
             <template slot-scope="{row}">
-              <el-button type="primary" size="mini" @click="handleUpdate(row)">
+
+              <el-button v-permission="['P_SYSTEM_ADMIN_EDIT']" type="primary" size="mini" @click="preEdit(row)">
                 Edit
               </el-button>
-              <el-button v-if="row.status!='deleted'" size="mini" type="danger"
-                         @click="handleModifyStatus(row,'deleted')">
+              <el-button v-permission="['P_SYSTEM_ADMIN_DELETE']" size="mini" type="danger" @click="handleDelete(row)">
                 Delete
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.pageSize"
-                    @pagination="getList"/>
+
+        <!--分页组件-->
+        <pagination v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+                    @pagination="loadData"/>
 
       </el-col>
-
-      <el-col :span="8">
-        <div style="margin-top: 60px">
+      <el-col :span="6">
+        <div style="margin-left: 20px;">
           <el-tabs type="border-card">
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i> 菜单分配</span>
-              <el-tree
-                :data="data"
-                default-expand-all
-                show-checkbox
-                node-key="id"
-                :default-expanded-keys="[2, 3]"
-                :default-checked-keys="[5]"
-                :props="defaultProps">
-              </el-tree>
-
-              <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存</el-button>
-            </el-tab-pane>
-            <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i> 权限分配</span>
-
-              <el-tree
-                :data="data2"
-                default-expand-all
-                show-checkbox
-                node-key="id"
-                :default-expanded-keys="[1, 3]"
-                :default-checked-keys="[5]"
-                :props="defaultProps">
-              </el-tree>
-
-              <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" size="mini">保存2</el-button>
+              <span slot="label"><i class="el-icon-date"></i>角色分配</span>
+              <el-row>
+                <el-table
+                  ref="multipleTable"
+                  :data="tableData"
+                  tooltip-effect="dark"
+                  style="width: 100%"
+                  @selection-change="handleSelectionChange">
+                  <el-table-column
+                    prop="name"
+                    label="姓名"
+                    width="120">
+                  </el-table-column>
+                </el-table>
+              </el-row>
+              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
+                         @click="saveRoleMenuAndPermission">保存
+              </el-button>
             </el-tab-pane>
           </el-tabs>
 
@@ -112,345 +153,111 @@
       </el-col>
     </el-row>
 
+    <!--新增组件-->
+    <create-form ref="createForm" :rowData='createRowData' @loadData="loadData"></create-form>
+
+    <!--编辑组件-->
+    <edit-form ref="editForm" :rowData='editRowData' @loadData="loadData"></edit-form>
 
   </div>
 </template>
 
 <script>
-    // import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
-
-    import {RoleListRequest, roleList} from '@/sdk/api/role/list'
-    import {RolePageRequest, rolePage} from '@/sdk/api/role/page'
-    import waves from '@/directive/waves' // waves directive
-    import {parseTime} from '@/utils'
-    import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-
-    const calendarTypeOptions = [
-        {key: 'CN', display_name: 'China'},
-        {key: 'US', display_name: 'USA'},
-        {key: 'JP', display_name: 'Japan'},
-        {key: 'EU', display_name: 'Eurozone'}
-    ]
-
-    // arr to obj, such as { CN : "China", US : "USA" }
-    const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-        acc[cur.key] = cur.display_name
-        return acc
-    }, {})
+    //分页组件
+    import Pagination from '@/components/Pagination'
+    //新增组件
+    import createForm from './create'
+    //编辑组件
+    import editForm from './edit'
+    //Admin page 接口
+    import {AdminPageRequest} from '@/sdk/api/system/admin/page'
+    //Admin delete 接口
+    import {AdminDeleteRequest} from '@/sdk/api/system/admin/delete'
 
     export default {
-        name: 'ComplexTable',
-        components: {Pagination},
-        directives: {waves},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            },
-            typeFilter(type) {
-                return calendarTypeKeyValue[type]
-            }
-        },
+        name: 'Admin-Table',
+        components: {Pagination, createForm, editForm},
         data() {
             return {
-                tableKey: 0,
-                list: null,
+                tableKey: 'Admin',
+                tableData: null,
                 total: 0,
-                listLoading: true,
-                listQuery: {
+                tableLoading: true,
+                tableQuery: {
                     pageNum: 1,
                     pageSize: 10,
-                    importance: undefined,
-                    title: undefined,
-                    type: undefined,
-                    sort: '+id',
-                    status: undefined
-                },
-                importanceOptions: [1, 2, 3],
-                calendarTypeOptions,
-                sortOptions: [{label: 'ID Ascending', key: '+id'}, {label: 'ID Descending', key: '-id'}],
-                statusOptions: ['published', 'draft', 'deleted'],
-                showReviewer: false,
-                temp: {
                     id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    type: '',
-                    status: 'published'
+                    name: undefined,
+                    mobile: undefined,
+                    password: undefined,
+                    email: undefined,
+                    status: undefined,
+                    deleteFlag: undefined,
+                    createTime: undefined,
+                    updateTime: undefined,
                 },
                 dialogFormVisible: false,
-                dialogStatus: '',
-                textMap: {
-                    update: 'Edit',
-                    create: 'Create'
-                },
-                dialogPvVisible: false,
-                pvData: [],
-                rules: {
-                    type: [{required: true, message: 'type is required', trigger: 'change'}],
-                    timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
-                    title: [{required: true, message: 'title is required', trigger: 'blur'}]
-                },
-                downloadLoading: false,
-                filterText: '',
-                data: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
-                data2: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
-                defaultProps: {
-                    children: 'children',
-                    label: 'label'
-                }
-            };
-        },
-        created() {
-            this.getList()
-        },
-        watch: {
-            filterText(val) {
-                this.$refs.tree.filter(val);
+                editRowData: {},
+                createRowData: {},
+                tableData: []
             }
         },
+        filters: {},
+        created() {
+            this.loadData()
+        },
         methods: {
-            getList() {
-                this.listLoading = true
-                var request = new RolePageRequest()
-                request.setUserId(7919)
-                request.setPageNum(this.listQuery.pageNum)
-                request.setPageSize(this.listQuery.pageSize)
-                rolePage(request).then(res => {
-                    this.listLoading = false
-                    this.list = res['list']
-                    this.total = res['total']
+            loadData() {
+                this.$nextTick(() => {
+                    this.tableLoading = true
+                    let request = new AdminPageRequest();
+                    request.setParams(this.tableQuery);
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res['list']
+                        this.total = res['total']
+                        console.log("Admin tableData res:", res)
+                    })
                 })
-
-                // fetchList(this.listQuery).then(response => {
-                //     this.list = response.data.items
-                //     this.total = response.data.total
-                //
-                //     // Just to simulate the time of the request
-                //     setTimeout(() => {
-                //         this.listLoading = false
-                //     }, 1.5 * 1000)
-                // })
             },
             handleFilter() {
-                this.listQuery.page = 1
-                this.getList()
+                this.tableQuery.pageNum = 1
+                this.loadData()
             },
-            handleModifyStatus(row, status) {
-                this.$message({
-                    message: '操作Success',
-                    type: 'success'
-                })
-                row.status = status
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadData()
             },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
-                }
+            preCreate() {
+                this.$refs.createForm.dialogFormVisible = true
             },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.listQuery.sort = '+id'
-                } else {
-                    this.listQuery.sort = '-id'
-                }
-                this.handleFilter()
-            },
-            resetTemp() {
-                this.temp = {
-                    id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    status: 'published',
-                    type: ''
-                }
-            },
-            handleCreate() {
-                this.resetTemp()
-                this.dialogStatus = 'create'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
-            },
-            createData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-                        this.temp.author = 'vue-element-admin'
-                        // createArticle(this.temp).then(() => {
-                        //     this.list.unshift(this.temp)
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Created Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
-            },
-            handleUpdate(row) {
-                this.temp = Object.assign({}, row) // copy obj
-                this.temp.timestamp = new Date(this.temp.timestamp)
-                this.dialogStatus = 'update'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
-            },
-            updateData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        const tempData = Object.assign({}, this.temp)
-                        tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-                        // updateArticle(tempData).then(() => {
-                        //     for (const v of this.list) {
-                        //         if (v.id === this.temp.id) {
-                        //             const index = this.list.indexOf(v)
-                        //             this.list.splice(index, 1, this.temp)
-                        //             break
-                        //         }
-                        //     }
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Update Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
+            preEdit(row) {
+                this.editRowData = Object.assign({}, row)
+                this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
-                this.$notify({
-                    title: 'Success',
-                    message: 'Delete Successfully',
-                    type: 'success',
-                    duration: 2000
-                })
-                const index = this.list.indexOf(row)
-                this.list.splice(index, 1)
+                this.$confirm('确认删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let request = new AdminDeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
             },
-            handleFetchPv(pv) {
-                // fetchPv(pv).then(response => {
-                //     this.pvData = response.data.pvData
-                //     this.dialogPvVisible = true
-                // })
-            },
-            handleDownload() {
-                this.downloadLoading = true
-                // import('@/vendor/Export2Excel').then(excel => {
-                //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const data = this.formatJson(filterVal, this.list)
-                //     excel.export_json_to_excel({
-                //         header: tHeader,
-                //         data,
-                //         filename: 'table-list'
-                //     })
-                //     this.downloadLoading = false
-                // })
-            },
-            // formatJson(filterVal, jsonData) {
-            //     return jsonData.map(v => filterVal.map(j => {
-            //         if (j === 'timestamp') {
-            //             return parseTime(v[j])
-            //         } else {
-            //             return v[j]
-            //         }
-            //     }))
-            // },
-            getSortClass: function (key) {
-                const sort = this.listQuery.sort
-                return sort === `+${key}`
-                    ? 'ascending'
-                    : sort === `-${key}`
-                        ? 'descending'
-                        : ''
-            },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.label.indexOf(value) !== -1;
+            adminSelected(row){
+
             }
         }
     }

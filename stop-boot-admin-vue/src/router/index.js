@@ -11,6 +11,7 @@ import Layout from '@/components/Layout'
 import Empty from '@/components/Empty'
 
 import da from "element-ui/src/locale/lang/da";
+import menu from "../store/modules/menu";
 
 Vue.use(Router)
 
@@ -60,7 +61,8 @@ router.beforeEach(async (to, from, next) => {
           let accessRoutes = menuTree2Routes(newMenuList);
           //合并router
           let allAccessRoutes = await store.dispatch('router/generateRoutes', accessRoutes)
-          router.addRoutes(allAccessRoutes) // 动态添加可访问路由表
+          // 动态添加可访问路由表
+          router.addRoutes(allAccessRoutes)
           next({...to, replace: true})
         } catch (e) {
           console.error("e:", e)
@@ -161,7 +163,7 @@ function menuTree2Routes(menuTree) {
         meta: {
           title: menu['title'],
           icon: menu['icon'],
-          permission: [menu["path"] + '_ADD', menu["path"] + '_UPDATE', menu["path"] + '__CREATE']
+          permission: menu['permissions']
         },
         hidden: menu["hidden"] == 1 ? true : false,
         component: loadView(menu['component']),

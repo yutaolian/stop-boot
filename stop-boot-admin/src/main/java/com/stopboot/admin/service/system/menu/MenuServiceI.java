@@ -29,5 +29,11 @@ public interface MenuServiceI {
      * 获得全部菜单
      * @return
      */
-    List<SbMenu> getAllMenus();
+    List<SbMenu> getAllMenus(List<Integer> ids);
+
+    /**
+     * 获得全部菜单
+     * @return
+     */
+    List<SbMenu> getAllShowMenus();
 }

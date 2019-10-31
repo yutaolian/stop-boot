@@ -3,7 +3,7 @@ import {Message} from 'element-ui'
 //自定义日志
 import store from '@/store'
 import resetRouter from "../router";
-import { showLoading, hideLoading } from '@/utils/loading';
+import {showLoading, hideLoading} from '@/utils/loading';
 
 axios.defaults.timeout = 10000
 // 请求头信息是为post请求设置
@@ -46,7 +46,7 @@ export function post(url, params = {}) {
     axios.post(url, params)
       .then(response => {
         if (store.state.logDebuger) {
-          console.info('api response 🌹:', response)
+          console.info('✅ stop-boot-admin api️' + url + ' response :', response)
         }
         if (response.data["code"] == "SUCCESS" || response.data["code"] == "EMPTY") {
           resolve(response.data.data)
