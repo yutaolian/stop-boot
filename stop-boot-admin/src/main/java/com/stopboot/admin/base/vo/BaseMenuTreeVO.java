@@ -5,7 +5,6 @@ package com.stopboot.admin.base.vo;/**
  * @description:
  **/
 
-import com.stopboot.admin.model.menu.list.MenuListVO;
 import lombok.Data;
 
 import java.io.Serializable;

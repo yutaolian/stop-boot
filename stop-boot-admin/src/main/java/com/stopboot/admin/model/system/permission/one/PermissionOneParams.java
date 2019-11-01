@@ -33,4 +33,9 @@ public class PermissionOneParams extends BaseOneParams{
      *
      */
     private String tagDesc;
+
+    /**
+     * 当前权限的接口地址
+     */
+    private String url;
 }

@@ -1,50 +1,34 @@
 package com.stopboot.admin.controller.system.menu;
 
-import com.stopboot.admin.common.ResultData;
-import com.stopboot.admin.model.menu.list.MenuListParams;
-import com.stopboot.admin.model.menu.list.MenuListVO;
+import com.stopboot.admin.base.controller.DefaultController;
+import com.stopboot.admin.model.system.menu.add.MenuAddParams;
+import com.stopboot.admin.model.system.menu.list.MenuListParams;
+import com.stopboot.admin.model.system.menu.list.MenuListVO;
+import com.stopboot.admin.model.system.menu.one.MenuOneParams;
+import com.stopboot.admin.model.system.menu.one.MenuOneVO;
+import com.stopboot.admin.model.system.menu.page.MenuPageParams;
+import com.stopboot.admin.model.system.menu.page.MenuPageVO;
+import com.stopboot.admin.model.system.menu.update.MenuUpdateParams;
+import com.stopboot.admin.model.system.menu.delete.MenuDeleteParams;
 import com.stopboot.admin.service.system.menu.MenuServiceI;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ObjectUtils;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.List;
-
-
 /**
- * @description: 菜单
+ * @description:
  * @author: Lianyutao
- * @create: 2019-09-19 11:17
- * @version:
+ * @create: 2019/11/01 16:50
+ * @version: 1.0.1
  **/
 
 @Slf4j
 @RestController
-@RequestMapping("system/menu")
-public class MenuController {
+@RequestMapping("/system/menu")
+public class MenuController extends DefaultController<MenuServiceI,
+        MenuPageVO,MenuListVO,MenuOneVO,
+        MenuPageParams, MenuListParams,  MenuOneParams,
+        MenuAddParams, MenuUpdateParams, MenuDeleteParams> {
 
-    @Resource
-    private MenuServiceI menuService;
 
-    /**
-     * 根据用户id获得用户可显示的菜单列表
-     * @param params
-     * @return
-     */
-    @PostMapping("list")
-    public ResultData<MenuListVO> list(@Validated @RequestBody MenuListParams params) {
-        ResultData resultData = ResultData.build();
-        List<MenuListVO> menuTreeList = menuService.list(params);
-        if (!ObjectUtils.isEmpty(menuTreeList)) {
-            resultData.success(menuTreeList);
-        } else {
-            resultData.empty();
-        }
-        return resultData;
-    }
 }

@@ -46,7 +46,7 @@ export function post(url, params = {}) {
     axios.post(url, params)
       .then(response => {
         if (store.state.logDebuger) {
-          console.info('✅ stop-boot-admin api️' + url + ' response :', response)
+          console.info('✅ stop-boot-admin api success ️' + url + ' response :', response)
         }
         if (response.data["code"] == "SUCCESS" || response.data["code"] == "EMPTY") {
           resolve(response.data.data)

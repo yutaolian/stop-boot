@@ -1,18 +1,24 @@
 <template>
   <!--编辑-->
   <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-    <el-form ref="editFormRef" :rules="rules" :model="rowData" label-position="left" label-width="70px">
+    <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="100px">
       <el-form-item label="id" prop="id">
-        <el-input v-model="rowData.id"/>
+        <el-input v-model="editFormData.id"/>
       </el-form-item>
       <el-form-item label="tag名称" prop="tagName">
-        <el-input v-model="rowData.tagName"/>
-      </el-form-item>
-      <el-form-item label="tag" prop="tag">
-        <el-input v-model="rowData.tag"/>
+        <el-input v-model="editFormData.tagName"/>
       </el-form-item>
       <el-form-item label="tagDesc" prop="tagDesc">
-        <el-input v-model="rowData.tagDesc"/>
+        <el-input type="textarea"
+                  placeholder="请输入tag描述" maxlength="50"
+                  show-word-limit v-model="editFormData.tagDesc"/>
+        <el-form-item label="tag" prop="tag">
+          <el-input v-model="editFormData.tag"/>
+        </el-form-item>
+        <el-form-item label="接口地址" prop="url">
+          <el-input v-model="editFormData.url">
+          </el-input>
+        </el-form-item>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -32,11 +38,23 @@
     export default {
         name: 'edit_form',
         props: ['rowData'],  //接收父组件的传值
+        watch: {
+            dialogFormVisible(val) {
+                if (val) {
+                    console.log(this.rowData)
+                    this.editFormData = this.rowData
+                }
+            }
+        },
         data() {
             return {
                 loading: false,
-                editForm: {
-                    name: ''
+                editFormData: {
+                    id: undefined,
+                    url: undefined,
+                    tag: undefined,
+                    tagName: undefined,
+                    tagDesc: undefined,
                 },
                 dialogFormVisible: false,
                 rules: {
@@ -56,29 +74,22 @@
                             type: 'warning'
                         }).then(() => {
                             let request = new PermissionUpdateRequest();
-                            request.
-                            setId(id).
-                            setMenuId(menuId).
-                            setTag(tag).
-                            setTagDesc(tagDesc).
-                            api().then(res => {
+                            request.setParams(this.editFormData).api().then(res => {
                                 console.log("PermissionUpdateRequest res:", res)
+                                this.dialogFormVisible = false
                                 this.$emit('loadData');
+                                this.$message({
+                                    type: 'success',
+                                    message: '修改成功!'
+                                });
                             })
 
-
-
-                            this.$message({
-                                type: 'success',
-                                message: '修改成功!'
-                            });
                         }).catch((err) => {
                             this.$message({
                                 type: 'info',
                                 message: '已取消'
                             });
-
-                            console.error("error:",err)
+                            console.error("error:", err)
                         });
                     } else {
                         console.log('error submit!!');
@@ -88,14 +99,6 @@
             },
             cancleForm() {
                 this.dialogFormVisible = false
-            }
-        },
-        watch: {
-            dialogFormVisible(val) {
-                if (val) {
-                    console.log(this.row)
-                    this.ruleForm = this.row
-                }
             }
         }
     }

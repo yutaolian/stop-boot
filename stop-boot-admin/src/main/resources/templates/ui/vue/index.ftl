@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <!--分页过滤条件-->
-        <div class="filter-container">
+        <div v-permission="['${fullPathToPermission}_PAGE']" class="filter-container" >
             <el-form ref="filterForm" :model="tableQuery">
                 <el-row>
                     <#list tableColumnsData as colum>
@@ -15,9 +15,9 @@
                     <!--@click="cleanFilter"-->
                     <el-col :span="4">
                         <el-form-item label="">
-                            <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
-                            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-                            <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+                            <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+                            <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+                            <el-button v-permission="['${fullPathToPermission}_ADD']" class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -25,6 +25,7 @@
         </div>
         <!--表格-->
         <el-table
+                v-permission="['${fullPathToPermission}_PAGE']"
                 :key="tableKey"
                 v-loading="tableLoading"
                 :data="tableData"
@@ -45,10 +46,10 @@
 
             <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="{row}">
-                    <el-button type="primary" size="mini" @click="preEdit(row)">
+                    <el-button v-permission="['${fullPathToPermission}_ONE']"  type="primary" size="mini" @click="preEdit(row)">
                         Edit
                     </el-button>
-                    <el-button size="mini" type="danger" @click="handleDelete(row)">
+                    <el-button v-permission="['${fullPathToPermission}_DLETET']" size="mini" type="danger" @click="handleDelete(row)">
                         Delete
                     </el-button>
                 </template>
@@ -56,14 +57,14 @@
         </el-table>
 
         <!--分页组件-->
-        <pagination v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+        <pagination  v-permission="['${fullPathToPermission}_PAGE']" v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
                     @pagination="loadData"/>
 
         <!--新增组件-->
-        <create-form ref="createForm" :rowData='createRowData'  @loadData="loadData"></create-form>
+        <create-form v-permission="['${fullPathToPermission}_ADD']"  ref="createForm" :rowData='createRowData'  @loadData="loadData"></create-form>
 
         <!--编辑组件-->
-        <edit-form ref="editForm" :rowData='editRowData'  @loadData="loadData"></edit-form>
+        <edit-form v-permission="['${fullPathToPermission}_UPDATE']" ref="editForm" :rowData='editRowData'  @loadData="loadData"></edit-form>
 
     </div>
 </template>
@@ -127,7 +128,8 @@
                 this.$refs['filterForm'].resetFields();
                 this.loadData()
             },
-            preCreate() {
+            preCreate(row) {
+                // this.createRowData = Object.assign({}, row)
                 this.$refs.createForm.dialogFormVisible = true
             },
             preEdit(row) {

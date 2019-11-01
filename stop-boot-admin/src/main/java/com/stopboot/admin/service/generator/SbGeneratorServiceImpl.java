@@ -137,8 +137,10 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
 
         //菜单信息
         MenuInfoVO menuInfo = params.getMenuInfo();
+        Integer menuId = menuInfo.getId();
+
         generatorInfo.setPath(menuInfo.getPath());
-        generatorInfo.setMenuId(menuInfo.getId());
+        generatorInfo.setMenuId(menuId);
         generatorInfo.setMenuComponent(menuInfo.getComponent());
         generatorInfo.setTitle(menuInfo.getTitle());
 
@@ -171,17 +173,20 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
 
         generatorInfo.setTableColumnsData(params.getTableColumnsData());
 
+        generatorInfo.setFullPathToPermission("P" + fullPath.replaceAll("/", "_").toUpperCase());
+
         //生成后端方法
         context.execute(new SbGeneratorStrategyParams(sbAdminGeneratorStrategy, generatorInfo));
         //生成后端UI接口策略
         context.execute(new SbGeneratorStrategyParams(sbJsGeneratorStrategy, generatorInfo));
         //生成后端view页面
         context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
+
         generatorSubmitVO.setUrl(generatorPath);
 
-        //默认认生成 add , update , delete 三个权限标签
+        //默认认生成权限标签
 
-//        permissionService.addGeneratorPermission(generatorInfo);
+        permissionService.addGeneratorPermission(generatorInfo);
 
         return generatorSubmitVO;
     }

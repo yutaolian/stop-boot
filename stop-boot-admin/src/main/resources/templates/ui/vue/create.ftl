@@ -12,7 +12,7 @@
             <el-button @click="resetForm">
                 重置
             </el-button>
-            <el-button type="primary" @click="submitForm">
+            <el-button v-permission="['${fullPathToPermission}_ADD']" type="primary" @click="submitForm">
                 提交
             </el-button>
         </div>

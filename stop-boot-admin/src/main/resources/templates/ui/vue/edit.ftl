@@ -3,16 +3,16 @@
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
         <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="100px">
             <#list tableColumnsData as colum>
-            <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
-                <el-input v-model="editFormData.${colum.camelColumnName}"/>
-            </el-form-item>
+                <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
+                    <el-input v-model="editFormData.${colum.camelColumnName}"/>
+                </el-form-item>
             </#list>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancleForm">
                 取消
             </el-button>
-            <el-button type="primary" @click="submitForm">
+            <el-button v-permission="['${fullPathToPermission}_UPDATE']" type="primary" @click="submitForm">
                 保存
             </el-button>
         </div>
@@ -37,16 +37,19 @@
                 loading: false,
                 editFormData: {
             <#list tableColumnsData as colum>
-                    ${colum.camelColumnName}: undefined,
+            ${colum.camelColumnName}:
+            undefined,
             </#list>
-                },
-                dialogFormVisible: false,
-                rules: {
-                    name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'},
-                    ],
-                }
+        },
+            dialogFormVisible: false,
+                rules
+        :
+            {
+                name: [
+                    {required: true, message: '请输入名称', trigger: 'blur'},
+                ],
             }
+        }
         },
         methods: {
             submitForm() {

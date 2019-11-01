@@ -6,6 +6,7 @@ import com.stopboot.admin.entity.SbMenu;
 import com.stopboot.admin.mapper.mybatis.SbMenuPermissionsMapper;
 import com.stopboot.admin.entity.SbMenuPermissions;
 import com.stopboot.admin.entity.SbMenuPermissionsExample;
+import com.stopboot.admin.model.help.generator.GeneratorInfo;
 import com.stopboot.admin.model.system.permission.add.PermissionAddParams;
 import com.stopboot.admin.model.system.permission.list.PermissionInfoVO;
 import com.stopboot.admin.model.system.permission.list.PermissionListParams;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,6 +45,14 @@ public class PermissionServiceImpl extends DefaultServiceImpl<SbMenuPermissionsM
 
     @Resource
     private MenuServiceI menuService;
+
+
+    @Override
+    public boolean add(PermissionAddParams params) {
+
+
+        return false;
+    }
 
     @Override
     public List<PermissionListVO> list(PermissionListParams params) {
@@ -75,6 +85,40 @@ public class PermissionServiceImpl extends DefaultServiceImpl<SbMenuPermissionsM
             return permissionMenuListVOList;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 生成默认权限
+     * "page", "list", "one", "add", "update", "delete" 五个
+     *
+     * @param generatorInfo
+     */
+    @Override
+    public void addGeneratorPermission(GeneratorInfo generatorInfo) {
+        Integer menuId = generatorInfo.getMenuId();
+        String fullPath = generatorInfo.getFullPath();
+        String title = generatorInfo.getTitle();
+        String fullPathToPermission = generatorInfo.getFullPathToPermission();
+
+        List<String> tags = Arrays.asList("page", "list", "one", "add", "update", "delete");
+        List<String> tagsNames = Arrays.asList("分页", "列表", "详情", "添加", "修改", "删除");
+        for (int i = 0; i < tags.size(); i++) {
+            String tag = tags.get(i);
+            //删掉原有标签
+            SbMenuPermissionsExample sbMenuPermissionsExample = new SbMenuPermissionsExample();
+            SbMenuPermissionsExample.Criteria criteria = sbMenuPermissionsExample.createCriteria();
+            criteria.andMenuIdEqualTo(menuId);
+            criteria.andTagEqualTo(fullPathToPermission + "_" + tag.toUpperCase());
+            this.deleteByExample(sbMenuPermissionsExample);
+
+            SbMenuPermissions sbMenuPermissions = new SbMenuPermissions();
+            sbMenuPermissions.setMenuId(menuId);
+            sbMenuPermissions.setTagName(title + "_" + tagsNames.get(i));
+            sbMenuPermissions.setTag(fullPathToPermission + "_" + tag.toUpperCase());
+            sbMenuPermissions.setTagDesc("默认生成" + title + "_" + tag + "权限标签");
+            sbMenuPermissions.setUrl(fullPath + "/" + tag);
+            this.insertSelective(sbMenuPermissions);
         }
 
     }

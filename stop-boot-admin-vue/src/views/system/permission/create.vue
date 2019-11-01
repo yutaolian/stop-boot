@@ -10,15 +10,20 @@
           <template slot="prepend">{{rowData.tagNamePrefix}}</template>
         </el-input>
       </el-form-item>
+      <el-form-item label="tag描述" prop="tagDesc">
+        <el-input type="textarea"
+                  placeholder="请输入tag描述" maxlength="50"
+                  show-word-limit v-model="rowData.tagDesc" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item label="tag" prop="tag">
         <el-input v-model="rowData.tag" autocomplete="off" placeholder="请输入定义的tag名称(英文大写)">
           <template slot="prepend">{{rowData.tagPrefix}}</template>
         </el-input>
       </el-form-item>
-      <el-form-item label="tag描述" prop="tagDesc">
-        <el-input type="textarea"
-                  placeholder="请输入tag描述" maxlength="50"
-                  show-word-limit v-model="rowData.tagDesc" autocomplete="off"></el-input>
+      <el-form-item label="接口地址" prop="url">
+        <el-input v-model="rowData.url" autocomplete="off" placeholder="请输入接口地址">
+          <template slot="prepend">{{rowData.urlPrefix}}</template>
+        </el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -62,6 +67,7 @@
                                 .setTag((this.rowData.tagPrefix + this.rowData.tag).toUpperCase())
                                 .setTagName((this.rowData.tagNamePrefix + this.rowData.tagName))
                                 .setTagDesc(this.rowData.tagDesc)
+                                .setUrl((this.rowData.urlPrefix + this.rowData.url))
                                 .api().then(res => {
                                 console.log("PermissionAddRequest res:", res)
                                 this.dialogFormVisible = false

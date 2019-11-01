@@ -1,6 +1,7 @@
 package com.stopboot.admin.service.system.permission;
 
 import com.stopboot.admin.base.service.DefaultServiceI;
+import com.stopboot.admin.model.help.generator.GeneratorInfo;
 import com.stopboot.admin.model.system.permission.add.PermissionAddParams;
 import com.stopboot.admin.model.system.permission.list.PermissionListParams;
 import com.stopboot.admin.model.system.permission.list.PermissionListVO;
@@ -17,5 +18,9 @@ public interface PermissionServiceI extends DefaultServiceI<PermissionPageVO, Pe
         PermissionAddParams, PermissionUpdateParams, PermissionDeleteParams> {
 
 
-
+    /**
+     * 代码生成工具生成默认权限
+     * @param generatorInfo
+     */
+    void addGeneratorPermission(GeneratorInfo generatorInfo);
 }

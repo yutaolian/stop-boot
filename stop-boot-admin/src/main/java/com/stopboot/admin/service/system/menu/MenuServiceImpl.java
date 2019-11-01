@@ -1,29 +1,46 @@
 package com.stopboot.admin.service.system.menu;
 
+import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.dto.MenuInfo;
 import com.stopboot.admin.entity.*;
 import com.stopboot.admin.mapper.mybatis.*;
-import com.stopboot.admin.model.menu.list.MenuListParams;
-import com.stopboot.admin.model.menu.list.MenuListVO;
+import com.stopboot.admin.base.service.DefaultServiceImpl;
+import com.stopboot.admin.model.system.menu.add.MenuAddParams;
+import com.stopboot.admin.model.system.menu.list.MenuListVO;
+import com.stopboot.admin.model.system.menu.list.MenuListParams;
+import com.stopboot.admin.model.system.menu.one.MenuOneParams;
+import com.stopboot.admin.model.system.menu.one.MenuOneVO;
+import com.stopboot.admin.model.system.menu.page.MenuPageParams;
+import com.stopboot.admin.model.system.menu.page.MenuPageVO;
+import com.stopboot.admin.model.system.menu.update.MenuUpdateParams;
+import com.stopboot.admin.model.system.menu.delete.MenuDeleteParams;
 import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.MenuListToTreeUtil;
-import io.swagger.models.auth.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-
 /**
- * @description:
+ * @description:  Menu service
  * @author: Lianyutao
- * @create: 2019-09-19 11:18
- * @version:
- **/
+ * @create: 2019/11/01 16:50
+ * @version: 1.0.1
+**/
 
+@Slf4j
 @Service
-public class MenuServiceImpl implements MenuServiceI {
+public class MenuServiceImpl extends DefaultServiceImpl<SbMenuMapper, SbMenu, SbMenuExample,
+        MenuPageVO, MenuListVO, MenuOneVO,
+        MenuPageParams, MenuListParams, MenuOneParams,
+        MenuAddParams, MenuUpdateParams, MenuDeleteParams>
+        implements MenuServiceI {
 
     @Resource
     private SbMenuMapper sbMenuMapper;
@@ -41,46 +58,64 @@ public class MenuServiceImpl implements MenuServiceI {
     private SbMenuPermissionsMapper sbMenuPermissionsMapper;
 
 
-    /**
-     * 可加缓存
-     *
-     * @param menuId
-     * @return
-     */
-    private SbMenu getOne(Integer menuId) {
-        return sbMenuMapper.selectByPrimaryKey(menuId);
-    }
-
     @Override
-    public List<SbMenu> getAllMenus(List<Integer> ids) {
-        SbMenuExample sbMenuExample = new SbMenuExample();
-        sbMenuExample.setOrderByClause(" pid , sort ,id ");
-        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(1);
-        if (ids != null && ids.size() > 0) {
-            ids.add(1);
-            criteria.andIdIn(ids);
+    public PageResult<MenuPageVO> page(MenuPageParams pageParams) {
+        SbMenuExample example = new SbMenuExample();
+        SbMenuExample.Criteria criteria = example.createCriteria();
+        if (!ObjectUtils.isEmpty(pageParams.getId())) {
+            criteria.andIdEqualTo(pageParams.getId());
         }
-        List<SbMenu> sbMenuList = sbMenuMapper.selectByExample(sbMenuExample);
-        return sbMenuList;
+        if (!ObjectUtils.isEmpty(pageParams.getPid())) {
+            criteria.andPidEqualTo(pageParams.getPid());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getTitle())) {
+            criteria.andTitleEqualTo(pageParams.getTitle());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getName())) {
+            criteria.andNameEqualTo(pageParams.getName());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getComponent())) {
+            criteria.andComponentEqualTo(pageParams.getComponent());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getPath())) {
+            criteria.andPathEqualTo(pageParams.getPath());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getIcon())) {
+            criteria.andIconEqualTo(pageParams.getIcon());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getType())) {
+            criteria.andTypeEqualTo(pageParams.getType());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getLink())) {
+            criteria.andLinkEqualTo(pageParams.getLink());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getCode())) {
+            criteria.andCodeEqualTo(pageParams.getCode());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getHidden())) {
+            criteria.andHiddenEqualTo(pageParams.getHidden());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
+            criteria.andStatusEqualTo(pageParams.getStatus());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getSort())) {
+            criteria.andSortEqualTo(pageParams.getSort());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
+            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getOpUserId())) {
+            criteria.andOpUserIdEqualTo(pageParams.getOpUserId());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
+            criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getUpdateTime())) {
+            criteria.andUpdateTimeEqualTo(pageParams.getUpdateTime());
+        }
+        return this.pageByExample(pageParams, example);
     }
 
-
-    /**
-     * 获得全部显示的菜单
-     *
-     * @return
-     */
-    @Override
-    public List<SbMenu> getAllShowMenus() {
-        SbMenuExample sbMenuExample = new SbMenuExample();
-        sbMenuExample.setOrderByClause(" pid , sort ,id ");
-        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(1);
-        criteria.andStatusEqualTo(1);
-        List<SbMenu> sbMenuList = sbMenuMapper.selectByExample(sbMenuExample);
-        return sbMenuList;
-    }
 
     /**
      * 1.根据用户id 获得用户全部角色
@@ -187,5 +222,45 @@ public class MenuServiceImpl implements MenuServiceI {
         return menuInfo;
     }
 
+    /**
+     * 可加缓存
+     *
+     * @param menuId
+     * @return
+     */
+    private SbMenu getOne(Integer menuId) {
+        return sbMenuMapper.selectByPrimaryKey(menuId);
+    }
+
+    @Override
+    public List<SbMenu> getAllMenus(List<Integer> ids) {
+        SbMenuExample sbMenuExample = new SbMenuExample();
+        sbMenuExample.setOrderByClause(" pid , sort  ");
+        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(1);
+        if (ids != null && ids.size() > 0) {
+            ids.add(1);
+            criteria.andIdIn(ids);
+        }
+        List<SbMenu> sbMenuList = sbMenuMapper.selectByExample(sbMenuExample);
+        return sbMenuList;
+    }
+
+
+    /**
+     * 获得全部显示的菜单
+     *
+     * @return
+     */
+    @Override
+    public List<SbMenu> getAllShowMenus() {
+        SbMenuExample sbMenuExample = new SbMenuExample();
+        sbMenuExample.setOrderByClause(" pid , sort ,id ");
+        SbMenuExample.Criteria criteria = sbMenuExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(1);
+        criteria.andStatusEqualTo(1);
+        List<SbMenu> sbMenuList = sbMenuMapper.selectByExample(sbMenuExample);
+        return sbMenuList;
+    }
 
 }

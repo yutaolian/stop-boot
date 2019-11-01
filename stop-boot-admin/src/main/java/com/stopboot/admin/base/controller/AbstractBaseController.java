@@ -15,5 +15,5 @@ package com.stopboot.admin.base.controller;/**
  * @description:
  **/
 
-public class AbstractBaseController {
+public abstract class AbstractBaseController {
 }

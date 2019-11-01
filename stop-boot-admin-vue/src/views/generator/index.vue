@@ -134,15 +134,40 @@
             </el-col>
           </el-row>
           <el-row>
-
-
             <el-col :span="12">
               <el-form-item label="vue路径" prop="viewPath">
                 <el-input placeholder="" v-model="ruleForm.viewPath">
                 </el-input>
               </el-form-item>
             </el-col>
+          </el-row>
 
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="功能类型" prop="viewPath1">
+                <template>
+                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+                  </el-checkbox>
+                  <div style="margin: 15px 0;"></div>
+                  <el-checkbox-group v-model="checkedFunctionOptions" @change="handleCheckedCitiesChange">
+                    <el-checkbox v-for="type in typeFunctions" :label="type" :key="type">{{type}}</el-checkbox>
+                  </el-checkbox-group>
+                </template>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item label="业务类型" prop="viewPath1">
+                <template>
+                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+                  </el-checkbox>
+                  <div style="margin: 15px 0;"></div>
+                  <el-checkbox-group v-model="checkedBizOptions" @change="handleCheckedCitiesChange">
+                    <el-checkbox v-for="type in bizOptions" :label="type" :key="type">{{type}}</el-checkbox>
+                  </el-checkbox-group>
+                </template>
+              </el-form-item>
+            </el-col>
           </el-row>
 
           <el-divider>表信息</el-divider>
@@ -180,35 +205,51 @@
               </el-table-column>
 
               <el-table-column
+                fixed
                 label="表字段名"
                 prop="columnName"
-                width="120">
+                width="100">
               </el-table-column>
 
               <el-table-column
+                fixed
                 label="字段类型"
                 prop="dataType"
+                width="100"
               >
               </el-table-column>
               <el-table-column
+                fixed
                 label="注释"
                 prop="columnComment"
+                width="150"
               >
               </el-table-column>
 
               <el-table-column
-                label="bean字段名"
+                label="字段名称(英)"
                 prop="camelColumnName"
+                width="150"
               >
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.camelColumnName"></el-input>
                 </template>
-
               </el-table-column>
 
               <el-table-column
-                label="是否必填"
+                label="字段名称(汉字)"
+                prop="camelColumnName"
+                width="150"
+              >
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.columnComment"></el-input>
+                </template>
+              </el-table-column>
+
+              <el-table-column
+                label="必填"
                 prop="nullable"
+                width="70"
               >
                 <template slot-scope="scope">
                   <el-switch v-model="scope.row.nullable" active-value='NO' inactive-value="YES">
@@ -216,8 +257,9 @@
                 </template>
               </el-table-column>
               <el-table-column
-                label="是否分页显示"
+                label="列表显示"
                 prop="pageShow"
+                width="70"
               >
                 <template slot-scope="scope">
                   <el-switch v-model="scope.row.pageShow">
@@ -225,30 +267,66 @@
                 </template>
               </el-table-column>
               <el-table-column
-                label="是否搜索显示"
+                label="搜索显示"
                 prop="searchShow"
+                width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.searchShow">
+                  <el-switch v-model="scope.row.searchShow" active-value=true inactive-value=false>
                   </el-switch>
                 </template>
               </el-table-column>
               <el-table-column
-                label="是否创建显示"
+                label="创建显示"
                 prop="createShow"
+                width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.createShow">
+                  <el-switch v-model="scope.row.createShow" active-value=true inactive-value=false>
                   </el-switch>
                 </template>
               </el-table-column>
               <el-table-column
-                label="是否编辑显示"
+                label="编辑显示"
                 prop="editShow"
+                width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.editShow">
+                  <el-switch v-model="scope.row.editShow" active-value=true inactive-value=false>
                   </el-switch>
+                </template>
+              </el-table-column>
+
+              <el-table-column
+                label="组件类型"
+                prop="editShow"
+                min-width="150"
+              >
+                <template slot-scope="scope">
+                  <el-select v-model="selectedComponent" placeholder="请选择使用的组件">
+                    <el-option
+                      v-for="item in componentOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="字典表key"
+                prop="editShow"
+                min-width="150"
+              >
+                <template slot-scope="scope">
+                  <el-select v-model="selectedDictionary" placeholder="请选择字典key">
+                    <el-option
+                      v-for="item in dictionaryOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
                 </template>
               </el-table-column>
 
@@ -266,41 +344,41 @@
       </el-tab-pane>
       <el-tab-pane label="多语言SDK代码生成" name="second">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-divider>基本信息</el-divider>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="全部控制器" prop="menuInfo.title">
-                  <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-<!--                <el-form-item label="组件位置" prop="menuInfo.component">-->
-<!--                  <el-input disabled placeholder="组件位置" v-model="ruleForm.menuInfo.component">-->
-<!--                    <template slot="prepend">项目/src/</template>-->
-<!--                  </el-input>-->
-<!--                </el-form-item>-->
-              </el-col>
-            </el-row>
-<!--            <el-row>-->
-<!--              <el-col :span="8">-->
-<!--                <el-form-item label="模块名称" prop="menuInfo.name">-->
-<!--                  <el-input disabled v-model="ruleForm.menuInfo.name" placeholder=""></el-input>-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="8">-->
-<!--                <el-form-item label="菜单path" prop="menuInfo.path">-->
-<!--                  <el-input disabled v-model="ruleForm.menuInfo.path" placeholder=""></el-input>-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="8">-->
-<!--                <el-form-item label="菜单fullpath" prop="menuInfo.fullPath">-->
-<!--                  <el-input disabled v-model="ruleForm.menuInfo.fullPath" placeholder=""></el-input>-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
+          <el-divider>基本信息</el-divider>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="全部控制器" prop="menuInfo.title">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <!--                <el-form-item label="组件位置" prop="menuInfo.component">-->
+              <!--                  <el-input disabled placeholder="组件位置" v-model="ruleForm.menuInfo.component">-->
+              <!--                    <template slot="prepend">项目/src/</template>-->
+              <!--                  </el-input>-->
+              <!--                </el-form-item>-->
+            </el-col>
+          </el-row>
+          <!--            <el-row>-->
+          <!--              <el-col :span="8">-->
+          <!--                <el-form-item label="模块名称" prop="menuInfo.name">-->
+          <!--                  <el-input disabled v-model="ruleForm.menuInfo.name" placeholder=""></el-input>-->
+          <!--                </el-form-item>-->
+          <!--              </el-col>-->
+          <!--              <el-col :span="8">-->
+          <!--                <el-form-item label="菜单path" prop="menuInfo.path">-->
+          <!--                  <el-input disabled v-model="ruleForm.menuInfo.path" placeholder=""></el-input>-->
+          <!--                </el-form-item>-->
+          <!--              </el-col>-->
+          <!--              <el-col :span="8">-->
+          <!--                <el-form-item label="菜单fullpath" prop="menuInfo.fullPath">-->
+          <!--                  <el-input disabled v-model="ruleForm.menuInfo.fullPath" placeholder=""></el-input>-->
+          <!--                </el-form-item>-->
+          <!--              </el-col>-->
+          <!--            </el-row>-->
         </el-form>
       </el-tab-pane>
     </el-tabs>
@@ -314,10 +392,18 @@
     import {TableColumnsRequest, tableColumns} from '@/sdk/api/generator/table/columns'
     import {GeneratorSubmitRequest} from '@/sdk/api/generator/submit'
 
+    const functionOptions = ['page', 'list', 'add', 'update', 'delete'];
+    const bizOptionsData = ['admin', 'js-sdk', 'vue-page'];
     export default {
         name: 'abc',
         data() {
             return {
+                checkAll: true,
+                checkedFunctionOptions: functionOptions,
+                checkedBizOptions:bizOptionsData,
+                bizOptions:bizOptionsData,
+                typeFunctions: functionOptions,
+                isIndeterminate: true,
                 activeName: 'first',
                 ruleForm: {
                     author: '',
@@ -379,7 +465,34 @@
                         {required: true, message: '请填写活动形式', trigger: 'blur'}
                     ]
                 },
-
+                componentOptions: [{
+                    value: '1',
+                    label: 'Radio 单选框'
+                }, {
+                    value: '2',
+                    label: 'Checkbox 多选框'
+                }, {
+                    value: '3',
+                    label: 'Input 输入框'
+                }, {
+                    value: '4',
+                    label: 'Select 选择器'
+                }, {
+                    value: '5',
+                    label: 'Switch 开关'
+                }],
+                selectedComponent: '',
+                dictionaryOptions: [{
+                    value: '1',
+                    label: '性别'
+                }, {
+                    value: '2',
+                    label: '时间段'
+                }, {
+                    value: '3',
+                    label: '状态'
+                }],
+                selectedDictionary: ''
             };
         },
         created() {
@@ -399,8 +512,8 @@
                     if (valid) {
                         alert('submit!');
                         let request = new GeneratorSubmitRequest();
-                        request.setParams(this.ruleForm).api().then(res =>{
-                            console.log("GeneratorSubmitRequest res",res)
+                        request.setParams(this.ruleForm).api().then(res => {
+                            console.log("GeneratorSubmitRequest res", res)
                         })
                     } else {
                         console.log('error submit!!');
@@ -427,10 +540,26 @@
                 let request = new TableColumnsRequest();
                 request.setTableName(this.ruleForm.selectedTableName)
                 tableColumns(request).then((res) => {
-                    this.$set(this.ruleForm,'tableColumnsData',res)
+                    this.$set(this.ruleForm, 'tableColumnsData', res)
                     console.log(res)
+                    // this.checked()
                 })
             },
+            checked() {
+                //首先el-table添加ref="table"引用标识
+                for (let i = 0; i < this.ruleForm.tableColumnsData.length; i++) {
+                    this.$refs.table.toggleRowSelection(this.ruleForm.tableColumnsData[i], true);
+                }
+            },
+            handleCheckAllChange(val) {
+                this.checkedFunctionOptions = val ? functionOptions : [];
+                this.isIndeterminate = false;
+            },
+            handleCheckedCitiesChange(value) {
+                let checkedCount = value.length;
+                this.checkAll = checkedCount === this.typeFunctions.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.typeFunctions.length;
+            }
         },
         computed: {
             model() {

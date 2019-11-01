@@ -32,4 +32,9 @@ public class PermissionAddParams extends BaseAddParams{
      *
      */
     private String tagDesc;
+
+    /**
+     * 当前权限的接口地址
+     */
+    private String url;
 }

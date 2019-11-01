@@ -32,4 +32,10 @@ public class PermissionUpdateParams extends BaseUpdateParams{
      *
      */
     private String tagDesc;
+
+
+    /**
+     * 当前权限的接口地址
+     */
+    private String url;
 }

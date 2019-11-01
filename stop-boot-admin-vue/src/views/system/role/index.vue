@@ -152,6 +152,12 @@
   </div>
 </template>
 
+<style>
+  .el-transfer-panel__body{
+    height: 524px;
+  }
+</style>
+
 <script>
     //分页组件
     import Pagination from '@/components/Pagination'

@@ -1,64 +1,173 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-arrow-up" size="small"
-                 @click="defaultExpandAll = false" round>折叠
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-arrow-down" size="small"
-                 @click="" round>展开
-      </el-button>
+    <!--分页过滤条件-->
+    <div v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-container">
+      <el-form ref="filterForm" :model="tableQuery">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item prop="id" label="id">
+              <el-input v-model="tableQuery.id" placeholder="id" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="pid" label="pid">-->
+<!--              <el-input v-model="tableQuery.pid" placeholder="pid" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+          <el-col :span="4">
+            <el-form-item prop="title" label="title">
+              <el-input v-model="tableQuery.title" placeholder="title" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="name" label="name">
+              <el-input v-model="tableQuery.name" placeholder="name" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="component" label="component">-->
+<!--              <el-input v-model="tableQuery.component" placeholder="component" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="path" label="path">-->
+<!--              <el-input v-model="tableQuery.path" placeholder="path" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="icon" label="icon">-->
+<!--              <el-input v-model="tableQuery.icon" placeholder="icon" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+          <el-col :span="4">
+            <el-form-item prop="type" label="type">
+              <el-input v-model="tableQuery.type" placeholder="type" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="link" label="link">-->
+<!--              <el-input v-model="tableQuery.link" placeholder="link" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="4">-->
+<!--            <el-form-item prop="code" label="code">-->
+<!--              <el-input v-model="tableQuery.code" placeholder="code" style="width: 180px;" class="filter-item"-->
+<!--                        @keyup.enter.native="handleFilter"/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+          <el-col :span="4">
+            <el-form-item prop="hidden" label="hidden">
+              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <!--@click="cleanFilter"-->
+          <el-col :span="4">
+            <el-form-item label="">
+              <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
+                         @click="cleanFilter" circle/>
+              <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary" icon="el-icon-search"
+                         @click="handleFilter" circle/>
+              <el-button v-permission="['P_SYSTEM_MENU_ADD']" class="filter-item" type="success" icon="el-icon-plus"
+                         @click="preCreate" circle/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
+    <!--表格-->
     <el-table
-      :data="tableData"
-      style="width: 100%;margin-bottom: 20px;"
+      v-permission="['P_SYSTEM_MENU_PAGE']"
+      :key="tableKey"
       row-key="id"
+      v-loading="tableLoading"
+      :data="tableData"
       border
+      empty-text
+      fit
+      highlight-current-row
+      style="width: 100%;"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       default-expand-all
-      ref="table">
-
-      <el-table-column label="ID" prop="id" align="center" width="80">
+    >
+      <el-table-column label="id" prop="id" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单标题" prop="title">
+      <el-table-column label="title" prop="title" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="path" prop="path">
-        <template slot-scope="scope">
-          <span>{{ scope.row.path }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="组件" prop="component">
-        <template slot-scope="scope">
-          <span>{{ scope.row.component }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="组件名称" prop="name" :class-name="getSortClass('id')">
+      <el-table-column label="name" prop="name" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="显示状态" prop="sort">
+      <el-table-column label="component" prop="component" align="center" width="240">
         <template slot-scope="scope">
-          <span>{{ istype(scope.row.hidden) }}</span>
+          <span>{{ scope.row.component }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="path" prop="path" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.path }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="icon" prop="icon" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.icon }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="type" prop="type" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.type }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="link" prop="link" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.link }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="hidden" prop="hidden" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.hidden }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="status" prop="status" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="sort" prop="sort" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-dropdown @command='handledropdownCommand'>
             <el-button type="primary" size="small">
               更多<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command='{type:"add",index:scope.$index,row:scope.row}'>新增</el-dropdown-item>
-              <el-dropdown-item :command='{type:"edit",index:scope.$index,row:scope.row}' v-if="scope.row.pid != 0">编辑
+              <el-dropdown-item v-permission="['P_SYSTEM_MENU_ADD']" :command='{type:"add",row:scope.row}'>新增
               </el-dropdown-item>
-              <el-dropdown-item v-if="scope.row.pid != 0">删除</el-dropdown-item>
+              <el-dropdown-item v-permission="['P_SYSTEM_MENU_UPDATE']" :command='{type:"edit",row:scope.row}'
+                                v-if="scope.row.pid != 0">编辑
+              </el-dropdown-item>
+              <el-dropdown-item v-permission="['P_SYSTEM_MENU_DELETET']" v-if="scope.row.pid != 0">删除</el-dropdown-item>
               <el-dropdown-item v-if="scope.row.pid != 0">
                 <router-link :to="{ path: '/utils/generator', query: { menuId: scope.row.id}}">生成代码</router-link>
               </el-dropdown-item>
@@ -67,254 +176,64 @@
         </template>
       </el-table-column>
     </el-table>
-    <addDialog ref="addDialog"/>
-    <editDialog ref="editDialog" :data='propdata'/>
-    <!-- <dialogComponent ref="dialogComponent" :dialogTitle='dialogTitle' :data ='propdata' :vdata = 'vdata' :rules ='rules'/> -->
+
+    <!--新增组件-->
+    <create-form v-permission="['P_SYSTEM_MENU_ADD']" ref="createForm" :rowData='createRowData'
+                 @loadData="loadData"></create-form>
+
+    <!--编辑组件-->
+    <edit-form v-permission="['P_SYSTEM_MENU_UPDATE']" ref="editForm" :rowData='editRowData'
+               @loadData="loadData"></edit-form>
+
   </div>
 </template>
 
 <script>
-    import waves from '@/directive/waves' // waves directive
-    import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+    //新增组件
+    import createForm from './create'
+    //编辑组件
+    import editForm from './edit'
+    //Menu page 接口
     import {MenuListRequest} from '@/sdk/api/system/menu/list'
-    import addDialog from './add'
-    import editDialog from './edit'
+    //Menu delete 接口
+    import {MenuDeleteRequest} from '@/sdk/api/system/menu/delete'
 
     export default {
-        name: 'ComplexTable',
-        components: {Pagination, addDialog, editDialog},
-        directives: {waves},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            }
-        },
+        name: 'Menu-Table',
+        components: {createForm, editForm},
         data() {
             return {
-                expandKeys: [],
-                tableKey: 0,
-                list: null,
+                tableKey: 'Menu',
+                tableData: null,
                 total: 0,
-                listLoading: true,
-                listQuery: {
-                    pageNum: 1,
-                    pageSize: 10,
-                    importance: undefined,
-                    title: undefined,
-                    type: undefined,
-                    sort: '+id',
-                    status: undefined
-                },
-                importanceOptions: [1, 2, 3],
-                sortOptions: [{label: 'ID Ascending', key: '+id'}, {label: 'ID Descending', key: '-id'}],
-                statusOptions: ['published', 'draft', 'deleted'],
-                showReviewer: false,
-                temp: {
+                tableLoading: true,
+                tableQuery: {
                     id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    type: '',
-                    status: 'published'
+                    pid: undefined,
+                    title: undefined,
+                    name: undefined,
+                    component: undefined,
+                    path: undefined,
+                    icon: undefined,
+                    type: undefined,
+                    link: undefined,
+                    code: undefined,
+                    hidden: undefined,
+                    status: undefined,
+                    sort: undefined,
+                    deleteFlag: undefined,
+                    opUserId: undefined,
+                    createTime: undefined,
+                    updateTime: undefined,
                 },
                 dialogFormVisible: false,
-                dialogStatus: '',
-                textMap: {
-                    update: 'Edit',
-                    create: 'Create'
-                },
-                dialogPvVisible: false,
-                pvData: [],
-                rules: {
-                    type: [{required: true, message: 'type is required', trigger: 'change'}],
-                    timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
-                    title: [{required: true, message: 'title is required', trigger: 'blur'}]
-                },
-                downloadLoading: false,
-                tableData: null,
-                propdata: [], //dialog需要显示的东西
-                dialogTitle: '编辑',//dialog的title
-                vdata: {}, //表单验证和双向绑定需要用到的数据源
-                rules: {},  //表单验证的规则
+                editRowData: {},
+                createRowData: {}
             }
         },
+        filters: {},
         created() {
-            this.getList()
-        },
-        mounted() {
-
-        },
-        methods: {
-            addNode(index, row) {
-                console.log(row)
-                this.$refs.addDialog.dialogVisible = true;
-            },
-            editNode(index, row) {
-                this.$refs.editDialog.dialogVisible = true;
-                this.propdata = row;
-            },
-            handledropdownCommand(data) {
-                if (!data) return;
-                let {type, index, row} = data;
-                switch (type) {
-                    case 'add':
-                        this.addNode(index, row)
-                        break;
-                    case 'edit':
-                        this.editNode(index, row)
-                        break;
-                    default:
-                        break;
-                }
-            },
-            getList() {
-                this.listLoading = true
-                let request = new MenuListRequest()
-                request.api().then(res => {
-                    this.listLoading = false
-                    this.tableData = res;
-                })
-            },
-            handleFilter() {
-                this.listQuery.page = 1
-                this.getList()
-            },
-            handleModifyStatus(row, status) {
-                this.$message({
-                    message: '操作Success',
-                    type: 'success'
-                })
-                row.status = status
-            },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
-                }
-            },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.listQuery.sort = '+id'
-                } else {
-                    this.listQuery.sort = '-id'
-                }
-                this.handleFilter()
-            },
-            resetTemp() {
-                this.temp = {
-                    id: undefined,
-                    importance: 1,
-                    remark: '',
-                    timestamp: new Date(),
-                    title: '',
-                    status: 'published',
-                    type: ''
-                }
-            },
-            createData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-                        this.temp.author = 'vue-element-admin'
-                        // createArticle(this.temp).then(() => {
-                        //     this.list.unshift(this.temp)
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Created Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
-            },
-            handleUpdate(row) {
-                this.temp = Object.assign({}, row) // copy obj
-                this.temp.timestamp = new Date(this.temp.timestamp)
-                this.dialogStatus = 'update'
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['dataForm'].clearValidate()
-                })
-            },
-            updateData() {
-                this.$refs['dataForm'].validate((valid) => {
-                    if (valid) {
-                        const tempData = Object.assign({}, this.temp)
-                        tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-                        // updateArticle(tempData).then(() => {
-                        //     for (const v of this.list) {
-                        //         if (v.id === this.temp.id) {
-                        //             const index = this.list.indexOf(v)
-                        //             this.list.splice(index, 1, this.temp)
-                        //             break
-                        //         }
-                        //     }
-                        //     this.dialogFormVisible = false
-                        //     this.$notify({
-                        //         title: 'Success',
-                        //         message: 'Update Successfully',
-                        //         type: 'success',
-                        //         duration: 2000
-                        //     })
-                        // })
-                    }
-                })
-            },
-            handleDelete(row) {
-                this.$notify({
-                    title: 'Success',
-                    message: 'Delete Successfully',
-                    type: 'success',
-                    duration: 2000
-                })
-                const index = this.list.indexOf(row)
-                this.list.splice(index, 1)
-            },
-            handleFetchPv(pv) {
-                // fetchPv(pv).then(response => {
-                //     this.pvData = response.data.pvData
-                //     this.dialogPvVisible = true
-                // })
-            },
-            handleDownload() {
-                this.downloadLoading = true
-                // import('@/vendor/Export2Excel').then(excel => {
-                //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const data = this.formatJson(filterVal, this.list)
-                //     excel.export_json_to_excel({
-                //         header: tHeader,
-                //         data,
-                //         filename: 'table-list'
-                //     })
-                //     this.downloadLoading = false
-                // })
-            },
-            // formatJson(filterVal, jsonData) {
-            //     return jsonData.map(v => filterVal.map(j => {
-            //         if (j === 'timestamp') {
-            //             return parseTime(v[j])
-            //         } else {
-            //             return v[j]
-            //         }
-            //     }))
-            // },
-            getSortClass: function (key) {
-                const sort = this.listQuery.sort
-                return sort === `+${key}`
-                    ? 'ascending'
-                    : sort === `-${key}`
-                        ? 'descending'
-                        : ''
-            }
+            this.loadData()
         },
         computed: {
             istype() {
@@ -322,6 +241,79 @@
                     return type ? '隐藏' : '显示'
                 }
             }
+        },
+        methods: {
+            loadData() {
+                this.$nextTick(() => {
+                    this.tableLoading = true
+                    let request = new MenuListRequest();
+                    request.setParams(this.tableQuery);
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res
+                        console.log("Menu tableData res:", res)
+                    })
+                })
+            },
+            handleFilter() {
+                this.tableQuery.pageNum = 1
+                this.loadData()
+            },
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadData()
+            },
+            preCreate(row) {
+                this.createRowData = Object.assign({}, row)
+                this.$refs.createForm.dialogFormVisible = true
+            },
+            preEdit(row) {
+                this.editRowData = Object.assign({}, row)
+                this.$refs.editForm.dialogFormVisible = true
+            },
+            handleDelete(row) {
+                this.$confirm('确认删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let request = new MenuDeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+            },
+            addNode(row) {
+                this.$refs.createForm.dialogFormVisible = true;
+                this.createRowData = row;
+            },
+            editNode(row) {
+                this.$refs.editForm.dialogFormVisible = true;
+                this.editRowData = row;
+            },
+            handledropdownCommand(data) {
+                if (!data) return;
+                let {type, row} = data;
+                switch (type) {
+                    case 'add':
+                        this.preCreate(row)
+                        break;
+                    case 'edit':
+                        this.preEdit(row)
+                        break;
+                    default:
+                        break;
+                }
+            },
         }
     }
 </script>

@@ -40,6 +40,9 @@ public class GeneratorInfo implements Serializable {
 
     private String fullPath;
 
+
+    private String fullPathToPermission;
+
     private String fullPathToPackage;
 
     private String path;

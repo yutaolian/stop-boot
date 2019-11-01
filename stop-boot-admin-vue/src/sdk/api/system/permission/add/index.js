@@ -19,6 +19,8 @@ export class PermissionAddRequest {
       tagName: undefined,
       // 权限tag描述
       tagDesc: undefined,
+      //当前权限的接口地址
+      url: undefined,
     }
   }
 
@@ -32,6 +34,7 @@ export class PermissionAddRequest {
     this.params.tag = tag
     return this;
   }
+
   setTagName(tagName) {
     this.params.tagName = tagName
     return this;
@@ -39,6 +42,11 @@ export class PermissionAddRequest {
 
   setTagDesc(tagDesc) {
     this.params.tagDesc = tagDesc
+    return this;
+  }
+
+  setUrl(url) {
+    this.params.url = url
     return this;
   }
 

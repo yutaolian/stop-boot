@@ -13,6 +13,8 @@ public class SbMenuPermissions implements Serializable {
 
     private String tagName;
 
+    private String url;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -55,6 +57,14 @@ public class SbMenuPermissions implements Serializable {
         this.tagName = tagName == null ? null : tagName.trim();
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -66,6 +76,7 @@ public class SbMenuPermissions implements Serializable {
         sb.append(", tag=").append(tag);
         sb.append(", tagDesc=").append(tagDesc);
         sb.append(", tagName=").append(tagName);
+        sb.append(", url=").append(url);
         sb.append("]");
         return sb.toString();
     }

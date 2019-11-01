@@ -96,7 +96,6 @@ public class SbAdminGeneratorStrategyImpl implements SbGeneratorStrategy {
             } catch (TemplateException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

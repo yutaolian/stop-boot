@@ -21,6 +21,7 @@ export class PermissionDeleteRequest {
       tagName: undefined,
       // 权限tag描述
       tagDesc: undefined,
+
     }
   }
 
