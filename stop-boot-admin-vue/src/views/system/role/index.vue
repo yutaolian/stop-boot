@@ -114,7 +114,8 @@
                     show-checkbox
                     node-key="id"
                     :props="defaultProps"
-                    @check="handleMenuTreeNodeClick">
+                    @check="handleMenuTreeNodeClick"
+                    @node-click="menuNodeClick">
                   </el-tree>
                 </el-col>
                 <el-col :span="16">
@@ -122,6 +123,7 @@
                     <el-transfer v-model="selectedPermission"
                                  :titles="['未分配权限', '已分配权限']"
                                  :data="transferData"
+                                 :left-default-checked="[77]"
                                  :props="{
                                     key: 'id',
                                     label: 'tagName'
@@ -153,7 +155,7 @@
 </template>
 
 <style>
-  .el-transfer-panel__body{
+  .el-transfer-panel__body {
     height: 524px;
   }
 </style>
@@ -211,7 +213,8 @@
                     label: 'title'
                 },
                 selectedPermission: [],
-                selectedMenus: []
+                selectedMenus: [],
+                leftDefaultChecked: [77]
             }
 
 
@@ -245,7 +248,6 @@
                         //获得已选菜单
                         let request = new RoleMenuRequest()
                         request.setParams(this.menuQuery).api().then(res => {
-                            console.log(" RolePermissionRequest res :", res)
                             this.selectedMenus = res;
                             this.$refs['menuTree'].setCheckedKeys(this.selectedMenus);
                             //获取选中菜单的全部权限
@@ -261,7 +263,6 @@
                         //获得已有权限
                         let request3 = new RolePermissionRequest()
                         request3.setParams(this.menuQuery).api().then(res => {
-                            console.log("res RolePermissiontRequest", res)
                             this.selectedPermission = res
                         })
                     }
@@ -327,6 +328,13 @@
                 })
                 this.transferData = tempData;
             },
+            menuNodeClick(obj, data, node,) {
+                console.log("obj,data,node,", obj, data, node,)
+                if (obj.permissions != undefined) {
+                    // this.leftDefaultChecked = obj.permissions;
+                }
+                // console.log("leftDefaultChecked----", this.leftDefaultChecked)
+            },
             roleSelected(row) {
                 this.menuQuery.roleId = row.id;
                 this.loadMenuAndPermission();
@@ -335,7 +343,6 @@
             saveRoleMenuAndPermission: function () {
                 console.log("已选 roleId ", this.menuQuery.roleId)
                 console.log("已选 permission ", this.selectedPermission)
-
                 if (this.menuQuery.roleId) {
                     this.$confirm('确认修改, 是否继续?', '提示', {
                         confirmButtonText: '确定',

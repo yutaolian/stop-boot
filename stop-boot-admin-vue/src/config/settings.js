@@ -2,6 +2,9 @@ module.exports = {
 
   title: '后台管理',
 
+  /**
+   * logo
+   */
   logo: require("@/assets/img/144.png"),
 
   /**

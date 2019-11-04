@@ -2,7 +2,6 @@ import {getToken, removeToken, setToken} from '@/utils/cookieUtil'
 import {resetRouter} from '@/router'
 import {login, LoginRequest} from '@/sdk/api/login'
 import {logout, LogoutRequest} from '@/sdk/api/logout'
-import {MenuListRequest} from '@/sdk/api/system/menu/list'
 
 const user = {
   state: {

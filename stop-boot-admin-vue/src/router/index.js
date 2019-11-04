@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import {getToken, setToken, removeToken} from '@/utils/cookieUtil'
-import {Message} from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import {constantRoutes} from './routes'
 import defaultSettings from '@/config/settings'

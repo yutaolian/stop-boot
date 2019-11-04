@@ -18,7 +18,6 @@ const permission = Vue.directive('permission', {
      * access 为用户菜单拥有的权限列表
      */
     let access = vNode.context.$route.meta.permission;
-    console.log("access====",access);
     if (value.some(v => !access.includes(v))) {
       remove(el)
     }

@@ -1,4 +1,4 @@
-import {api} from '@/sdk/sccapi/httpConfig'
+import {api} from '@/sdk/api2/httpConfig'
 
 export class CourseListRequest {
   constructor() {

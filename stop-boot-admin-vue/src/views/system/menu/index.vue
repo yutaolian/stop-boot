@@ -5,80 +5,59 @@
       <el-form ref="filterForm" :model="tableQuery">
         <el-row>
           <el-col :span="4">
-            <el-form-item prop="id" label="id">
-              <el-input v-model="tableQuery.id" placeholder="id" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="pid" label="pid">-->
-<!--              <el-input v-model="tableQuery.pid" placeholder="pid" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-          <el-col :span="4">
-            <el-form-item prop="title" label="title">
+            <el-form-item prop="title" label="标题">
               <el-input v-model="tableQuery.title" placeholder="title" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="name" label="name">
-              <el-input v-model="tableQuery.name" placeholder="name" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="component" label="component">-->
-<!--              <el-input v-model="tableQuery.component" placeholder="component" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="path" label="path">-->
-<!--              <el-input v-model="tableQuery.path" placeholder="path" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="icon" label="icon">-->
-<!--              <el-input v-model="tableQuery.icon" placeholder="icon" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-          <el-col :span="4">
-            <el-form-item prop="type" label="type">
+            <el-form-item prop="type" label="类型">
               <el-input v-model="tableQuery.type" placeholder="type" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="link" label="link">-->
-<!--              <el-input v-model="tableQuery.link" placeholder="link" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="4">-->
-<!--            <el-form-item prop="code" label="code">-->
-<!--              <el-input v-model="tableQuery.code" placeholder="code" style="width: 180px;" class="filter-item"-->
-<!--                        @keyup.enter.native="handleFilter"/>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
           <el-col :span="4">
-            <el-form-item prop="hidden" label="hidden">
+            <el-form-item prop="hidden" label="状态">
               <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
+
+
+          <el-col :span="4">
+            <el-form-item prop="hidden" label="状态">
+              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="hidden" label="状态">
+              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="hidden" label="状态">
+              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="hidden" label="状态">
+              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+
           <!--@click="cleanFilter"-->
           <el-col :span="4">
-            <el-form-item label="">
+            <el-form-item label="aaa">
+              <div style="width: 180px;">
               <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
                          @click="cleanFilter" circle/>
               <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary" icon="el-icon-search"
                          @click="handleFilter" circle/>
-              <el-button v-permission="['P_SYSTEM_MENU_ADD']" class="filter-item" type="success" icon="el-icon-plus"
-                         @click="preCreate" circle/>
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
