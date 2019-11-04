@@ -51,14 +51,15 @@
 
           <!--@click="cleanFilter"-->
           <el-col :span="4">
-            <el-form-item label="aaa">
-              <div style="width: 180px;">
-              <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
-                         @click="cleanFilter" circle/>
-              <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary" icon="el-icon-search"
-                         @click="handleFilter" circle/>
+            <div class="el-form-item__label" style="width:40px">&nbsp;</div>
+            <div class="el-form-item__content">
+              <div class="filter-item" style="width: 180px;">
+                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
+                          @click="cleanFilter" circle/>
+                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary" icon="el-icon-search"
+                          @click="handleFilter" circle/>
               </div>
-            </el-form-item>
+            </div>
           </el-col>
         </el-row>
       </el-form>
