@@ -92,4 +92,18 @@ public class GeneratorSubmitParams implements Serializable {
 
     private String viewPath;
 
+
+    /**
+     * 功能类型
+     */
+    private List<String> functionTypes;
+
+    /**
+     * 业务类型
+     */
+    private List<String> bizTypes;
+
+
+
+
 }

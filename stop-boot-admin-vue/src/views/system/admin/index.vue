@@ -5,49 +5,40 @@
       <el-form ref="filterForm" :model="tableQuery">
         <el-row>
           <el-col :span="4">
-            <el-form-item prop="id" label="id">
-              <el-input v-model="tableQuery.id" placeholder="id" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="name" label="name">
+            <el-form-item prop="name" label="姓名">
               <el-input v-model="tableQuery.name" placeholder="name" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="mobile" label="mobile">
+            <el-form-item prop="mobile" label="手机号">
               <el-input v-model="tableQuery.mobile" placeholder="mobile" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="email" label="email">
-              <el-input v-model="tableQuery.email" placeholder="email" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="status" label="status">
+            <el-form-item prop="status" label="状态">
               <el-input v-model="tableQuery.status" placeholder="status" style="width: 180px;" class="filter-item"
                         @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <!--@click="cleanFilter"-->
           <el-col :span="4">
-            <el-form-item label="">
-              <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
-              <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-
-              <el-button v-permission="['P_SYSTEM_ADMIN_ADD']" class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
-            </el-form-item>
+            <div class="el-form-item__label" style="width:40px">&nbsp;</div>
+            <div class="el-form-item__content">
+              <div class="filter-item" style="width: 180px;">
+                <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+                <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+                <el-button v-permission="['P_SYSTEM_ADMIN_ADD']" class="filter-item" type="success" icon="el-icon-plus"
+                           @click="preCreate" circle/>
+              </div>
+            </div>
           </el-col>
         </el-row>
       </el-form>
     </div>
     <el-row>
-      <el-col :span="18">
+      <el-col :span="16">
         <!--表格-->
         <el-table
           :key="tableKey"
@@ -65,50 +56,28 @@
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="name" prop="name" align="center">
+          <el-table-column label="姓名" prop="name" align="center">
             <template slot-scope="scope">
               <el-link type="primary" @click="adminSelected(scope.row)">{{ scope.row.name }}</el-link>
             </template>
           </el-table-column>
-          <el-table-column label="mobile" prop="mobile" align="center">
+          <el-table-column label="手机号" prop="mobile" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.mobile }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="password" prop="password" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.password }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="email" prop="email" align="center">
+          <el-table-column label="邮箱" prop="email" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.email }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="status" prop="status" align="center">
+          <el-table-column label="状态" prop="status" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.status }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="deleteFlag" prop="deleteFlag" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.deleteFlag }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="createTime" prop="createTime" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.createTime }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="updateTime" prop="updateTime" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.updateTime }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="{row}">
-
               <el-button v-permission="['P_SYSTEM_ADMIN_EDIT']" type="primary" size="mini" @click="preEdit(row)">
                 Edit
               </el-button>
@@ -124,7 +93,7 @@
                     @pagination="loadData"/>
 
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <div style="margin-left: 20px;">
           <el-tabs type="border-card">
             <el-tab-pane>
@@ -256,7 +225,7 @@
                     });
                 });
             },
-            adminSelected(row){
+            adminSelected(row) {
 
             }
         }

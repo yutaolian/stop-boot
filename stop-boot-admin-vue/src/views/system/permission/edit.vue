@@ -12,13 +12,13 @@
         <el-input type="textarea"
                   placeholder="请输入tag描述" maxlength="50"
                   show-word-limit v-model="editFormData.tagDesc"/>
-        <el-form-item label="tag" prop="tag">
-          <el-input v-model="editFormData.tag"/>
-        </el-form-item>
-        <el-form-item label="接口地址" prop="url">
-          <el-input v-model="editFormData.url">
-          </el-input>
-        </el-form-item>
+      </el-form-item>
+      <el-form-item label="tag" prop="tag">
+        <el-input v-model="editFormData.tag"/>
+      </el-form-item>
+      <el-form-item label="接口地址" prop="url">
+        <el-input v-model="editFormData.url">
+        </el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

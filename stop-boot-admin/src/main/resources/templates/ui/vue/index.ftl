@@ -14,11 +14,14 @@
                     </#list>
                     <!--@click="cleanFilter"-->
                     <el-col :span="4">
-                        <el-form-item label="">
-                            <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
-                            <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-                            <el-button v-permission="['${fullPathToPermission}_ADD']" class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
-                        </el-form-item>
+                        <div class="el-form-item__label" style="width:50px">&nbsp;</div>
+                        <div class="el-form-item__content">
+                            <div class="filter-item" style="width: 180px;">
+                                <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
+                                <el-button v-permission="['${fullPathToPermission}_PAGE']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
+                                <el-button v-permission="['${fullPathToPermission}_ADD']" class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
+                            </div>
+                        </div>
                     </el-col>
                 </el-row>
             </el-form>
@@ -37,20 +40,20 @@
                 style="width: 100%;"
         >
             <#list tableColumnsData as colum>
-            <el-table-column label="${colum.camelColumnName}" prop="${colum.camelColumnName}" align="center">
+            <el-table-column prop="${colum.camelColumnName}" label="${colum.camelColumnName}" align="center">
                 <template slot-scope="scope">
                     <span>{{ scope.row.${colum.camelColumnName} }}</span>
                 </template>
             </el-table-column>
             </#list>
 
-            <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
+            <el-table-column  class-name="small-padding fixed-width" label="操作" align="center">
                 <template slot-scope="{row}">
                     <el-button v-permission="['${fullPathToPermission}_ONE']"  type="primary" size="mini" @click="preEdit(row)">
-                        Edit
+                        编辑
                     </el-button>
-                    <el-button v-permission="['${fullPathToPermission}_DLETET']" size="mini" type="danger" @click="handleDelete(row)">
-                        Delete
+                    <el-button v-permission="['${fullPathToPermission}_DELETE']" size="mini" type="danger" @click="handleDelete(row)">
+                        删除
                     </el-button>
                 </template>
             </el-table-column>

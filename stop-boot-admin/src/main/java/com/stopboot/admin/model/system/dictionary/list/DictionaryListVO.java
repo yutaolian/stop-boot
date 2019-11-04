@@ -1,4 +1,4 @@
-package com.stopboot.admin.model.system.dictionary.one;
+package com.stopboot.admin.model.system.dictionary.list;
 
 import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 
 @Data
-public class DictionaryOneVO extends BaseVO {
+public class DictionaryListVO extends BaseVO {
 
     /**
     *主键ID

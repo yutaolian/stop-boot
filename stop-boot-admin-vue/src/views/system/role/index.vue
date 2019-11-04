@@ -18,11 +18,14 @@
           </el-col>
           <!--@click="cleanFilter"-->
           <el-col :span="4">
-            <el-form-item label=" ">
+            <div class="el-form-item__label" style="width:50px">&nbsp;</div>
+            <div class="el-form-item__content">
+              <div class="filter-item" style="width: 180px;">
               <el-button class="filter-item" type="danger" icon="el-icon-close" @click="cleanFilter" circle/>
               <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
               <el-button class="filter-item" type="success" icon="el-icon-plus" @click="preCreate" circle/>
-            </el-form-item>
+              </div>
+            </div>
           </el-col>
         </el-row>
       </el-form>
@@ -103,7 +106,7 @@
         <div style="margin-left: 20px;">
           <el-tabs type="border-card">
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i>菜单权限分配</span>
+              <span slot="label"><i class="el-icon-date"></i>{{tabPaneName}}</span>
               <el-row>
                 <el-col :span="8">
                   <el-tree
@@ -214,7 +217,8 @@
                 },
                 selectedPermission: [],
                 selectedMenus: [],
-                leftDefaultChecked: [77]
+                leftDefaultChecked: [77],
+                tabPaneName:"菜单权限分配"
             }
 
 
@@ -259,6 +263,7 @@
                                 }
                             })
                             this.transferData = tempData;
+
                         })
                         //获得已有权限
                         let request3 = new RolePermissionRequest()
@@ -327,6 +332,7 @@
                     }
                 })
                 this.transferData = tempData;
+
             },
             menuNodeClick(obj, data, node,) {
                 console.log("obj,data,node,", obj, data, node,)
@@ -339,6 +345,8 @@
                 this.menuQuery.roleId = row.id;
                 this.loadMenuAndPermission();
                 console.log("xxx--this.selectedMenus = res;", this.selectedMenus)
+                this.tabPaneName = "菜单权限分配";
+                this.tabPaneName = this.tabPaneName+"(已选角色:"+row.name+")"
             },
             saveRoleMenuAndPermission: function () {
                 console.log("已选 roleId ", this.menuQuery.roleId)

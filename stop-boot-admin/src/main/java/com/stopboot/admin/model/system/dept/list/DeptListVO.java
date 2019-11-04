@@ -1,4 +1,4 @@
-package com.stopboot.admin.model.system.dept.page;
+package com.stopboot.admin.model.system.dept.list;
 
 import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 
 @Data
-public class DeptPageVO extends BaseVO {
+public class DeptListVO extends BaseVO {
 
     /**
     *

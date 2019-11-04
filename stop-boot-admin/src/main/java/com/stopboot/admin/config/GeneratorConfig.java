@@ -9,6 +9,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 /**
  * @version:0.0.1
  * @author: Lianyutao
@@ -92,6 +94,17 @@ public class GeneratorConfig {
      * vue 代码路径
      */
     private String viewPath;
+
+
+    /**
+     * 功能类型
+     */
+    private List<String> functionTypes;
+
+    /**
+     * 业务类型
+     */
+    private List<String> bizTypes;
 
 
 }

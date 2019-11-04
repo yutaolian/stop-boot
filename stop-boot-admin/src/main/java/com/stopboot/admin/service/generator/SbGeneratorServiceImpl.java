@@ -182,11 +182,11 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         //生成后端view页面
         context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
 
-        generatorSubmitVO.setUrl(generatorPath);
-
         //默认认生成权限标签
-
         permissionService.addGeneratorPermission(generatorInfo);
+
+
+        generatorSubmitVO.setUrl(generatorPath);
 
         return generatorSubmitVO;
     }

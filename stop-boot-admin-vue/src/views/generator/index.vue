@@ -146,11 +146,11 @@
             <el-col :span="12">
               <el-form-item label="功能类型" prop="viewPath1">
                 <template>
-                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllFunction" @change="handleCheckAllChange">全选
                   </el-checkbox>
                   <div style="margin: 15px 0;"></div>
                   <el-checkbox-group v-model="checkedFunctionOptions" @change="handleCheckedCitiesChange">
-                    <el-checkbox v-for="type in typeFunctions" :label="type" :key="type">{{type}}</el-checkbox>
+                    <el-checkbox v-for="type in ruleForm.functionTypes" :label="type" :key="type">{{type}}</el-checkbox>
                   </el-checkbox-group>
                 </template>
               </el-form-item>
@@ -159,11 +159,11 @@
             <el-col :span="12">
               <el-form-item label="业务类型" prop="viewPath1">
                 <template>
-                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllBiz" @change="handleCheckAllChange">全选
                   </el-checkbox>
                   <div style="margin: 15px 0;"></div>
                   <el-checkbox-group v-model="checkedBizOptions" @change="handleCheckedCitiesChange">
-                    <el-checkbox v-for="type in bizOptions" :label="type" :key="type">{{type}}</el-checkbox>
+                    <el-checkbox v-for="type in ruleForm.bizTypes" :label="type" :key="type">{{type}}</el-checkbox>
                   </el-checkbox-group>
                 </template>
               </el-form-item>
@@ -392,19 +392,16 @@
     import {TableColumnsRequest, tableColumns} from '@/sdk/api/generator/table/columns'
     import {GeneratorSubmitRequest} from '@/sdk/api/generator/submit'
 
-    const functionOptions = ['page', 'list', 'add', 'update', 'delete'];
-    const bizOptionsData = ['admin', 'js-sdk', 'vue-page'];
+    const functionOptionsData = ['page', 'list', 'one', 'add', 'update', 'delete'];
+    const bizOptionsData = ['admin', 'js', 'vue'];
     export default {
         name: 'abc',
+        watch() {
+            this.checkedFunctionOptions = this.ruleForm.functionTypes;
+            this.checkedBizOptions = this.ruleForm.bizTypes;
+        },
         data() {
             return {
-                checkAll: true,
-                checkedFunctionOptions: functionOptions,
-                checkedBizOptions:bizOptionsData,
-                bizOptions:bizOptionsData,
-                typeFunctions: functionOptions,
-                isIndeterminate: true,
-                activeName: 'first',
                 ruleForm: {
                     author: '',
                     projectName: '',
@@ -416,55 +413,16 @@
                     menuInfo: {},
                     selectedTableName: '',
                     tableColumnsData: [],
+                    functionTypes: [],
+                    bizTypes: [],
                 },
-                test1DeleteParams: {
-                    //
-                    id: undefined,
-                    // 姓名
-                    name: undefined,
-                    // 年龄
-                    age: undefined,
-                    // 生日
-                    birthday: undefined,
-                    // 创建时间
-                    createTime: undefined,
-                    // 信息
-                    info: undefined,
-                    // 状态
-                    status: undefined,
-                    // 头像
-                    headImg: undefined,
-                    // 删除标记（1正常，0删除）
-                    deleteFlag: undefined,
-                    // 更新时间
-                    updateTime: undefined,
-                },
-                selsct_switch: false,
+                activeName: 'first',
+                checkAllFunction: true,
+                checkAllBiz: true,
+                isIndeterminate: true,
+                checkedFunctionOptions:[],
+                checkedBizOptions:[],
                 multipleSelection: [],
-                rules: {
-                    name: [
-                        {required: true, message: '请输入活动名称', trigger: 'blur'},
-                        {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-                    ],
-                    region: [
-                        {required: true, message: '请选择活动区域', trigger: 'change'}
-                    ],
-                    date1: [
-                        {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-                    ],
-                    date2: [
-                        {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-                    ],
-                    type: [
-                        {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-                    ],
-                    resource: [
-                        {required: true, message: '请选择活动资源', trigger: 'change'}
-                    ],
-                    desc: [
-                        {required: true, message: '请填写活动形式', trigger: 'blur'}
-                    ]
-                },
                 componentOptions: [{
                     value: '1',
                     label: 'Radio 单选框'
@@ -552,13 +510,14 @@
                 }
             },
             handleCheckAllChange(val) {
-                this.checkedFunctionOptions = val ? functionOptions : [];
+                this.checkedFunctionOptions = val ? this.checkedFunctionOptions : [];
                 this.isIndeterminate = false;
             },
             handleCheckedCitiesChange(value) {
                 let checkedCount = value.length;
-                this.checkAll = checkedCount === this.typeFunctions.length;
-                this.isIndeterminate = checkedCount > 0 && checkedCount < this.typeFunctions.length;
+                let functionTypes = this.ruleForm.functionTypes
+                this.checkAll = checkedCount === functionTypes.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < functionTypes.length;
             }
         },
         computed: {

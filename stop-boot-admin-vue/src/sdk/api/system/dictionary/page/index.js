@@ -3,7 +3,7 @@ import {api} from '@/sdk/api/httpConfig'
 /**
  * projectName：stop-boot jssdk
  * author: Lianyutao
- * date: 2019/10/25 13:23
+ * date: 2019/11/04 19:54
  * version: 1.0.1
  * desc: 分页
  */
@@ -15,25 +15,23 @@ export class DictionaryPageRequest {
             pageNum: undefined,
             // 页面大小
             pageSize: undefined,
-            // 
+            // 主键ID
             id: undefined,
-            // 姓名
-            name: undefined,
-            // 年龄
-            age: undefined,
-            // 生日
-            birthday: undefined,
+            // 字典名称
+            dicName: undefined,
+            // 字典key
+            dicKey: undefined,
+            // 字典值
+            dicValue: undefined,
+            // 字典描述
+            dicDesc: undefined,
+            // 状态1激活，0冻结
+            status: undefined,
+            // 删除标识（1正常，0删除）
+            deleteFlag: undefined,
             // 创建时间
             createTime: undefined,
-            // 信息
-            info: undefined,
-            // 状态
-            status: undefined,
-            // 头像
-            headImg: undefined,
-            // 删除标记（1正常，0删除）
-            deleteFlag: undefined,
-            // 更新时间
+            // 修改时间
             updateTime: undefined,
         }
     }
@@ -54,28 +52,23 @@ export class DictionaryPageRequest {
         return this;
     }
 
-    setName(name) {
-        this.params.name = name
+    setDicName(dicName) {
+        this.params.dicName = dicName
         return this;
     }
 
-    setAge(age) {
-        this.params.age = age
+    setDicKey(dicKey) {
+        this.params.dicKey = dicKey
         return this;
     }
 
-    setBirthday(birthday) {
-        this.params.birthday = birthday
+    setDicValue(dicValue) {
+        this.params.dicValue = dicValue
         return this;
     }
 
-    setCreateTime(createTime) {
-        this.params.createTime = createTime
-        return this;
-    }
-
-    setInfo(info) {
-        this.params.info = info
+    setDicDesc(dicDesc) {
+        this.params.dicDesc = dicDesc
         return this;
     }
 
@@ -84,13 +77,13 @@ export class DictionaryPageRequest {
         return this;
     }
 
-    setHeadImg(headImg) {
-        this.params.headImg = headImg
+    setDeleteFlag(deleteFlag) {
+        this.params.deleteFlag = deleteFlag
         return this;
     }
 
-    setDeleteFlag(deleteFlag) {
-        this.params.deleteFlag = deleteFlag
+    setCreateTime(createTime) {
+        this.params.createTime = createTime
         return this;
     }
 
@@ -123,25 +116,23 @@ export class DictionaryPageRequest {
     data() {
         return {
             dictionaryPageParams: {
-                    // 
+                    // 主键ID
                     id: undefined,
-                    // 姓名
-                    name: undefined,
-                    // 年龄
-                    age: undefined,
-                    // 生日
-                    birthday: undefined,
+                    // 字典名称
+                    dicName: undefined,
+                    // 字典key
+                    dicKey: undefined,
+                    // 字典值
+                    dicValue: undefined,
+                    // 字典描述
+                    dicDesc: undefined,
+                    // 状态1激活，0冻结
+                    status: undefined,
+                    // 删除标识（1正常，0删除）
+                    deleteFlag: undefined,
                     // 创建时间
                     createTime: undefined,
-                    // 信息
-                    info: undefined,
-                    // 状态
-                    status: undefined,
-                    // 头像
-                    headImg: undefined,
-                    // 删除标记（1正常，0删除）
-                    deleteFlag: undefined,
-                    // 更新时间
+                    // 修改时间
                     updateTime: undefined,
             },
         }
@@ -156,14 +147,13 @@ export class DictionaryPageRequest {
     let request = new DictionaryPageRequest();
     request.
             setId(id).
-            setName(name).
-            setAge(age).
-            setBirthday(birthday).
-            setCreateTime(createTime).
-            setInfo(info).
+            setDicName(dicName).
+            setDicKey(dicKey).
+            setDicValue(dicValue).
+            setDicDesc(dicDesc).
             setStatus(status).
-            setHeadImg(headImg).
             setDeleteFlag(deleteFlag).
+            setCreateTime(createTime).
             setUpdateTime(updateTime).
             api().then(res => {
                 console.log("DictionaryPageRequest res:", res)
@@ -172,14 +162,13 @@ export class DictionaryPageRequest {
     //单独设置参数方式二
     let request = new DictionaryPageRequest();
     request.setId(id);
-    request.setName(name);
-    request.setAge(age);
-    request.setBirthday(birthday);
-    request.setCreateTime(createTime);
-    request.setInfo(info);
+    request.setDicName(dicName);
+    request.setDicKey(dicKey);
+    request.setDicValue(dicValue);
+    request.setDicDesc(dicDesc);
     request.setStatus(status);
-    request.setHeadImg(headImg);
     request.setDeleteFlag(deleteFlag);
+    request.setCreateTime(createTime);
     request.setUpdateTime(updateTime);
     request.api().then(res => {
         console.log("DictionaryPageRequest res:", res)

@@ -23,32 +23,6 @@
             </el-form-item>
           </el-col>
 
-
-          <el-col :span="4">
-            <el-form-item prop="hidden" label="状态">
-              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="hidden" label="状态">
-              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="hidden" label="状态">
-              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="hidden" label="状态">
-              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-
           <!--@click="cleanFilter"-->
           <el-col :span="4">
             <div class="el-form-item__label" style="width:40px">&nbsp;</div>

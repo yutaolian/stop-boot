@@ -6,54 +6,49 @@ import lombok.Data;
 /**
  * @description:
  * @author: Lianyutao
- * @create: 2019/10/25 13:23
+ * @create: 2019/11/04 19:54
  * @version: 1.0.1
  **/
 
 @Data
 public class DictionaryPageParams extends BasePageParams{
     /**
-     *姓名
+     *字典名称
      *
      */
-    private String name;
+    private String dicName;
     /**
-     *年龄
+     *字典key
      *
      */
-    private Object age;
+    private String dicKey;
     /**
-     *生日
+     *字典值
      *
      */
-    private java.util.Date birthday;
+    private String dicValue;
+    /**
+     *字典描述
+     *
+     */
+    private String dicDesc;
+    /**
+     *状态1激活，0冻结
+     *
+     */
+    private Integer status;
+    /**
+     *删除标识（1正常，0删除）
+     *
+     */
+    private Integer deleteFlag;
     /**
      *创建时间
      *
      */
     private java.util.Date createTime;
     /**
-     *信息
-     *
-     */
-    private String info;
-    /**
-     *状态
-     *
-     */
-    private Object status;
-    /**
-     *头像
-     *
-     */
-    private String headImg;
-    /**
-     *删除标记（1正常，0删除）
-     *
-     */
-    private Object deleteFlag;
-    /**
-     *更新时间
+     *修改时间
      *
      */
     private java.util.Date updateTime;

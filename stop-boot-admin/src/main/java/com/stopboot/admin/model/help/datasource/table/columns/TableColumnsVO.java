@@ -1,5 +1,6 @@
 package com.stopboot.admin.model.help.datasource.table.columns;
 
+import com.stopboot.admin.model.system.permission.list.PermissionInfoVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -42,5 +43,18 @@ public class TableColumnsVO implements Serializable {
     private boolean editShow;
 
     private String realType;
+
+    private String componmentType;
+
+    private String dicKey;
+
+    private String englishName;
+
+    private String chineseName;
+
+
+
+
+
 
 }

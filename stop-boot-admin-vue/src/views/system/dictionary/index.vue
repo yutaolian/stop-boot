@@ -1,195 +1,226 @@
 <template>
-    <div class="app-container">
-        <!--分页过滤条件-->
-        <div class="filter-container">
-            <el-input v-model="pageQuery.title" placeholder="名称" style="width: 200px;" class="filter-item"
-                      @keyup.enter.native="handleFilter"/>
-            <!--      @click="cleanFilter"-->
-            <el-button class="filter-item" type="danger" icon="el-icon-close" circle/>
-            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" circle/>
-            <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-plus" @click="preCreate"
-                       circle>
-            </el-button>
-        </div>
+  <div class="app-container">
+    <!--分页过滤条件-->
+    <div v-permission="['P_SYSTEM_DICTIONARY_PAGE']" class="filter-container">
+      <el-form ref="filterForm" :model="tableQuery">
+        <el-row>
+
+          <el-col :span="4">
+            <el-form-item prop="dicName" label="字典名称">
+              <el-input v-model="tableQuery.dicName" placeholder="dicName" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="dicKey" label="字典key">
+              <el-input v-model="tableQuery.dicKey" placeholder="dicKey" style="width: 180px;" class="filter-item"
+                        @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <!--@click="cleanFilter"-->
+          <el-col :span="4">
+            <div class="el-form-item__label" style="width:50px">&nbsp;</div>
+            <div class="el-form-item__content">
+              <div class="filter-item" style="width: 180px;">
+                <el-button v-permission="['P_SYSTEM_DICTIONARY_PAGE']" class="filter-item" type="danger"
+                           icon="el-icon-close" @click="cleanFilter" circle/>
+                <el-button v-permission="['P_SYSTEM_DICTIONARY_PAGE']" class="filter-item" type="primary"
+                           icon="el-icon-search" @click="handleFilter" circle/>
+                <el-button v-permission="['P_SYSTEM_DICTIONARY_ADD']" class="filter-item" type="success"
+                           icon="el-icon-plus" @click="preCreate" circle/>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+
+    <el-row>
+      <el-col :span="12">
         <!--表格-->
         <el-table
+          v-permission="['P_SYSTEM_DICTIONARY_PAGE']"
+          :key="tableKey"
+          v-loading="tableLoading"
+          :data="tableData"
+          border
+          stripe
+          empty-text
+          fit
+          highlight-current-row
+          style="width: 100%;"
+        >
+          <el-table-column prop="id" label="id" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.id }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="dicName" label="字典名称" align="center">
+            <template slot-scope="scope">
+              <el-link type="primary" @click="roleSelected(scope.row)">{{ scope.row.dicName }}</el-link>
+            </template>
+          </el-table-column>
+          <el-table-column prop="dicKey" label="字典key" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.dicKey }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="status" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.status }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column class-name="small-padding fixed-width" label="操作" align="center">
+            <template slot-scope="{row}">
+              <el-button v-permission="['P_SYSTEM_DICTIONARY_ONE']" type="primary" size="mini" @click="preEdit(row)">
+                编辑
+              </el-button>
+              <el-button v-permission="['P_SYSTEM_DICTIONARY_DELETE']" size="mini" type="danger"
+                         @click="handleDelete(row)">
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!--分页组件-->
+        <pagination v-permission="['P_SYSTEM_DICTIONARY_PAGE']" v-show="total>0" :total="total"
+                    :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+                    @pagination="loadData"/>
+
+      </el-col>
+
+      <el-col :span="12">
+        <div style="margin-left: 20px;">
+          <el-tabs type="border-card">
+            <el-tab-pane>
+              <span slot="label"><i class="el-icon-date"></i>{{tabPaneName}}</span>
+              <!--表格-->
+              <el-table
+                v-permission="['P_SYSTEM_DICTIONARY_PAGE']"
                 :key="tableKey"
-                v-loading="listLoading"
-                :data="list"
+                v-loading="tableLoading"
+                :data="tableData"
                 border
                 stripe
                 empty-text
                 fit
                 highlight-current-row
                 style="width: 100%;"
-                @sort-change="sortChange"
-            >
-                        <el-table-column label="id" prop="id" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.id }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="name" prop="name" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.name }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="age" prop="age" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.age }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="birthday" prop="birthday" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.birthday }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="createTime" prop="createTime" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.createTime }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="info" prop="info" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.info }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="status" prop="status" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.status }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="headImg" prop="headImg" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.headImg }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="deleteFlag" prop="deleteFlag" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.deleteFlag }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="updateTime" prop="updateTime" align="center" width="80">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.updateTime }}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
-                <template slot-scope="{row}">
-                    <el-button type="primary" size="mini" @click="preEdit(row)">
-                        Edit
+              >
+                <el-table-column prop="dicKey" label="字典key" align="center">
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.dicKey }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="dicValue" label="字典value" align="dicValue">
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.dicValue }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column class-name="small-padding fixed-width" label="操作" align="center">
+                  <template slot-scope="{row}">
+                    <el-button v-permission="['P_SYSTEM_DICTIONARY_ONE']" type="primary" size="mini"
+                               @click="preEdit(row)">
+                      编辑
                     </el-button>
-                    <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
-                        Delete
+                    <el-button v-permission="['P_SYSTEM_DICTIONARY_DELETE']" size="mini" type="danger"
+                               @click="handleDelete(row)">
+                      删除
                     </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
 
-        <!--分页组件-->
-        <pagination v-show="total>0" :total="total" :page.sync="pageQuery.pageNum" :limit.sync="pageQuery.pageSize"
-                    @pagination="getList"/>
+      </el-col>
+    </el-row>
 
-        <!--新增组件-->
-        <create-form ref="createForm"></create-form>
+    <!--新增组件-->
+    <create-form v-permission="['P_SYSTEM_DICTIONARY_ADD']" ref="createForm" :rowData='createRowData'
+                 @loadData="loadData"></create-form>
 
-        <!--编辑组件-->
-        <edit-form ref="editForm" :row='updateRowData'></edit-form>
+    <!--编辑组件-->
+    <edit-form v-permission="['P_SYSTEM_DICTIONARY_UPDATE']" ref="editForm" :rowData='editRowData'
+               @loadData="loadData"></edit-form>
 
-    </div>
+  </div>
 </template>
 
 <script>
+    //分页组件
     import Pagination from '@/components/Pagination'
     //新增组件
     import createForm from './create'
     //编辑组件
     import editForm from './edit'
-    //接口
+    //Dictionary page 接口
     import {DictionaryPageRequest} from '@/sdk/api/system/dictionary/page'
+    //Dictionary delete 接口
+    import {DictionaryDeleteRequest} from '@/sdk/api/system/dictionary/delete'
 
     export default {
-        name: 'DictionaryPageTable',
+        name: 'Dictionary-Table',
         components: {Pagination, createForm, editForm},
-        filters: {
-            statusFilter(status) {
-                const statusMap = {
-                    published: 'success',
-                    draft: 'info',
-                    deleted: 'danger'
-                }
-                return statusMap[status]
-            },
-            typeFilter(type) {
-                return calendarTypeKeyValue[type]
-            }
-        },
         data() {
             return {
-                tableKey: 0,
-                list: null,
+                tableKey: 'Dictionary',
+                tableData: null,
                 total: 0,
-                listLoading: true,
-                pageQuery: {
+                tableLoading: true,
+                tableQuery: {
                     pageNum: 1,
                     pageSize: 10,
+                    id: undefined,
+                    dicName: undefined,
+                    dicKey: undefined,
+                    dicValue: undefined,
+                    dicDesc: undefined,
+                    status: undefined,
+                    deleteFlag: undefined,
+                    createTime: undefined,
+                    updateTime: undefined,
                 },
                 dialogFormVisible: false,
-                dialogPvVisible: false,
-                updateRowData: {}
+                editRowData: {},
+                createRowData: {},
+                tabPaneName:'字典值'
             }
         },
+        filters: {},
         created() {
-            this.getList()
+            this.loadData()
         },
         methods: {
-            getList() {
-                this.listLoading = true
-                //单独设置参数方式二
-                let request = new DictionaryPageRequest();
-                //request.setId(id);
-                //request.setName(name);
-                //request.setAge(age);
-                //request.setBirthday(birthday);
-                //request.setCreateTime(createTime);
-                //request.setInfo(info);
-                //request.setStatus(status);
-                //request.setHeadImg(headImg);
-                //request.setDeleteFlag(deleteFlag);
-                //request.setUpdateTime(updateTime);
-                request.setPageNum(this.pageQuery.pageNum)
-                request.setPageSize(this.pageQuery.pageSize)
-                request.api().then(res => {
-                    this.listLoading = false
-                    this.list = res['list']
-                    this.total = res['total']
-                    console.log("DictionaryIndexRequest res:", res)
+            loadData() {
+                this.$nextTick(() => {
+                    this.tableLoading = true
+                    let request = new DictionaryPageRequest();
+                    request.setParams(this.tableQuery);
+                    request.api().then(res => {
+                        this.tableLoading = false
+                        this.tableData = res['list']
+                        this.total = res['total']
+                        console.log("Dictionary tableData res:", res)
+                    })
                 })
             },
             handleFilter() {
-                this.pageQuery.page = 1
-                this.getList()
+                this.tableQuery.pageNum = 1
+                this.loadData()
             },
-            sortChange(data) {
-                const {prop, order} = data
-                if (prop === 'id') {
-                    this.sortByID(order)
-                }
+            cleanFilter() {
+                this.$refs['filterForm'].resetFields();
+                this.loadData()
             },
-            sortByID(order) {
-                if (order === 'ascending') {
-                    this.pageQuery.sort = '+id'
-                } else {
-                    this.pageQuery.sort = '-id'
-                }
-                this.handleFilter()
-            },
-            preCreate() {
+            preCreate(row) {
+                // this.createRowData = Object.assign({}, row)
                 this.$refs.createForm.dialogFormVisible = true
             },
             preEdit(row) {
-                this.updateRowData = Object.assign({}, row)
+                this.editRowData = Object.assign({}, row)
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
@@ -198,26 +229,20 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                    const index = this.list.indexOf(row)
-                    this.list.splice(index, 1)
+                    let request = new DictionaryDeleteRequest();
+                    request.setId(row.id).api().then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData()
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消'
                     });
                 });
-            },
-            getSortClass: function (key) {
-                const sort = this.pageQuery.sort
-                return sort === `+`
-                    ? 'ascending'
-                    : sort === `-`
-                        ? 'descending'
-                        : ''
             }
         }
     }

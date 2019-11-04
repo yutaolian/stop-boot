@@ -57,10 +57,11 @@
         <!--        <table tableName="sb_menu"></table>-->
         <!--        <table tableName="sb_role"></table>-->
 <!--        <table tableName="sb_admin_roles"></table>-->
-        <table tableName="sb_menu_permissions"></table>
+<!--        <table tableName="sb_menu_permissions"></table>-->
 <!--        <table tableName="sb_role_menus"></table>-->
 <!--        <table tableName="sb_role_menu_permissions"></table>-->
 <!--        <table tableName="sb_admin"></table>-->
+        <table tableName="sb_dictionary"></table>
 
 
 <!--        <table tableName="sb_test"></table>-->
