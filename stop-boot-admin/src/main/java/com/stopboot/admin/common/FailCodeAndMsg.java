@@ -51,4 +51,11 @@ public interface FailCodeAndMsg {
 
     String FAIL_MSG_USER_NO_EXIST  = "用户不存在";
 
+
+    //dickey存在
+    String FAIL_CODE_DIC_KEY_EXIST = "50010";
+
+    String FAIL_MSG_DIC_KEY_EXIST  = "字典key%s存在";
+
+
 }

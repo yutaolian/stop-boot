@@ -99,22 +99,31 @@
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i>角色分配</span>
               <el-row>
+                <span>已选：{{ selectedRoleName }}</span>
+                <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
+                           @click="saveAdminRoles">保存</el-button>
+                <el-divider></el-divider>
+                <!--表格-->
                 <el-table
                   ref="multipleTable"
                   :data="tableData"
                   tooltip-effect="dark"
-                  style="width: 100%"
-                  @selection-change="handleSelectionChange">
+                  style="width: 100%">
+                  <el-table-column
+                    type="selection">
+                  </el-table-column>
                   <el-table-column
                     prop="name"
-                    label="姓名"
+                    label="角色名"
+                    width="120">
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    label="角色tag"
                     width="120">
                   </el-table-column>
                 </el-table>
               </el-row>
-              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
-                         @click="saveRoleMenuAndPermission">保存
-              </el-button>
             </el-tab-pane>
           </el-tabs>
 
@@ -168,7 +177,8 @@
                 dialogFormVisible: false,
                 editRowData: {},
                 createRowData: {},
-                tableData: []
+                tableData: [],
+                selectedRoleName:undefined
             }
         },
         filters: {},
@@ -226,6 +236,9 @@
                 });
             },
             adminSelected(row) {
+                this.selectedRoleName = row.name
+            },
+            saveAdminRoles(){
 
             }
         }

@@ -35,7 +35,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, ListVO, 
         PageResult<PageVO> testPage = service().page(params);
         resultData.success(testPage);
         return resultData;
-}
+    }
 
 
     /**
@@ -48,11 +48,7 @@ public class DefaultController<Service extends DefaultServiceI, PageVO, ListVO, 
     public ResultData<ListVO> list(@Validated @RequestBody ListParams params) {
         ResultData resultData = ResultData.build();
         List<ListVO> menuTreeList = service().list(params);
-        if (!ObjectUtils.isEmpty(menuTreeList)) {
-            resultData.success(menuTreeList);
-        } else {
-            resultData.empty();
-        }
+        resultData.success(menuTreeList);
         return resultData;
     }
 

@@ -44,21 +44,6 @@ public class DictionaryListVO extends BaseVO {
     *
     */
     private Integer status;
-    /**
-    *删除标识（1正常，0删除）
-    *
-    */
-    private Integer deleteFlag;
-    /**
-    *创建时间
-    *
-    */
-    private java.util.Date createTime;
-    /**
-    *修改时间
-    *
-    */
-    private java.util.Date updateTime;
 
 
 

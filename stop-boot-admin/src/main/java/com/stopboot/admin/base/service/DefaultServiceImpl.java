@@ -5,6 +5,7 @@ import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.ClassUtil;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,6 +184,31 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, O
     }
 
     /**
+     * 多条件更新
+     * Example 方法对具体实现类隐藏
+     *
+     * @param example
+     * @return
+     */
+    public boolean updateByExample(UpdateParams params, DBExample example) {
+        DBRecord record = (DBRecord) BeansHelper.getInstance().convert(params, getClass(DBRECORD_INDEX));
+        return this.updateByExampleSelective(record, example) > 0 ? true : false;
+    }
+
+    /**
+     * 多条件更新
+     * Example 方法对具体实现类隐藏
+     *
+     * @param example
+     * @return
+     */
+    public boolean updateByExampleWithBLOBs(UpdateParams params, DBExample example) {
+        DBRecord record = (DBRecord) BeansHelper.getInstance().convert(params, getClass(DBRECORD_INDEX));
+        return this.updateByExampleWithBLOBs(record, example) > 0 ? true : false;
+    }
+
+
+    /**
      * 分页
      * 多条件查询需要子类重写
      *
@@ -219,29 +245,7 @@ public class DefaultServiceImpl<DBMapper, DBRecord, DBExample, PageVO, ListVO, O
         return getOneVO((List<DBRecord>) records);
     }
 
-    /**
-     * 多条件更新
-     * Example 方法对具体实现类隐藏
-     *
-     * @param example
-     * @return
-     */
-    public boolean updateByExample(UpdateParams params, DBExample example) {
-        DBRecord record = (DBRecord) BeansHelper.getInstance().convert(params, getClass(DBRECORD_INDEX));
-        return this.updateByExampleSelective(record, example) > 0 ? true : false;
-    }
 
-    /**
-     * 多条件更新
-     * Example 方法对具体实现类隐藏
-     *
-     * @param example
-     * @return
-     */
-    public boolean updateByExampleWithBLOBs(UpdateParams params, DBExample example) {
-        DBRecord record = (DBRecord) BeansHelper.getInstance().convert(params, getClass(DBRECORD_INDEX));
-        return this.updateByExampleWithBLOBs(record, example) > 0 ? true : false;
-    }
 
     /**
      * 多条件分页

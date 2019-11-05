@@ -16,4 +16,10 @@ public interface DictionaryServiceI extends DefaultServiceI<DictionaryPageVO, Di
         DictionaryPageParams, DictionaryListParams, DictionaryOneParams,
         DictionaryAddParams, DictionaryUpdateParams, DictionaryDeleteParams> {
 
+    /**
+     * 检查dickey是否存在
+     * @param params
+     * @return
+     */
+    boolean checkDicKey(DictionaryAddParams params);
 }

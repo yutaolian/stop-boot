@@ -18,7 +18,6 @@
                          :base-path="basePath+'/'+item.path"></sub-menu-item>
         </el-submenu>
       </template>
-
     </template>
   </div>
 </template>

@@ -3,7 +3,7 @@
 
     <el-tabs v-model="activeName">
       <el-tab-pane label="后代管理逻辑代码生成" name="first">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-divider>菜单信息</el-divider>
           <el-row>
             <el-col :span="12">
@@ -146,7 +146,8 @@
             <el-col :span="12">
               <el-form-item label="功能类型" prop="viewPath1">
                 <template>
-                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllFunction" @change="handleCheckAllChange">全选
+                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllFunction"
+                               @change="handleCheckAllChange">全选
                   </el-checkbox>
                   <div style="margin: 15px 0;"></div>
                   <el-checkbox-group v-model="checkedFunctionOptions" @change="handleCheckedCitiesChange">
@@ -306,7 +307,7 @@
                   <el-select v-model="selectedComponent" placeholder="请选择使用的组件">
                     <el-option
                       v-for="item in componentOptions"
-                      :key="item.value"
+                      :key="item.value+scope.row.camelColumnName"
                       :label="item.label"
                       :value="item.value">
                     </el-option>
@@ -343,7 +344,7 @@
 
       </el-tab-pane>
       <el-tab-pane label="多语言SDK代码生成" name="second">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-divider>基本信息</el-divider>
           <el-row>
             <el-col :span="12">
@@ -397,8 +398,10 @@
     export default {
         name: 'abc',
         watch() {
-            this.checkedFunctionOptions = this.ruleForm.functionTypes;
-            this.checkedBizOptions = this.ruleForm.bizTypes;
+            // typeSelect(){
+            //     this.checkedFunctionOptions = this.ruleForm.functionTypes;
+            //     this.checkedBizOptions = this.ruleForm.bizTypes;
+            // }
         },
         data() {
             return {
@@ -420,8 +423,8 @@
                 checkAllFunction: true,
                 checkAllBiz: true,
                 isIndeterminate: true,
-                checkedFunctionOptions:[],
-                checkedBizOptions:[],
+                checkedFunctionOptions: [],
+                checkedBizOptions: [],
                 multipleSelection: [],
                 componentOptions: [{
                     value: '1',

@@ -50,14 +50,12 @@
           highlight-current-row
           style="width: 100%;"
         >
-          <el-table-column prop="id" label="id" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.id }}</span>
-            </template>
+          <el-table-column type="index" align="center">
+
           </el-table-column>
           <el-table-column prop="dicName" label="字典名称" align="center">
             <template slot-scope="scope">
-              <el-link type="primary" @click="roleSelected(scope.row)">{{ scope.row.dicName }}</el-link>
+              <el-link type="primary" @click="rowSelected(scope.row)">{{ scope.row.dicName }}</el-link>
             </template>
           </el-table-column>
           <el-table-column prop="dicKey" label="字典key" align="center">
@@ -76,7 +74,7 @@
                 编辑
               </el-button>
               <el-button v-permission="['P_SYSTEM_DICTIONARY_DELETE']" size="mini" type="danger"
-                         @click="handleDelete(row)">
+                         @click="handleDeleteAll(row)">
                 删除
               </el-button>
             </template>
@@ -94,13 +92,15 @@
         <div style="margin-left: 20px;">
           <el-tabs type="border-card">
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i>{{tabPaneName}}</span>
+              <span slot="label"><i class="el-icon-date"></i>字典值</span>
+              <span>已选：{{ selectedDictionaryName }}</span>
+              <el-button type="primary" size="small" @click="preCreate()">添加</el-button>
+              <el-divider></el-divider>
               <!--表格-->
               <el-table
                 v-permission="['P_SYSTEM_DICTIONARY_PAGE']"
-                :key="tableKey"
-                v-loading="tableLoading"
-                :data="tableData"
+                :key="tableKey2"
+                :data="selectedDictionaryValues"
                 border
                 stripe
                 empty-text
@@ -118,6 +118,11 @@
                     <span>{{ scope.row.dicValue }}</span>
                   </template>
                 </el-table-column>
+                <el-table-column prop="dicDesc" label="字典描述" align="center">
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.dicDesc }}</span>
+                  </template>
+                </el-table-column>
                 <el-table-column class-name="small-padding fixed-width" label="操作" align="center">
                   <template slot-scope="{row}">
                     <el-button v-permission="['P_SYSTEM_DICTIONARY_ONE']" type="primary" size="mini"
@@ -125,7 +130,7 @@
                       编辑
                     </el-button>
                     <el-button v-permission="['P_SYSTEM_DICTIONARY_DELETE']" size="mini" type="danger"
-                               @click="handleDelete(row)">
+                               @click="handleDeleteOne(row)">
                       删除
                     </el-button>
                   </template>
@@ -160,6 +165,8 @@
     import {DictionaryPageRequest} from '@/sdk/api/system/dictionary/page'
     //Dictionary delete 接口
     import {DictionaryDeleteRequest} from '@/sdk/api/system/dictionary/delete'
+    //Dictionary list 接口
+    import {DictionaryListRequest} from '@/sdk/api/system/dictionary/list'
 
     export default {
         name: 'Dictionary-Table',
@@ -167,6 +174,7 @@
         data() {
             return {
                 tableKey: 'Dictionary',
+                tableKey2: 'Dictionary-Values',
                 tableData: null,
                 total: 0,
                 tableLoading: true,
@@ -183,10 +191,16 @@
                     createTime: undefined,
                     updateTime: undefined,
                 },
+                selectedDicKey: undefined,
+                deleteForm: {
+                    id: undefined,
+                    dicKey: undefined
+                },
                 dialogFormVisible: false,
                 editRowData: {},
                 createRowData: {},
-                tabPaneName:'字典值'
+                selectedDictionaryName: "",
+                selectedDictionaryValues: []
             }
         },
         filters: {},
@@ -223,19 +237,30 @@
                 this.editRowData = Object.assign({}, row)
                 this.$refs.editForm.dialogFormVisible = true
             },
-            handleDelete(row) {
-                this.$confirm('确认删除, 是否继续?', '提示', {
+            async handleDeleteAll(row) {
+                this.deleteForm.dicKey = row.dicKey
+                this.deleteForm.id = undefined
+                await this.handleDelete(this.deleteForm)
+                this.rowSelected(row)
+            },
+            async handleDeleteOne(row) {
+                this.deleteForm.dicKey = undefined
+                this.deleteForm.id = row.id
+                await this.handleDelete(this.deleteForm)
+                this.rowSelected(row)
+            },
+            async handleDelete(params) {
+                await this.$confirm('确认删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     let request = new DictionaryDeleteRequest();
-                    request.setId(row.id).api().then(res => {
+                    request.setParams(params).api().then(res => {
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
                         });
-                        this.loadData()
                     })
                 }).catch(() => {
                     this.$message({
@@ -243,6 +268,14 @@
                         message: '已取消'
                     });
                 });
+            },
+            rowSelected(row) {
+                this.selectedDicKey = row.dicKey
+                this.selectedDictionaryName = row.dicName
+                let request = new DictionaryListRequest()
+                request.setDicKey(this.selectedDicKey).api().then(res => {
+                    this.selectedDictionaryValues = res;
+                })
             }
         }
     }

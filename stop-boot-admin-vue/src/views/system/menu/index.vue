@@ -29,9 +29,10 @@
             <div class="el-form-item__content">
               <div class="filter-item" style="width: 180px;">
                 <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
-                          @click="cleanFilter" circle/>
-                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary" icon="el-icon-search"
-                          @click="handleFilter" circle/>
+                           @click="cleanFilter" circle/>
+                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary"
+                           icon="el-icon-search"
+                           @click="handleFilter" circle/>
               </div>
             </div>
           </el-col>
@@ -122,7 +123,8 @@
                                 v-if="scope.row.pid != 0">编辑
               </el-dropdown-item>
               <el-dropdown-item v-permission="['P_SYSTEM_MENU_DELETET']" v-if="scope.row.pid != 0">删除</el-dropdown-item>
-              <el-dropdown-item v-if="scope.row.pid != 0">
+              <el-dropdown-item
+                v-if="scope.row.pid != 0 || scope.row.component !='Layout' || scope.row.component !='Empty'">
                 <router-link :to="{ path: '/utils/generator', query: { menuId: scope.row.id}}">生成代码</router-link>
               </el-dropdown-item>
             </el-dropdown-menu>

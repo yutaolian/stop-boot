@@ -12,41 +12,24 @@ import lombok.Data;
 
 @Data
 public class DictionaryUpdateParams extends BaseUpdateParams{
-    /**
-     *字典名称
-     *
-     */
-    private String dicName;
+
     /**
      *字典key
      *
      */
     private String dicKey;
     /**
-     *字典值
+     * id
      *
      */
-    private String dicValue;
-    /**
-     *字典描述
-     *
-     */
-    private String dicDesc;
-    /**
-     *状态1激活，0冻结
-     *
-     */
-    private Integer status;
+    private Integer id;
+
     /**
      *删除标识（1正常，0删除）
      *
      */
     private Integer deleteFlag;
-    /**
-     *创建时间
-     *
-     */
-    private java.util.Date createTime;
+
     /**
      *修改时间
      *
