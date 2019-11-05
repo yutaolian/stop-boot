@@ -160,12 +160,12 @@
             <el-col :span="12">
               <el-form-item label="业务类型" prop="viewPath1">
                 <template>
-                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllBiz" @change="handleCheckAllChange">全选
+                  <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAllBiz" @change="handleCheckAllChange">全选
                   </el-checkbox>
                   <div style="margin: 15px 0;"></div>
                   <el-checkbox-group v-model="checkedBizOptions" @change="handleCheckedCitiesChange">
                     <el-checkbox v-for="type in ruleForm.bizTypes" :label="type" :key="type">{{type}}</el-checkbox>
-                  </el-checkbox-group>
+                  </el-checkbox-group> -->
                 </template>
               </el-form-item>
             </el-col>
@@ -293,7 +293,7 @@
                 width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.editShow" active-value=true inactive-value=false>
+                  <el-switch v-model="scope.row.editShow" :active-value='true' :inactive-value='false'>
                   </el-switch>
                 </template>
               </el-table-column>
@@ -304,7 +304,7 @@
                 min-width="150"
               >
                 <template slot-scope="scope">
-                  <el-select v-model="selectedComponent" placeholder="请选择使用的组件">
+                  <el-select v-model="scope.row.selectedComponent" placeholder="请选择使用的组件">
                     <el-option
                       v-for="item in componentOptions"
                       :key="item.value+scope.row.camelColumnName"
@@ -420,9 +420,9 @@
                     bizTypes: [],
                 },
                 activeName: 'first',
-                checkAllFunction: true,
+                checkAllFunction: true,//全选状态
                 checkAllBiz: true,
-                isIndeterminate: true,
+                isIndeterminate: false,//
                 checkedFunctionOptions: [],
                 checkedBizOptions: [],
                 multipleSelection: [],
@@ -466,6 +466,7 @@
                 request.setMenuId(menuId).api().then(res => {
                     console.log("generatorPre res:", res)
                     this.ruleForm = res
+                    this.checkedFunctionOptions = this.ruleForm.functionTypes;//默认全选数据
                 })
             },
             submitForm(formName) {
@@ -513,13 +514,13 @@
                 }
             },
             handleCheckAllChange(val) {
-                this.checkedFunctionOptions = val ? this.checkedFunctionOptions : [];
+                this.checkedFunctionOptions = val ? this.ruleForm.functionTypes : [];
                 this.isIndeterminate = false;
             },
             handleCheckedCitiesChange(value) {
                 let checkedCount = value.length;
                 let functionTypes = this.ruleForm.functionTypes
-                this.checkAll = checkedCount === functionTypes.length;
+                this.checkAllFunction = checkedCount === functionTypes.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < functionTypes.length;
             }
         },
