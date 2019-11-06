@@ -4,7 +4,9 @@ import {DictionaryListRequest} from '@/sdk/api/system/dictionary/list'
 export default {
   data(){
     return {
-      dictValueList: []
+      dictValueMap: {
+
+      }
     }
   },
   created() {
@@ -12,12 +14,12 @@ export default {
   },
   methods: {
     loadDictValue(dicKey) {
-      if (dicKey){
+      // if (dicKey){
         let request = new DictionaryListRequest()
         request.setDicKey(dicKey).api().then(res =>{
-          this.dictValueList = res
+          this.$set(this.dictValueMap, dicKey, res)
         })
-      }
+      // }
     }
   }
 };

@@ -1,96 +1,108 @@
 <template>
-    <!--新增-->
-    <el-dialog title="新增" :visible.sync="dialogFormVisible">
-        <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="100px">
-                        <el-form-item prop="name" label="姓名" >
-                    <el-input v-model="createFormData.name"/>
-            </el-form-item>
-            <el-form-item prop="age" label="年龄" >
-                    <el-input v-model="createFormData.age"/>
-            </el-form-item>
-            <el-form-item prop="birthday" label="生日" >
-                    <el-date-picker
-                            v-model="createFormData.birthday"
-                            type="date"
-                            placeholder="生日">
-                    </el-date-picker>
-            </el-form-item>
-            <el-form-item prop="info" label="信息" >
-                    <el-input v-model="createFormData.info"/>
-            </el-form-item>
-            <el-form-item prop="status" label="状态" >
-                    <el-select v-model="createFormData.status" placeholder="请选择">
-                        <el-option
-                                v-for="item in this.dictValueList"
-                                :key="item.id"
-                                :label="item.dicDesc"
-                                :value="item.dicValue">
-                        </el-option>
-                    </el-select>
-            </el-form-item>
-            <el-form-item prop="headImg" label="头像" >
-                    <el-input v-model="createFormData.headImg"/>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="resetForm">
-                重置
-            </el-button>
-            <el-button v-permission="['P_TEST_TEST3_ADD']" type="primary" @click="submitForm">
-                提交
-            </el-button>
-        </div>
-    </el-dialog>
+  <!--新增-->
+  <el-dialog title="新增" :visible.sync="dialogFormVisible" width="50%">
+    <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="100px">
+      <el-form-item label="id" prop="id">
+        <el-input v-model="createFormData.id"/>
+      </el-form-item>
+      <el-form-item label="name" prop="name">
+        <el-input v-model="createFormData.name"/>
+      </el-form-item>
+      <el-form-item label="age" prop="age">
+        <el-input v-model="createFormData.age"/>
+      </el-form-item>
+      <el-form-item label="birthday" prop="birthday">
+        <el-input v-model="createFormData.birthday"/>
+      </el-form-item>
+      <el-form-item label="createTime" prop="createTime">
+        <el-input v-model="createFormData.createTime"/>
+      </el-form-item>
+      <el-form-item label="info" prop="info">
+        <el-radio-group v-model="createFormData.age">
+         <el-radio v-for="(item,index) in dictValueMap.sex" :key="index" :label="item.dicValue">{{item.dicDesc}}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="status" prop="status">
+        <el-select v-model="createFormData.status" placeholder="请选择">
+          <el-option
+            v-for="item in dictValueMap.sex"
+            :key="item.id"
+            :label="item.dicDesc"
+            :value="item.dicValue">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="headImg" prop="headImg">
+        <el-checkbox-group v-model="checkList"  @change="handleCheckedChange">
+            <el-checkbox  v-for="item in dictValueMap.sex" :label="item.dicValue" :key="item.id">{{item.dicDesc}}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="deleteFlag" prop="deleteFlag">
+        <el-input v-model="createFormData.deleteFlag"/>
+      </el-form-item>
+      <el-form-item label="updateTime" prop="updateTime">
+        <el-input v-model="createFormData.updateTime"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="resetForm">
+          重置
+        </el-button>
+        <el-button type="primary" @click="submitForm">
+          提交
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 <script>
     //接口
-    import {Test3AddRequest} from '@/sdk/api/test/test3/add'
+    import {Test1AddRequest} from '@/sdk/api/test/test1/add'
+    import dict from '@/mixins/dict'
 
     export default {
         name: 'create_form',
+        mixins: [dict],
         props: ['rowData'],  //接收父组件的传值
         watch: {
             dialogFormVisible(val) {
                 if (val) {
+                    console.log(this.rowData)
                     this.createFormData = this.rowData
+                    if(!this.dictValueMap.sex){
+                        this.loadDictValue('sex')
+                    }
                 }
             }
         },
+        created(){
+            
+        },
         data() {
             return {
+                checkList: [],
                 loading: false,
                 createFormData: {
+                    id: undefined,
                     name: undefined,
                     age: undefined,
                     birthday: undefined,
+                    createTime: undefined,
                     info: undefined,
                     status: undefined,
                     headImg: undefined,
+                    deleteFlag: undefined,
+                    updateTime: undefined,
                 },
                 dialogFormVisible: false,
                 rules: {
                     name: [
-                            {required: true, message: '请输入姓名', trigger: 'blur'},
-                        ],
-                    age: [
-                            {required: true, message: '请输入年龄', trigger: 'blur'},
-                        ],
-                    birthday: [
-                            {required: true, message: '请输入生日', trigger: 'blur'},
-                        ],
-                    info: [
-                            {required: true, message: '请输入信息', trigger: 'blur'},
-                        ],
-                    status: [
-                            {required: true, message: '请输入状态', trigger: 'blur'},
-                        ],
-                    headImg: [
-                            {required: true, message: '请输入头像', trigger: 'blur'},
-                        ],
+                        {required: true, message: '请输入名称', trigger: 'blur'},
+                    ],
                 }
             }
         },
         methods: {
+            handleCheckedChange(){},
             submitForm() {
                 this.$refs['createFormRef'].validate((valid) => {
                     if (valid) {
@@ -99,7 +111,7 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            let request = new Test3AddRequest();
+                            let request = new Test1AddRequest();
                             request.setParams(this.createFormData)
                                 .api().then(res => {
                                 this.dialogFormVisible = false
@@ -108,7 +120,7 @@
                                     type: 'success',
                                     message: '新增成功!'
                                 });
-                                console.log("Test3AddRequest res:", res)
+                                console.log("Test1AddRequest res:", res)
                             })
                         }).catch((err) => {
                             this.$message({
