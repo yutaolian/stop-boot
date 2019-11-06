@@ -29,6 +29,8 @@ import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.TypeConvertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -79,8 +81,37 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
             String toCamelCase = StrUtil.toCamelCase(tableColumnsVO.getColumnName());
             tableColumnsVO.setCamelColumnName(toCamelCase);
             tableColumnsVO.setRealType(TypeConvertUtil.mysqlTypeToJava(tableColumnsVO.getDataType()));
+
+            if (ObjectUtils.isEmpty(tableColumnsVO.getColumnComment())) {
+                tableColumnsVO.setColumnComment(tableColumnsVO.getColumnName());
+            }
+            tableColumnsVO.setChineseName(tableColumnsVO.getColumnComment());
+            tableColumnsVO.setEnglishName(tableColumnsVO.getCamelColumnName());
+            setShowStatus(tableColumnsVO);
         });
         return tableColumns;
+    }
+
+    private void setShowStatus(TableColumnsVO tableColumnsVO) {
+        if (tableColumnsVO.getColumnName().equals("id")) {
+            tableColumnsVO.setCreateShow(false);
+        }
+
+        if (tableColumnsVO.getColumnName().equals("password")) {
+            tableColumnsVO.setPageShow(false);
+            tableColumnsVO.setSearchShow(false);
+        }
+
+        if (tableColumnsVO.getColumnName().equals("create_time")
+                || tableColumnsVO.getColumnName().equals("update_time")
+                || tableColumnsVO.getColumnName().equals("delete_flag")) {
+            tableColumnsVO.setCreateShow(false);
+            tableColumnsVO.setEditShow(false);
+            tableColumnsVO.setPageShow(false);
+            tableColumnsVO.setSearchShow(false);
+        }
+
+
     }
 
     /**
@@ -176,15 +207,16 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         generatorInfo.setFullPathToPermission("P" + fullPath.replaceAll("/", "_").toUpperCase());
 
         //生成后端方法
-        context.execute(new SbGeneratorStrategyParams(sbAdminGeneratorStrategy, generatorInfo));
-        //生成后端UI接口策略
-        context.execute(new SbGeneratorStrategyParams(sbJsGeneratorStrategy, generatorInfo));
-        //生成后端view页面
-        context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
-
-        //默认认生成权限标签
-        permissionService.addGeneratorPermission(generatorInfo);
-
+        boolean flag = false;
+        if (flag) {
+            context.execute(new SbGeneratorStrategyParams(sbAdminGeneratorStrategy, generatorInfo));
+            //生成后端UI接口策略
+            context.execute(new SbGeneratorStrategyParams(sbJsGeneratorStrategy, generatorInfo));
+            //生成后端view页面
+            context.execute(new SbGeneratorStrategyParams(sbUiGeneratorStrategy, generatorInfo));
+            //默认认生成权限标签
+            permissionService.addGeneratorPermission(generatorInfo);
+        }
 
         generatorSubmitVO.setUrl(generatorPath);
 

@@ -229,26 +229,26 @@
 
               <el-table-column
                 label="字段名称(英)"
-                prop="camelColumnName"
+                prop="englishName"
                 width="150"
               >
                 <template slot-scope="scope">
-                  <el-input v-model="scope.row.camelColumnName"></el-input>
+                  <el-input v-model="scope.row.englishName"></el-input>
                 </template>
               </el-table-column>
 
               <el-table-column
                 label="字段名称(汉字)"
-                prop="camelColumnName"
+                prop="chineseName"
                 width="150"
               >
                 <template slot-scope="scope">
-                  <el-input v-model="scope.row.columnComment"></el-input>
+                  <el-input v-model="scope.row.chineseName"></el-input>
                 </template>
               </el-table-column>
 
               <el-table-column
-                label="必填"
+                label="必填(form提交校验)"
                 prop="nullable"
                 width="70"
               >
@@ -273,7 +273,7 @@
                 width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.searchShow" active-value=true inactive-value=false>
+                  <el-switch v-model="scope.row.searchShow" :active-value='true' :inactive-value='false'>
                   </el-switch>
                 </template>
               </el-table-column>
@@ -283,7 +283,7 @@
                 width="70"
               >
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.createShow" active-value=true inactive-value=false>
+                  <el-switch v-model="scope.row.createShow" :active-value='true' :inactive-value='false'>
                   </el-switch>
                 </template>
               </el-table-column>
@@ -304,7 +304,7 @@
                 min-width="150"
               >
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.selectedComponent" placeholder="请选择使用的组件">
+                  <el-select v-model="scope.row.componentName" placeholder="请选择使用的组件">
                     <el-option
                       v-for="item in componentOptions"
                       :key="item.value+scope.row.camelColumnName"
@@ -320,7 +320,7 @@
                 min-width="150"
               >
                 <template slot-scope="scope">
-                  <el-select v-model="selectedDictionary" placeholder="请选择字典key">
+                  <el-select v-model="scope.row.dicKey" placeholder="请选择字典key">
                     <el-option
                       v-for="item in dictionaryOptions"
                       :key="item.value"
@@ -396,13 +396,7 @@
     const functionOptionsData = ['page', 'list', 'one', 'add', 'update', 'delete'];
     const bizOptionsData = ['admin', 'js', 'vue'];
     export default {
-        name: 'abc',
-        watch() {
-            // typeSelect(){
-            //     this.checkedFunctionOptions = this.ruleForm.functionTypes;
-            //     this.checkedBizOptions = this.ruleForm.bizTypes;
-            // }
-        },
+        name: 'Generator-Form',
         data() {
             return {
                 ruleForm: {
@@ -427,30 +421,41 @@
                 checkedBizOptions: [],
                 multipleSelection: [],
                 componentOptions: [{
-                    value: '1',
-                    label: 'Radio 单选框'
-                }, {
-                    value: '2',
-                    label: 'Checkbox 多选框'
-                }, {
-                    value: '3',
+                    value: 'Input',
                     label: 'Input 输入框'
                 }, {
-                    value: '4',
+                    value: 'Radio',
+                    label: 'Radio 单选框'
+                }, {
+                    value: 'Checkbox',
+                    label: 'Checkbox 多选框'
+                }, {
+                    value: 'Select',
                     label: 'Select 选择器'
                 }, {
-                    value: '5',
+                    value: 'Switch',
                     label: 'Switch 开关'
+                }, {
+                    value: 'InputNumber',
+                    label: 'InputNumber 计数器'
+                }, {
+                    value: 'TimePicker',
+                    label: 'TimePicker 时间选择器'
+                }, {
+                    value: 'DatePicker',
+                    label: 'DatePicker 日期选择器'
+                }, {
+                    value: 'DateTimePicker',
+                    label: 'DateTimePicker 日期时间选择器'
                 }],
-                selectedComponent: '',
                 dictionaryOptions: [{
-                    value: '1',
+                    value: 'sex',
                     label: '性别'
                 }, {
-                    value: '2',
-                    label: '时间段'
+                    value: 'order_status',
+                    label: '订单状态'
                 }, {
-                    value: '3',
+                    value: 'status',
                     label: '状态'
                 }],
                 selectedDictionary: ''

@@ -1,6 +1,6 @@
 <template>
   <!--新增-->
-  <el-dialog title="新增" :visible.sync="dialogFormVisible" width="30%">
+  <el-dialog title="新增" :visible.sync="dialogFormVisible" width="50%">
     <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="100px">
       <el-form-item label="id" prop="id">
         <el-input v-model="createFormData.id"/>
@@ -18,10 +18,19 @@
         <el-input v-model="createFormData.createTime"/>
       </el-form-item>
       <el-form-item label="info" prop="info">
-        <el-input v-model="createFormData.info"/>
+        <el-radio-group v-model="createFormData.age">
+<!--          <el-radio v-for="item in this.dictValueList" :label="item.dicValue">{{item.dicDesc}}</el-radio>-->
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="status" prop="status">
-        <el-input v-model="createFormData.status"/>
+        <el-select v-model="createFormData.status" placeholder="请选择">
+          <el-option
+            v-for="item in this.dictValueList"
+            :key="item.id"
+            :label="item.dicDesc"
+            :value="item.dicValue">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="headImg" prop="headImg">
         <el-input v-model="createFormData.headImg"/>
@@ -46,9 +55,11 @@
 <script>
     //接口
     import {Test1AddRequest} from '@/sdk/api/test/test1/add'
+    import dict from '@/mixins/dict'
 
     export default {
         name: 'create_form',
+        mixins: [dict],
         props: ['rowData'],  //接收父组件的传值
         watch: {
             dialogFormVisible(val) {

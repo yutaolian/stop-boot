@@ -25,36 +25,32 @@ public class TableColumnsVO implements Serializable {
     /**
      * 是否分页列表显示
      */
-    private boolean pageShow;
+    private boolean pageShow = true;
 
     /**
-     *  是否搜索显示
+     * 是否搜索显示
      */
-    private boolean searchShow;
+    private boolean searchShow = true;
 
     /**
      * 是否创建显示
      */
-    private boolean createShow;
+    private boolean createShow = true;
 
     /**
      * 是否编辑显示
      */
-    private boolean editShow;
+    private boolean editShow = true;
 
     private String realType;
 
-    private String componmentType;
+    private String componentName = "";
 
-    private String dicKey;
+    private String dicKey = "";
 
-    private String englishName;
+    private String englishName = "";
 
-    private String chineseName;
-
-
-
-
+    private String chineseName = "";
 
 
 }

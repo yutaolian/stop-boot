@@ -107,6 +107,10 @@
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i>{{tabPaneName}}</span>
+              <span>已选：{{ selectedDictionaryName }}</span>
+              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
+                         @click="saveRoleMenuAndPermission">保存</el-button>
+              <el-divider></el-divider>
               <el-row>
                 <el-col :span="8">
                   <el-tree
@@ -135,9 +139,6 @@
                   </template>
                 </el-col>
               </el-row>
-              <el-button class="filter-item" type="primary" icon="el-icon-edit" size="mini"
-                         @click="saveRoleMenuAndPermission">保存
-              </el-button>
             </el-tab-pane>
           </el-tabs>
 
@@ -159,7 +160,10 @@
 
 <style>
   .el-transfer-panel__body {
-    height: 524px;
+    height: 400px;
+  }
+  .el-transfer-panel__list{
+    height: 400px;
   }
 </style>
 
