@@ -8,7 +8,7 @@ export default {
     }
   },
   created() {
-    this.loadDictValue();
+    // this.loadDictValue();
   },
   methods: {
     loadDictValue(dicKey) {

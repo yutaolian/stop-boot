@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: Lianyutao
- * @create: 2019/11/01 18:30
+ * @create: 2019/11/06 18:22
  * @version: 1.0.1
  **/
 
@@ -18,35 +18,40 @@ public class Test4DeleteParams extends BaseDeleteParams{
      */
     private String name;
     /**
-     *手机号
+     *年龄
      *
      */
-    private String mobile;
+    private Integer age;
     /**
-     *密码
+     *生日
      *
      */
-    private String password;
-    /**
-     *邮箱
-     *
-     */
-    private String email;
-    /**
-     *状态（1正常使用，0不使用）
-     *
-     */
-    private Integer status;
-    /**
-     *删除标识（0删除，1未删除）
-     *
-     */
-    private Integer deleteFlag;
+    private java.util.Date birthday;
     /**
      *创建时间
      *
      */
     private java.util.Date createTime;
+    /**
+     *信息
+     *
+     */
+    private String info;
+    /**
+     *状态
+     *
+     */
+    private Integer status;
+    /**
+     *头像
+     *
+     */
+    private String headImg;
+    /**
+     *删除标记（1正常，0删除）
+     *
+     */
+    private Integer deleteFlag;
     /**
      *更新时间
      *

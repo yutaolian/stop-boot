@@ -1,50 +1,52 @@
 <template>
     <!--编辑-->
-    <el-dialog title="编辑" :visible.sync="dialogFormVisible" width="30%">
+    <el-dialog title="编辑" :visible.sync="dialogFormVisible">
         <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="100px">
-                        <el-form-item label="id" prop="id">
-                <el-input v-model="editFormData.id"/>
+                        <el-form-item prop="id" label="id" >
+                    <el-input v-model="editFormData.id"/>
             </el-form-item>
-            <el-form-item label="name" prop="name">
-                <el-input v-model="editFormData.name"/>
+            <el-form-item prop="name" label="姓名" >
+                    <el-input v-model="editFormData.name"/>
             </el-form-item>
-            <el-form-item label="age" prop="age">
-                <el-input v-model="editFormData.age"/>
+            <el-form-item prop="age" label="年龄" >
+                    <el-input v-model="editFormData.age"/>
             </el-form-item>
-            <el-form-item label="birthday" prop="birthday">
-                <el-input v-model="editFormData.birthday"/>
+            <el-form-item prop="birthday" label="生日" >
+                    <el-date-picker
+                            v-model="editFormData.birthday"
+                            type="date"
+                            placeholder="生日">
+                    </el-date-picker>
             </el-form-item>
-            <el-form-item label="createTime" prop="createTime">
-                <el-input v-model="editFormData.createTime"/>
+            <el-form-item prop="info" label="信息" >
+                    <el-input v-model="editFormData.info"/>
             </el-form-item>
-            <el-form-item label="info" prop="info">
-                <el-input v-model="editFormData.info"/>
+            <el-form-item prop="status" label="状态" >
+                    <el-select v-model="editFormData.status" placeholder="请选择">
+                        <el-option
+                                v-for="item in this.dictValueList"
+                                :key="item.id"
+                                :label="item.dicDesc"
+                                :value="item.dicValue">
+                        </el-option>
+                    </el-select>
             </el-form-item>
-            <el-form-item label="status" prop="status">
-                <el-input v-model="editFormData.status"/>
-            </el-form-item>
-            <el-form-item label="headImg" prop="headImg">
-                <el-input v-model="editFormData.headImg"/>
-            </el-form-item>
-            <el-form-item label="deleteFlag" prop="deleteFlag">
-                <el-input v-model="editFormData.deleteFlag"/>
-            </el-form-item>
-            <el-form-item label="updateTime" prop="updateTime">
-                <el-input v-model="editFormData.updateTime"/>
+            <el-form-item prop="headImg" label="头像" >
+                    <el-input v-model="editFormData.headImg"/>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancleForm">
                 取消
             </el-button>
-            <el-button type="primary" @click="submitForm">
+            <el-button v-permission="['P_TEST_TEST3_UPDATE']" type="primary" @click="submitForm">
                 保存
             </el-button>
         </div>
     </el-dialog>
 </template>
 <script>
-    import {Test1UpdateRequest} from '@/sdk/api/test/test1/update'
+    import {Test3UpdateRequest} from '@/sdk/api/test/test3/update'
 
     export default {
         name: 'edit_form',
@@ -61,21 +63,33 @@
             return {
                 loading: false,
                 editFormData: {
-                    id: undefined,
-                    name: undefined,
-                    age: undefined,
-                    birthday: undefined,
-                    createTime: undefined,
-                    info: undefined,
-                    status: undefined,
-                    headImg: undefined,
-                    deleteFlag: undefined,
-                    updateTime: undefined,
+                id: undefined,
+                name: undefined,
+                age: undefined,
+                birthday: undefined,
+                info: undefined,
+                status: undefined,
+                headImg: undefined,
                 },
                 dialogFormVisible: false,
-                rules: {
+                rules:{
                     name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'},
+                        {required: true, message: '请输入姓名', trigger: 'blur'},
+                    ],
+                    age: [
+                        {required: true, message: '请输入年龄', trigger: 'blur'},
+                    ],
+                    birthday: [
+                        {required: true, message: '请输入生日', trigger: 'blur'},
+                    ],
+                    info: [
+                        {required: true, message: '请输入信息', trigger: 'blur'},
+                    ],
+                    status: [
+                        {required: true, message: '请输入状态', trigger: 'blur'},
+                    ],
+                    headImg: [
+                        {required: true, message: '请输入头像', trigger: 'blur'},
                     ],
                 }
             }
@@ -89,7 +103,7 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            let request = new Test1UpdateRequest();
+                            let request = new Test3UpdateRequest();
                             request.setParams(this.editFormData)
                                 .api().then(res => {
                                 this.dialogFormVisible = false
@@ -98,7 +112,7 @@
                                     type: 'success',
                                     message: '修改成功!'
                                 });
-                                console.log("Test1UpdateRequest res:", res)
+                                console.log("Test3UpdateRequest res:", res)
                             })
                         }).catch((err) => {
                             this.$message({

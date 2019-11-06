@@ -1,9 +1,9 @@
 package com.stopboot.admin.service.test.test4;
 
 import com.stopboot.admin.common.PageResult;
-import com.stopboot.admin.mapper.mybatis.SbAdminMapper;
-import com.stopboot.admin.entity.SbAdmin;
-import com.stopboot.admin.entity.SbAdminExample;
+import com.stopboot.admin.mapper.mybatis.SbTestMapper;
+import com.stopboot.admin.entity.SbTest;
+import com.stopboot.admin.entity.SbTestExample;
 import com.stopboot.admin.base.service.DefaultServiceImpl;
 import com.stopboot.admin.model.test.test4.add.Test4AddParams;
 import com.stopboot.admin.model.test.test4.list.Test4ListVO;
@@ -21,13 +21,13 @@ import org.springframework.util.ObjectUtils;
 /**
  * @description:  Test4 service
  * @author: Lianyutao
- * @create: 2019/11/01 18:30
+ * @create: 2019/11/06 18:22
  * @version: 1.0.1
 **/
 
 @Slf4j
 @Service
-public class Test4ServiceImpl extends DefaultServiceImpl<SbAdminMapper, SbAdmin, SbAdminExample,
+public class Test4ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, SbTestExample,
         Test4PageVO, Test4ListVO, Test4OneVO,
         Test4PageParams, Test4ListParams, Test4OneParams,
         Test4AddParams, Test4UpdateParams, Test4DeleteParams>
@@ -36,31 +36,32 @@ public class Test4ServiceImpl extends DefaultServiceImpl<SbAdminMapper, SbAdmin,
 
     @Override
     public PageResult<Test4PageVO> page(Test4PageParams pageParams) {
-        SbAdminExample example = new SbAdminExample();
-        SbAdminExample.Criteria criteria = example.createCriteria();
+        SbTestExample example = new SbTestExample();
+        SbTestExample.Criteria criteria = example.createCriteria();
         if (!ObjectUtils.isEmpty(pageParams.getId())) {
             criteria.andIdEqualTo(pageParams.getId());
         }
         if (!ObjectUtils.isEmpty(pageParams.getName())) {
             criteria.andNameEqualTo(pageParams.getName());
         }
-        if (!ObjectUtils.isEmpty(pageParams.getMobile())) {
-            criteria.andMobileEqualTo(pageParams.getMobile());
+        if (!ObjectUtils.isEmpty(pageParams.getAge())) {
+            criteria.andAgeEqualTo(pageParams.getAge());
         }
-        if (!ObjectUtils.isEmpty(pageParams.getPassword())) {
-            criteria.andPasswordEqualTo(pageParams.getPassword());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getEmail())) {
-            criteria.andEmailEqualTo(pageParams.getEmail());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
-            criteria.andStatusEqualTo(pageParams.getStatus());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
-            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
+        if (!ObjectUtils.isEmpty(pageParams.getBirthday())) {
+            criteria.andBirthdayEqualTo(pageParams.getBirthday());
         }
         if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
             criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
+        }
+
+        if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
+            criteria.andStatusEqualTo(pageParams.getStatus());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getHeadImg())) {
+            criteria.andHeadImgEqualTo(pageParams.getHeadImg());
+        }
+        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
+            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
         }
         if (!ObjectUtils.isEmpty(pageParams.getUpdateTime())) {
             criteria.andUpdateTimeEqualTo(pageParams.getUpdateTime());

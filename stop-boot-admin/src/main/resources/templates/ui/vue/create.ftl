@@ -3,9 +3,39 @@
     <el-dialog title="新增" :visible.sync="dialogFormVisible">
         <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="100px">
             <#list tableColumnsData as colum>
-            <el-form-item label="${colum.camelColumnName}" prop="${colum.camelColumnName}">
-                <el-input v-model="createFormData.${colum.camelColumnName}"/>
+             <#if colum.createShow ==true>
+            <el-form-item prop="${colum.camelColumnName}" label="${colum.chineseName}" >
+                <#if colum.componentName =='DateTimePicker'>
+                    <el-date-picker
+                            v-model="createFormData.${colum.camelColumnName}"
+                            type="datetime"
+                            placeholder="${colum.chineseName}">
+                    </el-date-picker>
+                <#elseif colum.componentName =='DatePicker'>
+                    <el-date-picker
+                            v-model="createFormData.${colum.camelColumnName}"
+                            type="date"
+                            placeholder="${colum.chineseName}">
+                    </el-date-picker>
+                <#elseif colum.componentName =='TimePicker'>
+                    <el-time-select
+                            v-model="createFormData.${colum.camelColumnName}"
+                            placeholder="${colum.chineseName}">
+                    </el-time-select>
+                <#elseif colum.componentName =='Select'>
+                    <el-select v-model="createFormData.${colum.camelColumnName}" placeholder="请选择">
+                        <el-option
+                                v-for="item in this.dictValueList"
+                                :key="item.id"
+                                :label="item.dicDesc"
+                                :value="item.dicValue">
+                        </el-option>
+                    </el-select>
+                <#else>
+                    <el-input v-model="createFormData.${colum.camelColumnName}"/>
+                </#if>
             </el-form-item>
+            </#if>
             </#list>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -28,7 +58,6 @@
         watch: {
             dialogFormVisible(val) {
                 if (val) {
-                    console.log(this.rowData)
                     this.createFormData = this.rowData
                 }
             }
@@ -38,14 +67,20 @@
                 loading: false,
                 createFormData: {
             <#list tableColumnsData as colum>
+            <#if colum.createShow ==true>
                     ${colum.camelColumnName}: undefined,
+            </#if>
             </#list>
                 },
                 dialogFormVisible: false,
                 rules: {
-                    name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'},
-                    ],
+                <#list tableColumnsData as colum>
+                <#if colum.createShow ==true>
+                    ${colum.camelColumnName}: [
+                            {required: true, message: '请输入${colum.chineseName}', trigger: 'blur'},
+                        ],
+                    </#if>
+                    </#list>
                 }
             }
         },

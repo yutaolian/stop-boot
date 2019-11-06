@@ -44,6 +44,36 @@ public class TableColumnsVO implements Serializable {
 
     private String realType;
 
+    /**
+     * componentOptions: [{
+     *                     value: 'Input',
+     *                     label: 'Input 输入框'
+     *                 }, {
+     *                     value: 'Radio',
+     *                     label: 'Radio 单选框'
+     *                 }, {
+     *                     value: 'Checkbox',
+     *                     label: 'Checkbox 多选框'
+     *                 }, {
+     *                     value: 'Select',
+     *                     label: 'Select 选择器'
+     *                 }, {
+     *                     value: 'Switch',
+     *                     label: 'Switch 开关'
+     *                 }, {
+     *                     value: 'InputNumber',
+     *                     label: 'InputNumber 计数器'
+     *                 }, {
+     *                     value: 'TimePicker',
+     *                     label: 'TimePicker 时间选择器'
+     *                 }, {
+     *                     value: 'DatePicker',
+     *                     label: 'DatePicker 日期选择器'
+     *                 }, {
+     *                     value: 'DateTimePicker',
+     *                     label: 'DateTimePicker 日期时间选择器'
+     *                 }],
+     */
     private String componentName = "";
 
     private String dicKey = "";
