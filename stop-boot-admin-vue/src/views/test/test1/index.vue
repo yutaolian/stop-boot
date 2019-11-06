@@ -31,9 +31,11 @@
 <!--                <el-radio v-for="item in this.dictValueList" :label="item.dicValue">{{item.dicDesc}}</el-radio>-->
 <!--              </el-radio-group>-->
 ----
-              <el-checkbox-group v-model="this.options" >
-                <el-checkbox  v-for="item in this.dictValueList" :label="item.dicValue" :key="item.id">{{item.dicDesc}}</el-checkbox>
+              <el-checkbox-group v-model="options"  @change="handleCheckedChange">
+                <el-checkbox  v-for="item in this.dictValueMap.sex" :label="item.dicValue" :key="item.id">{{item.dicDesc}}</el-checkbox>
               </el-checkbox-group>
+
+              
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -188,7 +190,7 @@
                 dialogFormVisible: false,
                 editRowData: {},
                 createRowData: {},
-                options: ["1"],
+                options: [],
                 value: ''
             }
         },
@@ -197,19 +199,22 @@
             this.loadData()
         },
         methods: {
-            loadData() {
-                this.$nextTick(() => {
-                    this.tableLoading = true
-                    let request = new Test1PageRequest();
-                    request.setParams(this.tableQuery);
-                    request.api().then(res => {
-                        this.tableLoading = false
-                        this.tableData = res['list']
-                        this.total = res['total']
-                        console.log("Test1 tableData res:", res)
-                    })
-                    this.loadDictValue('sex')
-                })
+          handleCheckedChange(val){
+            console.log(val)
+          },
+          loadData() {
+              this.$nextTick(() => {
+                  this.tableLoading = true
+                  let request = new Test1PageRequest();
+                  request.setParams(this.tableQuery);
+                  request.api().then(res => {
+                      this.tableLoading = false
+                      this.tableData = res['list']
+                      this.total = res['total']
+                      console.log("Test1 tableData res:", res)
+                  })
+                  this.loadDictValue('sex')
+              })
             },
             handleFilter() {
                 this.tableQuery.pageNum = 1

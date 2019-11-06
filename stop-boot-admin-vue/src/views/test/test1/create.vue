@@ -19,13 +19,13 @@
       </el-form-item>
       <el-form-item label="info" prop="info">
         <el-radio-group v-model="createFormData.age">
-<!--          <el-radio v-for="item in this.dictValueList" :label="item.dicValue">{{item.dicDesc}}</el-radio>-->
+         <el-radio v-for="(item,index) in dictValueMap.sex" :key="index" :label="item.dicValue">{{item.dicDesc}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="status" prop="status">
         <el-select v-model="createFormData.status" placeholder="请选择">
           <el-option
-            v-for="item in this.dictValueList"
+            v-for="item in dictValueMap.sex"
             :key="item.id"
             :label="item.dicDesc"
             :value="item.dicValue">
@@ -33,7 +33,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="headImg" prop="headImg">
-        <el-input v-model="createFormData.headImg"/>
+        <el-checkbox-group v-model="checkList"  @change="handleCheckedChange">
+            <el-checkbox  v-for="item in dictValueMap.sex" :label="item.dicValue" :key="item.id">{{item.dicDesc}}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item label="deleteFlag" prop="deleteFlag">
         <el-input v-model="createFormData.deleteFlag"/>
@@ -66,11 +68,18 @@
                 if (val) {
                     console.log(this.rowData)
                     this.createFormData = this.rowData
+                    if(!this.dictValueMap.sex){
+                        this.loadDictValue('sex')
+                    }
                 }
             }
         },
+        created(){
+            
+        },
         data() {
             return {
+                checkList: [],
                 loading: false,
                 createFormData: {
                     id: undefined,
@@ -93,6 +102,7 @@
             }
         },
         methods: {
+            handleCheckedChange(){},
             submitForm() {
                 this.$refs['createFormRef'].validate((valid) => {
                     if (valid) {
