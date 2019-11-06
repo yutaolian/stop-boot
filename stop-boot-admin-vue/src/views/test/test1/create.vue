@@ -75,7 +75,7 @@
             }
         },
         created(){
-            
+
         },
         data() {
             return {

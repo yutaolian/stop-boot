@@ -9,7 +9,7 @@ export default {
       loading: true,
       pageNum: 1,
       pageSize: 10,
-      dictValueList: []
+      dictValueMap: {}
     }
   },
   methods: {
@@ -28,21 +28,6 @@ export default {
         })
       })
     },
-    // pageQuery(request) {
-    //   return new Promise((resolve, reject) => {
-    //     this.loading = true
-    //     this.pageNum = 1
-    //     request.setPageNum(this.pageNum).setPageSize(this.pageSize)
-    //       .api().then(res => {
-    //       this.tableData = res['list']
-    //       this.total = res['total']
-    //       this.loading = false
-    //       // resolve(res)
-    //     }, error => {
-    //       console.error(request, ' page error:', error)
-    //     })
-    //   })
-    // },
     //列表数据
     list(request) {
       return new Promise((resolve, reject) => {
@@ -72,7 +57,7 @@ export default {
       if (dictKey) {
         let request = new DictionaryListRequest()
         request.setDicKey(dictKey).api().then(res => {
-          this.dictValueList = res
+          this.$set(this.dictValueMap, dicKey, res)
         })
       }
     }
