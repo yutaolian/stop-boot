@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gs">
     <template v-if="!item.hidden">
       <!--一级节点有子节点-->
       <template
@@ -44,16 +44,16 @@
       </template>
       <template v-else>
         <!-- 一级节点无子节点-->
-        <template v-for="subroute in item.children">
+        <template v-for="(subroute,index) in item.children">
           <template v-if="!subroute.hidden ">
             <template v-if="subroute.meta.type != 2">
-              <el-menu-item :index="resolvePath(subroute.path)">
+              <el-menu-item :index="resolvePath(subroute.path)"  :key="index" class="submenu-title-noDropdown">
                 <i :class="subroute.meta.icon"></i>
                 <span slot="title">{{subroute.meta.title}}</span>
               </el-menu-item>
             </template>
             <template v-else>
-              <el-menu-item>
+              <el-menu-item :key="index" class="submenu-title-noDropdown">
                 <i :class="subroute.meta.icon"></i>
                 <a :href="subroute.path" target="_blank">{{subroute.meta.title }}</a>
 <!--                <router-link :to="subroute.path" target="_blank">{{subroute.meta.title }}</router-link>-->
@@ -103,3 +103,15 @@
         }
     }
 </script>
+<style>
+.gs li [class^="el-icon-"]{
+  width: 18px;
+}
+#app .hideSidebar .gs li [class^="el-icon-"]{
+  margin-left: 20px;
+}
+#app .hideSidebar .submenu-title-noDropdown{
+  padding: 0!important;
+  position: relative;
+}
+</style>

@@ -104,7 +104,7 @@
       </el-col>
       <el-col :span="14">
         <div style="margin-left: 20px;">
-          <el-tabs type="border-card">
+          <el-tabs type="border-card" style="height: 620px;overflow: auto;">
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i>{{tabPaneName}}</span>
               <span>已选：{{ selectedDictionaryName }}</span>
