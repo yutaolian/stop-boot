@@ -12,16 +12,16 @@ import java.util.List;
  * @version: list结构转成tree
  **/
 
-public class MenuListToTreeUtil<MenuVO extends BaseMenuTreeVO> {
+public class MenuListToTreeUtil2<MenuVO extends BaseMenuTreeVO> {
 
-    private MenuListToTreeUtil() {
+    private MenuListToTreeUtil2() {
     }
 
     private static class MenuListToTreeUtilInstance {
-        private static final MenuListToTreeUtil INSTANCE = new MenuListToTreeUtil();
+        private static final MenuListToTreeUtil2 INSTANCE = new MenuListToTreeUtil2();
     }
 
-    public static MenuListToTreeUtil getInstance() {
+    public static MenuListToTreeUtil2 getInstance() {
         return MenuListToTreeUtilInstance.INSTANCE;
     }
 
@@ -49,6 +49,15 @@ public class MenuListToTreeUtil<MenuVO extends BaseMenuTreeVO> {
             if (node.getPid().equals(tree.getId())) {
                 if (null == tree.getChildren()) {
                     tree.setChildren(new ArrayList<>());
+                }
+                if (!node.getPath().startsWith("http")) {
+                    if (tree.getPath().equals("/")) {
+                        node.setPath(tree.getPath() + node.getPath());
+                    } else {
+                        node.setPath(tree.getPath() + "/" + node.getPath());
+                    }
+                } else {
+                    node.setPath(node.getPath());
                 }
                 tree.getChildren().add(findChildren(node, list));
             }

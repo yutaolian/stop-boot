@@ -44,9 +44,14 @@
                 const route = this.$route
                 const {meta, path} = route
                 // if set path, the sidebar will highlight the path you set
-                if (meta.activeMenu) {
-                    return meta.activeMenu
+
+                console.log("route",route)
+                console.log("meta",meta)
+                console.log("meta.type",meta.type)
+                if (meta.type === 1) {
+                    return path
                 }
+
                 return path
             },
             showLogo() {

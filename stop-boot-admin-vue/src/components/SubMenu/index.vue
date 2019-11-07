@@ -6,28 +6,36 @@
         v-if="item.children.length > 0 && item.meta.title.indexOf(this.$store.state.settings.routerParentPrifix)">
         <el-submenu :index="resolvePath(item.path)">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i :class="item.meta.icon"></i>
             <span slot="title">{{item.meta.title}}</span>
           </template>
           <template v-for="subroute in item.children">
             <template v-if="!subroute.hidden ">
               <!--二级节点无子节点-->
               <template v-if="subroute.children == undefined || subroute.children.length == 0">
-                <el-menu-item :index="resolvePath(subroute.path)">
-                  <i class="el-icon-location"></i>
-                  <span slot="title">{{subroute.meta.title}}</span>
-                </el-menu-item>
+                <template v-if="subroute.meta.type != 2">
+                  <el-menu-item :index="resolvePath(subroute.path)">
+                    <i :class="subroute.meta.icon"></i>
+                    <span slot="title">{{subroute.meta.title}}</span>
+                  </el-menu-item>
+                </template>
+                <template v-else>
+                  <el-menu-item>
+                    <i :class="subroute.meta.icon"></i>
+                    <a :href="subroute.path" target="_blank">{{subroute.meta.title }}</a>
+<!--                    <router-link :to="subroute.path" target="_blank">{{subroute.meta.title }}</router-link>-->
+                  </el-menu-item>
+                </template>
               </template>
               <!-- 二级节点是有子节点-->
               <template v-else>
-                <el-submenu :index="resolvePath(subroute.path)" >
+                <el-submenu :index="resolvePath(subroute.path)">
                   <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i :class="subroute.meta.icon"></i>
                     <span slot="title">{{subroute.meta.title}}</span>
                   </template>
                   <sub-menu-item v-for="subSubroute in subroute.children" :key="subSubroute.path"
-                                 :item="subSubroute" :parent="subroute"
-                                 :base-path="basePath+'/'+subroute.path"></sub-menu-item>
+                                 :item="subSubroute" :base-path="subSubroute.path"></sub-menu-item>
                 </el-submenu>
               </template>
             </template>
@@ -38,10 +46,19 @@
         <!-- 一级节点无子节点-->
         <template v-for="subroute in item.children">
           <template v-if="!subroute.hidden ">
-            <el-menu-item :index="resolvePath(subroute.path)">
-              <i class="el-icon-setting"></i>
-              <span slot="title">{{subroute.meta.title}}</span>
-            </el-menu-item>
+            <template v-if="subroute.meta.type != 2">
+              <el-menu-item :index="resolvePath(subroute.path)">
+                <i :class="subroute.meta.icon"></i>
+                <span slot="title">{{subroute.meta.title}}</span>
+              </el-menu-item>
+            </template>
+            <template v-else>
+              <el-menu-item>
+                <i :class="subroute.meta.icon"></i>
+                <a :href="subroute.path" target="_blank">{{subroute.meta.title }}</a>
+<!--                <router-link :to="subroute.path" target="_blank">{{subroute.meta.title }}</router-link>-->
+              </el-menu-item>
+            </template>
           </template>
         </template>
       </template>
@@ -81,7 +98,7 @@
                 if (isExternal(this.basePath)) {
                     return this.basePath
                 }
-                return path.resolve(this.basePath, routePath)
+                return path.resolve(routePath)
             }
         }
     }

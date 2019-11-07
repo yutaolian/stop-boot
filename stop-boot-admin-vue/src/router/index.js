@@ -87,7 +87,6 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
-
 //将单节点menu改为带有父节点的menu
 function resetMenuList(menuList) {
   let newMenuList = []
@@ -104,14 +103,19 @@ function resetMenuList(menuList) {
         title: menu['title'],
         icon: menu['icon'],
         hidden: menu["hidden"],
-        component: menu['component']
+        component: menu['component'],
+        permission: menu['permission'],
+        type: menu['type']
       })
+      //手动创建一个父节点
       newMenuList.push({
         path: "/",
         name: routerParentPrifix + menu["name"],
         title: routerParentPrifix + menu['title'],
         icon: routerParentPrifix + menu['icon'],
         hidden: 0,
+        type: 1,
+        permission: menu['permission'],
         component: 'Layout',
         children
       })
@@ -138,8 +142,10 @@ function menuTree2Routes(menuTree) {
         meta: {
           title: menu['title'],
           icon: menu['icon'],
+          permission: menu['permission'],
+          type: menu['type']
         },
-        hidden: menu["hidden"] == 1,
+        hidden: menu["type"] == 3,
         component: Layout,
         children
       })
@@ -149,9 +155,11 @@ function menuTree2Routes(menuTree) {
         name: menu["name"],
         meta: {
           title: menu['title'],
-          icon: menu['icon']
+          icon: menu['icon'],
+          permission: menu['permission'],
+          type: menu['type']
         },
-        hidden: menu["hidden"] == 1,
+        hidden: menu["type"] == 3,
         component: Empty,
         children
       })
@@ -162,9 +170,10 @@ function menuTree2Routes(menuTree) {
         meta: {
           title: menu['title'],
           icon: menu['icon'],
-          permission: menu['permissions']
+          permission: menu['permissions'],
+          type: menu['type']
         },
-        hidden: menu["hidden"] == 1 ? true : false,
+        hidden: menu["type"] == 3 ? true : false,
         component: loadView(menu['component']),
         children
       })

@@ -8,6 +8,7 @@ package com.stopboot.admin.base.vo;/**
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,5 +25,9 @@ public class BaseMenuTreeVO implements Serializable {
 
     private Integer pid;
 
-    private List<BaseMenuTreeVO> children;
+    private String path;
+
+    private String fullPath;
+
+    private List<BaseMenuTreeVO> children = new ArrayList<>();
 }

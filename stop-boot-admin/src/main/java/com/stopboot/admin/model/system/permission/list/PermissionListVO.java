@@ -16,11 +16,9 @@ import java.util.List;
 @Data
 public class PermissionListVO extends BaseMenuTreeVO {
 
-
-
     private String component;
 
-    private String fullPath;
+//    private String fullPath;
 
     private String title;
 

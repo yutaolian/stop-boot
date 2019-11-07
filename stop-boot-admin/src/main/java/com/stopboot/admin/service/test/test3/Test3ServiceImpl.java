@@ -53,9 +53,6 @@ public class Test3ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, S
         if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
             criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
         }
-        if (!ObjectUtils.isEmpty(pageParams.getInfo())) {
-            criteria.andInfoEqualTo(pageParams.getInfo());
-        }
         if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
             criteria.andStatusEqualTo(pageParams.getStatus());
         }

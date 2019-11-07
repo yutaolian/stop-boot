@@ -16,23 +16,21 @@ import com.stopboot.admin.model.system.menu.update.MenuUpdateParams;
 import com.stopboot.admin.model.system.menu.delete.MenuDeleteParams;
 import com.stopboot.admin.utils.BeansHelper;
 import com.stopboot.admin.utils.MenuListToTreeUtil;
+import com.stopboot.admin.utils.MenuListToTreeUtil2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @description:  Menu service
+ * @description: Menu service
  * @author: Lianyutao
  * @create: 2019/11/01 16:50
  * @version: 1.0.1
-**/
+ **/
 
 @Slf4j
 @Service
@@ -56,65 +54,6 @@ public class MenuServiceImpl extends DefaultServiceImpl<SbMenuMapper, SbMenu, Sb
 
     @Resource
     private SbMenuPermissionsMapper sbMenuPermissionsMapper;
-
-
-    @Override
-    public PageResult<MenuPageVO> page(MenuPageParams pageParams) {
-        SbMenuExample example = new SbMenuExample();
-        SbMenuExample.Criteria criteria = example.createCriteria();
-        if (!ObjectUtils.isEmpty(pageParams.getId())) {
-            criteria.andIdEqualTo(pageParams.getId());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getPid())) {
-            criteria.andPidEqualTo(pageParams.getPid());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getTitle())) {
-            criteria.andTitleEqualTo(pageParams.getTitle());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getName())) {
-            criteria.andNameEqualTo(pageParams.getName());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getComponent())) {
-            criteria.andComponentEqualTo(pageParams.getComponent());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getPath())) {
-            criteria.andPathEqualTo(pageParams.getPath());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getIcon())) {
-            criteria.andIconEqualTo(pageParams.getIcon());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getType())) {
-            criteria.andTypeEqualTo(pageParams.getType());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getLink())) {
-            criteria.andLinkEqualTo(pageParams.getLink());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getCode())) {
-            criteria.andCodeEqualTo(pageParams.getCode());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getHidden())) {
-            criteria.andHiddenEqualTo(pageParams.getHidden());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
-            criteria.andStatusEqualTo(pageParams.getStatus());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getSort())) {
-            criteria.andSortEqualTo(pageParams.getSort());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
-            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getOpUserId())) {
-            criteria.andOpUserIdEqualTo(pageParams.getOpUserId());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
-            criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getUpdateTime())) {
-            criteria.andUpdateTimeEqualTo(pageParams.getUpdateTime());
-        }
-        return this.pageByExample(pageParams, example);
-    }
 
 
     /**
@@ -147,17 +86,6 @@ public class MenuServiceImpl extends DefaultServiceImpl<SbMenuMapper, SbMenu, Sb
         List<MenuListVO> menuLists = BeansHelper.getInstance().convert(getAllMenus(new ArrayList<>(menuIds)), MenuListVO.class);
 
         //数据库中仅保存叶子节点。这里需补全整颗树 没有选中根节点时需补全树
-
-//        Iterator<MenuListVO> iterator = menuLists.iterator();
-//        while (iterator.hasNext()) {
-//            MenuListVO menuListVO = iterator.next();
-//            Integer pid = menuListVO.getPid();
-//            if (pid != 0 && pid != 1 && !menuIds.contains(pid)) {
-//                MenuListVO parentMenu = (MenuListVO) BeansHelper.getInstance().convert(getOne(pid), MenuListVO.class);
-//                menuLists.add(parentMenu);
-//            }
-//        }
-
         Set<MenuListVO> tempMenu = new HashSet<>();
         if (!menuIds.contains(1)) {
             for (MenuListVO menuListVO : menuLists) {
@@ -179,7 +107,6 @@ public class MenuServiceImpl extends DefaultServiceImpl<SbMenuMapper, SbMenu, Sb
         //权限id去重
         Set<Integer> permissions = sbRoleMenuPermissions.stream().map(SbRoleMenuPermissions::getMenuPermissionId).collect(Collectors.toSet());
 
-
         for (MenuListVO menuListVO : menuLists) {
             SbMenuPermissionsExample sbMenuPermissionsExample = new SbMenuPermissionsExample();
             SbMenuPermissionsExample.Criteria criteria3 = sbMenuPermissionsExample.createCriteria();
@@ -189,13 +116,10 @@ public class MenuServiceImpl extends DefaultServiceImpl<SbMenuMapper, SbMenu, Sb
             List<String> permissionTags = sbMenuPermissions.stream().map(SbMenuPermissions::getTag).collect(Collectors.toList());
             menuListVO.setPermissions(permissionTags);
         }
-
-        List<MenuListVO> menuListVOList = MenuListToTreeUtil.getInstance().listToTree(menuLists);
-        if (menuListVOList != null && menuListVOList.size() > 0) {
-            return menuListVOList;
-        } else {
-            return null;
-        }
+//        List<MenuListVO> menuListVOList = MenuListToTreeUtil.getInstance().listToTree(menuLists);
+        List<MenuListVO> menuListVOS = menuLists.stream().sorted(Comparator.comparing(MenuListVO::getSort)).collect(Collectors.toList());
+        List<MenuListVO> menuListVOList = MenuListToTreeUtil2.getInstance().listToTree(menuListVOS);
+        return menuListVOList;
     }
 
 

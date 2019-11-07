@@ -32,11 +32,11 @@ public class MenuListVO extends BaseMenuTreeVO {
     *
     */
     private String component;
-    /**
-    *菜单点击路径
-    *
-    */
-    private String path;
+//    /**
+//    *菜单点击路径
+//    *
+//    */
+//    private String path;
     /**
     *icon
     *
@@ -47,6 +47,12 @@ public class MenuListVO extends BaseMenuTreeVO {
     *
     */
     private Integer type;
+
+    /**
+     *排序
+     *
+     */
+    private Integer sort;
     /**
     *链接地址
     *
@@ -65,8 +71,13 @@ public class MenuListVO extends BaseMenuTreeVO {
      */
     private Integer status;
     /**
-     * 菜单权限李彪
+     * 菜单权限
      */
     private List<String> permissions;
+
+    /**
+     * 全路径
+     */
+//    private String fullPath;
 
 }

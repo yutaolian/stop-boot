@@ -20,6 +20,13 @@
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="类型" prop="type" align="center" width="100">
+        <template slot-scope="scope">
+          <el-link v-if="scope.row.type === 1" type="primary">菜单(内部)</el-link>
+          <el-link v-if="scope.row.type === 2" type="warning">菜单(外部)</el-link>
+          <el-link v-if="scope.row.type === 3" type="success">路由</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="名称" prop="name" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -30,29 +37,14 @@
           <span>{{ scope.row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="path" prop="path" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.path }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="fullPath" prop="path" align="center">
+      <el-table-column label="path(路由)" prop="path" align="center" width="240">
         <template slot-scope="scope">
           <span>{{ scope.row.path }}</span>
         </template>
       </el-table-column>
       <el-table-column label="图标" prop="icon" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.icon }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="类型" prop="type" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="外链" prop="link" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.link }}</span>
+          <i :class="scope.row.icon"></i>
         </template>
       </el-table-column>
       <el-table-column label="hidden" prop="hidden" align="center">
