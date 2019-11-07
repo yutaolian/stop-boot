@@ -1,18 +1,18 @@
-package com.stopboot.admin.model.test.test4.one;
+package com.stopboot.admin.model.test.test3.page;
 
 import com.stopboot.admin.base.vo.BaseVO;
 import lombok.Data;
 
 
 /**
- * @description:  Test4 service
+ * @description:  Test3 service
  * @author: Lianyutao
- * @create: 2019/11/06 18:22
+ * @create: 2019/11/06 20:56
  * @version: 1.0.1
  **/
 
 @Data
-public class Test4OneVO extends BaseVO {
+public class Test3PageVO extends BaseVO {
 
     /**
     *id

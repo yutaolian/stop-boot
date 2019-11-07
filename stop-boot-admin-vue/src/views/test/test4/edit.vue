@@ -2,32 +2,34 @@
   <!--编辑-->
   <el-dialog title="编辑" :visible.sync="dialogFormVisible">
     <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="100px">
-      <el-form-item label="id" prop="id">
+      <el-form-item prop="id" label="id">
         <el-input v-model="editFormData.id"/>
       </el-form-item>
-      <el-form-item label="name" prop="name">
+      <el-form-item prop="name" label="姓名">
         <el-input v-model="editFormData.name"/>
       </el-form-item>
-      <el-form-item label="mobile" prop="mobile">
-        <el-input v-model="editFormData.mobile"/>
+      <el-form-item prop="age" label="年龄">
+        <el-input v-model="editFormData.age"/>
       </el-form-item>
-      <el-form-item label="password" prop="password">
-        <el-input v-model="editFormData.password"/>
+      <el-form-item prop="birthday" label="生日">
+        <el-date-picker
+          v-model="editFormData.birthday"
+          type="date"
+          placeholder="生日">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label="email" prop="email">
-        <el-input v-model="editFormData.email"/>
+      <el-form-item prop="info" label="信息">
+        <el-input v-model="editFormData.info"/>
       </el-form-item>
-      <el-form-item label="status" prop="status">
-        <el-input v-model="editFormData.status"/>
-      </el-form-item>
-      <el-form-item label="deleteFlag" prop="deleteFlag">
-        <el-input v-model="editFormData.deleteFlag"/>
-      </el-form-item>
-      <el-form-item label="createTime" prop="createTime">
-        <el-input v-model="editFormData.createTime"/>
-      </el-form-item>
-      <el-form-item label="updateTime" prop="updateTime">
-        <el-input v-model="editFormData.updateTime"/>
+      <el-form-item prop="status" label="状态">
+        <!--                    <el-select v-model="editFormData.status" placeholder="请选择">-->
+        <!--                        <el-option-->
+        <!--                                v-for="item in this.dictValueList"-->
+        <!--                                :key="item.id"-->
+        <!--                                :label="item.dicDesc"-->
+        <!--                                :value="item.dicValue">-->
+        <!--                        </el-option>-->
+        <!--                    </el-select>-->
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -42,14 +44,16 @@
 </template>
 <script>
     import {Test4UpdateRequest} from '@/sdk/api/test/test4/update'
+    import api from '@/mixins/api'
 
     export default {
         name: 'edit_form',
+        mixins: [api],
         props: ['rowData'],  //接收父组件的传值
         watch: {
             dialogFormVisible(val) {
                 if (val) {
-                    console.log(this.rowData)
+                    //目前数据来源为列表，可以再次调用接口加载数据库数据
                     this.editFormData = this.rowData
                 }
             }
@@ -58,66 +62,35 @@
             return {
                 loading: false,
                 editFormData: {
-                    id:
-                    undefined,
-                    name:
-                    undefined,
-                    mobile:
-                    undefined,
-                    password:
-                    undefined,
-                    email:
-                    undefined,
-                    status:
-                    undefined,
-                    deleteFlag:
-                    undefined,
-                    createTime:
-                    undefined,
-                    updateTime:
-                    undefined,
+                    id: undefined,
+                    name: undefined,
+                    age: undefined,
+                    birthday: undefined,
+                    info: undefined,
+                    status: undefined,
                 },
                 dialogFormVisible: false,
-                rules:
-                    {
-                        name: [
-                            {required: true, message: '请输入名称', trigger: 'blur'},
-                        ],
-                    }
+                rules: {
+                    name: [{required: true, message: '请输入名称', trigger: 'blur'},],
+                }
             }
         },
         methods: {
             submitForm() {
                 this.$refs['editFormRef'].validate((valid) => {
-                    if (valid) {
-                        this.$confirm('此操作将提交修改数据, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            let request = new Test4UpdateRequest();
-                            request.setCreateTime().setId().setAge().setParams(this.editFormData)
-                                .api().then(res => {
+                        if (valid) {
+                            let request = new Test4UpdateRequest()
+                            request.setParams(this.editFormData)
+                            this.update(request).then(res => {
                                 this.dialogFormVisible = false
                                 this.$emit('loadData');
-                                this.$message({
-                                    type: 'success',
-                                    message: '修改成功!'
-                                });
-                                console.log("Test4UpdateRequest res:", res)
                             })
-                        }).catch((err) => {
-                            this.$message({
-                                type: 'info',
-                                message: '已取消'
-                            });
-                            console.log("err:", err)
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
                     }
-                });
+                );
             },
             cancleForm() {
                 this.dialogFormVisible = false

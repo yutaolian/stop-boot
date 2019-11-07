@@ -3,11 +3,11 @@ import {api} from '@/sdk/api/httpConfig'
 /**
  * projectName：stop-boot jssdk
  * author: Lianyutao
- * date: 2019/11/06 18:22
+ * date: 2019/11/06 20:56
  * version: 1.0.1
-    * desc: 详情
+ * desc: 更新
  */
-export class Test4DeleteRequest {
+export class Test3UpdateRequest {
 
     constructor() {
         this.params = {
@@ -92,7 +92,7 @@ export class Test4DeleteRequest {
     }
 
     api() {
-        const path = '/test/test4/delete'
+        const path = '/test/test3/update'
         return new Promise(resolve => {
             api(path, this.params)
             .then(response => {
@@ -103,12 +103,12 @@ export class Test4DeleteRequest {
 }
 
 //引用链接
-//import {Test4DeleteRequest} from '@/sdk/api/test/test4/delete'
+//import {Test3UpdateRequest} from '@/sdk/api/test/test3/update'
 /*
     //快捷参数使用方式（params需满足如下格式,可设置在Vue的data()中）
     data() {
         return {
-            test4DeleteParams: {
+            test3UpdateParams: {
                     // id
                     id: undefined,
                     // 姓名
@@ -133,13 +133,13 @@ export class Test4DeleteRequest {
         }
     },
 
-    let request = new Test4DeleteRequest();
-    request.setParams(test4DeleteParams).api().then(res => {
-        console.log("Test4DeleteRequest res:", res)
+    let request = new Test3UpdateRequest();
+    request.setParams(test3UpdateParams).api().then(res => {
+        console.log("Test3UpdateRequest res:", res)
     })
 
     //单独设置参数方式一
-    let request = new Test4DeleteRequest();
+    let request = new Test3UpdateRequest();
     request.
             setId(id).
             setName(name).
@@ -152,11 +152,11 @@ export class Test4DeleteRequest {
             setDeleteFlag(deleteFlag).
             setUpdateTime(updateTime).
             api().then(res => {
-                console.log("Test4DeleteRequest res:", res)
+                console.log("Test3UpdateRequest res:", res)
     })
 
     //单独设置参数方式二
-    let request = new Test4DeleteRequest();
+    let request = new Test3UpdateRequest();
     request.setId(id);
     request.setName(name);
     request.setAge(age);
@@ -168,7 +168,7 @@ export class Test4DeleteRequest {
     request.setDeleteFlag(deleteFlag);
     request.setUpdateTime(updateTime);
     request.api().then(res => {
-        console.log("Test4DeleteRequest res:", res)
+        console.log("Test3UpdateRequest res:", res)
     })
 
 */

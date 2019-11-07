@@ -3,7 +3,7 @@ import {api} from '@/sdk/api/httpConfig'
 /**
  * projectName：stop-boot jssdk
  * author: Lianyutao
- * date: 2019/11/01 18:30
+ * date: 2019/11/06 18:22
  * version: 1.0.1
  * desc: 分页
  */
@@ -15,22 +15,24 @@ export class Test4PageRequest {
             pageNum: undefined,
             // 页面大小
             pageSize: undefined,
-            // 
+            // id
             id: undefined,
             // 姓名
             name: undefined,
-            // 手机号
-            mobile: undefined,
-            // 密码
-            password: undefined,
-            // 邮箱
-            email: undefined,
-            // 状态（1正常使用，0不使用）
-            status: undefined,
-            // 删除标识（0删除，1未删除）
-            deleteFlag: undefined,
+            // 年龄
+            age: undefined,
+            // 生日
+            birthday: undefined,
             // 创建时间
             createTime: undefined,
+            // 信息
+            info: undefined,
+            // 状态
+            status: undefined,
+            // 头像
+            headImg: undefined,
+            // 删除标记（1正常，0删除）
+            deleteFlag: undefined,
             // 更新时间
             updateTime: undefined,
         }
@@ -57,18 +59,23 @@ export class Test4PageRequest {
         return this;
     }
 
-    setMobile(mobile) {
-        this.params.mobile = mobile
+    setAge(age) {
+        this.params.age = age
         return this;
     }
 
-    setPassword(password) {
-        this.params.password = password
+    setBirthday(birthday) {
+        this.params.birthday = birthday
         return this;
     }
 
-    setEmail(email) {
-        this.params.email = email
+    setCreateTime(createTime) {
+        this.params.createTime = createTime
+        return this;
+    }
+
+    setInfo(info) {
+        this.params.info = info
         return this;
     }
 
@@ -77,13 +84,13 @@ export class Test4PageRequest {
         return this;
     }
 
-    setDeleteFlag(deleteFlag) {
-        this.params.deleteFlag = deleteFlag
+    setHeadImg(headImg) {
+        this.params.headImg = headImg
         return this;
     }
 
-    setCreateTime(createTime) {
-        this.params.createTime = createTime
+    setDeleteFlag(deleteFlag) {
+        this.params.deleteFlag = deleteFlag
         return this;
     }
 
@@ -116,22 +123,24 @@ export class Test4PageRequest {
     data() {
         return {
             test4PageParams: {
-                    // 
+                    // id
                     id: undefined,
                     // 姓名
                     name: undefined,
-                    // 手机号
-                    mobile: undefined,
-                    // 密码
-                    password: undefined,
-                    // 邮箱
-                    email: undefined,
-                    // 状态（1正常使用，0不使用）
-                    status: undefined,
-                    // 删除标识（0删除，1未删除）
-                    deleteFlag: undefined,
+                    // 年龄
+                    age: undefined,
+                    // 生日
+                    birthday: undefined,
                     // 创建时间
                     createTime: undefined,
+                    // 信息
+                    info: undefined,
+                    // 状态
+                    status: undefined,
+                    // 头像
+                    headImg: undefined,
+                    // 删除标记（1正常，0删除）
+                    deleteFlag: undefined,
                     // 更新时间
                     updateTime: undefined,
             },
@@ -148,12 +157,13 @@ export class Test4PageRequest {
     request.
             setId(id).
             setName(name).
-            setMobile(mobile).
-            setPassword(password).
-            setEmail(email).
-            setStatus(status).
-            setDeleteFlag(deleteFlag).
+            setAge(age).
+            setBirthday(birthday).
             setCreateTime(createTime).
+            setInfo(info).
+            setStatus(status).
+            setHeadImg(headImg).
+            setDeleteFlag(deleteFlag).
             setUpdateTime(updateTime).
             api().then(res => {
                 console.log("Test4PageRequest res:", res)
@@ -163,12 +173,13 @@ export class Test4PageRequest {
     let request = new Test4PageRequest();
     request.setId(id);
     request.setName(name);
-    request.setMobile(mobile);
-    request.setPassword(password);
-    request.setEmail(email);
-    request.setStatus(status);
-    request.setDeleteFlag(deleteFlag);
+    request.setAge(age);
+    request.setBirthday(birthday);
     request.setCreateTime(createTime);
+    request.setInfo(info);
+    request.setStatus(status);
+    request.setHeadImg(headImg);
+    request.setDeleteFlag(deleteFlag);
     request.setUpdateTime(updateTime);
     request.api().then(res => {
         console.log("Test4PageRequest res:", res)

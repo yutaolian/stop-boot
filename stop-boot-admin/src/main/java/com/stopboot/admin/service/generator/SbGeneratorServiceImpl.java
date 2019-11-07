@@ -207,7 +207,7 @@ public class SbGeneratorServiceImpl implements SbGeneratorServiceI {
         generatorInfo.setFullPathToPermission("P" + fullPath.replaceAll("/", "_").toUpperCase());
 
         //生成后端方法
-        boolean flag = false;
+        boolean flag = true;
         if (flag) {
             context.execute(new SbGeneratorStrategyParams(sbAdminGeneratorStrategy, generatorInfo));
             //生成后端UI接口策略

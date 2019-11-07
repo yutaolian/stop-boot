@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @description:
  * @author: Lianyutao
- * @create: 2019/11/01 18:30
+ * @create: 2019/11/06 18:22
  * @version: 1.0.1
  **/
 
@@ -29,9 +29,6 @@ public class Test4Controller extends DefaultController<Test4ServiceI,
         Test4PageVO,Test4ListVO,Test4OneVO,
         Test4PageParams, Test4ListParams,  Test4OneParams,
         Test4AddParams, Test4UpdateParams, Test4DeleteParams> {
-
-
-
 
 
 }

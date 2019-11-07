@@ -1,17 +1,17 @@
-package com.stopboot.admin.model.test.test4.delete;
+package com.stopboot.admin.model.test.test3.add;
 
-import com.stopboot.admin.base.params.BaseDeleteParams;
+import com.stopboot.admin.base.params.BaseAddParams;
 import lombok.Data;
 
 /**
  * @description:
  * @author: Lianyutao
- * @create: 2019/11/06 18:22
+ * @create: 2019/11/06 20:56
  * @version: 1.0.1
  **/
 
 @Data
-public class Test4DeleteParams extends BaseDeleteParams{
+public class Test3AddParams extends BaseAddParams{
     /**
      *姓名
      *

@@ -5,12 +5,42 @@
             <el-form ref="filterForm" :model="tableQuery">
                 <el-row>
                     <#list tableColumnsData as colum>
+                    <#if colum.searchShow ==true>
                     <el-col :span="4">
-                        <el-form-item prop="${colum.camelColumnName}" label="${colum.camelColumnName}">
-                            <el-input v-model="tableQuery.${colum.camelColumnName}" placeholder="${colum.camelColumnName}" style="width: 180px;" class="filter-item"
-                                      @keyup.enter.native="handleFilter"/>
+                        <el-form-item prop="${colum.camelColumnName}" label="${colum.chineseName}">
+                             <#if colum.componentName =='DateTimePicker'>
+                                 <el-date-picker
+                                         v-model="tableQuery.${colum.camelColumnName}"
+                                         type="datetime"
+                                         placeholder="${colum.chineseName}">
+                                 </el-date-picker>
+                             <#elseif colum.componentName =='DatePicker'>
+                                 <el-date-picker
+                                         v-model="tableQuery.${colum.camelColumnName}"
+                                         type="date"
+                                         placeholder="${colum.chineseName}">
+                                 </el-date-picker>
+                             <#elseif colum.componentName =='TimePicker'>
+                                 <el-time-select
+                                         v-model="tableQuery.${colum.camelColumnName}"
+                                         placeholder="${colum.chineseName}">
+                                 </el-time-select>
+                             <#elseif colum.componentName =='Select'>
+                                 <el-select v-model="tableQuery.${colum.camelColumnName}" placeholder="请选择">
+                                     <el-option
+                                             v-for="item in this.dictValueList"
+                                             :key="item.id"
+                                             :label="item.dicDesc"
+                                             :value="item.dicValue">
+                                     </el-option>
+                                 </el-select>
+                             <#else>
+                                 <el-input v-model="tableQuery.${colum.camelColumnName}" placeholder="${colum.chineseName}" style="width: 180px;" class="filter-item"
+                                           @keyup.enter.native="handleFilter"/>
+                             </#if>
                         </el-form-item>
                     </el-col>
+                    </#if>
                     </#list>
                     <!--@click="cleanFilter"-->
                     <el-col :span="4">
@@ -40,11 +70,13 @@
                 style="width: 100%;"
         >
             <#list tableColumnsData as colum>
-            <el-table-column prop="${colum.camelColumnName}" label="${colum.camelColumnName}" align="center">
+            <#if colum.pageShow ==true>
+            <el-table-column prop="${colum.camelColumnName}" label="${colum.chineseName}" align="center">
                 <template slot-scope="scope">
                     <span>{{ scope.row.${colum.camelColumnName} }}</span>
                 </template>
             </el-table-column>
+            </#if>
             </#list>
 
             <el-table-column  class-name="small-padding fixed-width" label="操作" align="center">
@@ -83,10 +115,24 @@
     import {${model?cap_first}PageRequest} from '@${jsSdkConfigPath}${fullPath}/page'
     //${model?cap_first} delete 接口
     import {${model?cap_first}DeleteRequest} from '@${jsSdkConfigPath}${fullPath}/delete'
+    <#list tableColumnsData as colum>
+    <#if colum.searchShow ==true>
+    <#if colum.componentName =='Select'>
+    import dict from '@/mixins/dict'
+    </#if>
+    </#if>
+    </#list>
 
     export default {
         name: '${model?cap_first}-Table',
         components: {Pagination, createForm, editForm},
+        <#list tableColumnsData as colum>
+        <#if colum.searchShow ==true>
+        <#if colum.componentName =='Select'>
+        mixins: [dict],
+        </#if>
+        </#if>
+        </#list>
         data() {
             return {
                 tableKey: '${model?cap_first}',
@@ -97,7 +143,9 @@
                     pageNum: 1,
                     pageSize: 10,
                     <#list tableColumnsData as colum>
+                    <#if colum.searchShow ==true>
                     ${colum.camelColumnName}: undefined,
+                     </#if>
                     </#list>
                 },
                 dialogFormVisible: false,
@@ -121,6 +169,13 @@
                         this.total = res['total']
                         console.log("${model?cap_first} tableData res:", res)
                     })
+                    <#list tableColumnsData as colum>
+                    <#if colum.searchShow ==true>
+                    <#if colum.componentName =='Select'>
+                    this.loadDictValue('${colum.dicKey}')
+                    </#if>
+                    </#if>
+                    </#list>
                 })
             },
             handleFilter() {

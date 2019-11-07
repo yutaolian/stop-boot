@@ -1,44 +1,5 @@
 <template>
   <div class="app-container">
-    <!--分页过滤条件-->
-    <div v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-container">
-      <el-form ref="filterForm" :model="tableQuery">
-        <el-row>
-          <el-col :span="4">
-            <el-form-item prop="title" label="标题">
-              <el-input v-model="tableQuery.title" placeholder="title" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="type" label="类型">
-              <el-input v-model="tableQuery.type" placeholder="type" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item prop="hidden" label="状态">
-              <el-input v-model="tableQuery.hidden" placeholder="hidden" style="width: 180px;" class="filter-item"
-                        @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-
-          <!--@click="cleanFilter"-->
-          <el-col :span="4">
-            <div class="el-form-item__label" style="width:40px">&nbsp;</div>
-            <div class="el-form-item__content">
-              <div class="filter-item" style="width: 180px;">
-                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="danger" icon="el-icon-close"
-                           @click="cleanFilter" circle/>
-                <el-button v-permission="['P_SYSTEM_MENU_PAGE']" class="filter-item" type="primary"
-                           icon="el-icon-search"
-                           @click="handleFilter" circle/>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
     <!--表格-->
     <el-table
       v-permission="['P_SYSTEM_MENU_PAGE']"
@@ -54,22 +15,17 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       default-expand-all
     >
-      <el-table-column label="id" prop="id" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="title" prop="title" align="center">
+      <el-table-column label="标题" prop="title" align="center" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="name" prop="name" align="center" width="100">
+      <el-table-column label="名称" prop="name" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="component" prop="component" align="center" width="240">
+      <el-table-column label="组件位置" prop="component" align="center" width="240">
         <template slot-scope="scope">
           <span>{{ scope.row.component }}</span>
         </template>
@@ -79,17 +35,22 @@
           <span>{{ scope.row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="icon" prop="icon" align="center">
+      <el-table-column label="fullPath" prop="path" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.path }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="图标" prop="icon" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.icon }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="type" prop="type" align="center">
+      <el-table-column label="类型" prop="type" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="link" prop="link" align="center">
+      <el-table-column label="外链" prop="link" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.link }}</span>
         </template>
@@ -99,18 +60,18 @@
           <span>{{ scope.row.hidden }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="status" prop="status" align="center">
+      <el-table-column label="状态" prop="status" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.status }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="sort" prop="sort" align="center">
+      <el-table-column label="排序" prop="sort" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-dropdown @command='handledropdownCommand'>
             <el-button type="primary" size="small">
