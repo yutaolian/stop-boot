@@ -9,7 +9,7 @@
           </el-menu-item>
         </template>
         <template v-else>
-          <el-menu-item>
+          <el-menu-item :index="''" >
             <i :class="item.meta.icon"></i>
             <a :href="item.path" target="_blank">{{item.meta.title }}</a>
 <!--            <router-link :to="item.path" target="_blank">{{item.meta.title }}</router-link>-->

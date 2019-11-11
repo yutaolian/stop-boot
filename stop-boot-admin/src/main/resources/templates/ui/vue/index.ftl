@@ -28,7 +28,7 @@
                              <#elseif colum.componentName =='Select'>
                                  <el-select v-model="tableQuery.${colum.camelColumnName}" placeholder="请选择">
                                      <el-option
-                                             v-for="item in this.dictValueList"
+                                             v-for="item in this.dictValueMap.${colum.dicKey}"
                                              :key="item.id"
                                              :label="item.dicDesc"
                                              :value="item.dicValue">
@@ -92,7 +92,7 @@
         </el-table>
 
         <!--分页组件-->
-        <pagination  v-permission="['${fullPathToPermission}_PAGE']" v-show="total>0" :total="total" :page.sync="tableQuery.pageNum" :limit.sync="tableQuery.pageSize"
+        <pagination  v-permission="['${fullPathToPermission}_PAGE']" v-show="total>0" :total="total" :page.sync="pageNum" :limit.sync="pageSize"
                     @pagination="loadData"/>
 
         <!--新增组件-->
@@ -115,33 +115,19 @@
     import {${model?cap_first}PageRequest} from '@${jsSdkConfigPath}${fullPath}/page'
     //${model?cap_first} delete 接口
     import {${model?cap_first}DeleteRequest} from '@${jsSdkConfigPath}${fullPath}/delete'
-    <#list tableColumnsData as colum>
-    <#if colum.searchShow ==true>
-    <#if colum.componentName =='Select'>
-    import dict from '@/mixins/dict'
-    </#if>
-    </#if>
-    </#list>
+    //接口混入
+    import api from '@/mixins/api'
 
     export default {
         name: '${model?cap_first}-Table',
         components: {Pagination, createForm, editForm},
-        <#list tableColumnsData as colum>
-        <#if colum.searchShow ==true>
-        <#if colum.componentName =='Select'>
-        mixins: [dict],
-        </#if>
-        </#if>
-        </#list>
+        mixins: [api],
         data() {
             return {
                 tableKey: '${model?cap_first}',
-                tableData: null,
                 total: 0,
                 tableLoading: true,
                 tableQuery: {
-                    pageNum: 1,
-                    pageSize: 10,
                     <#list tableColumnsData as colum>
                     <#if colum.searchShow ==true>
                     ${colum.camelColumnName}: undefined,
@@ -150,32 +136,30 @@
                 },
                 dialogFormVisible: false,
                 editRowData: {},
-                createRowData:{}
+                createRowData:{},
+                deleteParams:{
+                    id:undefined
+                }
             }
         },
         filters: {},
         created() {
             this.loadData()
+            <#list tableColumnsData as colum>
+            <#if colum.searchShow ==true>
+            <#if colum.componentName =='Select'>
+            this.dict('${colum.dicKey}')
+            </#if>
+            </#if>
+            </#list>
         },
         methods: {
             loadData() {
                 this.$nextTick(() => {
-                    this.tableLoading = true
+                    //加载数据
                     let request = new ${model?cap_first}PageRequest();
-                    request.setParams(this.tableQuery);
-                    request.api().then(res => {
-                        this.tableLoading = false
-                        this.tableData = res['list']
-                        this.total = res['total']
-                        console.log("${model?cap_first} tableData res:", res)
-                    })
-                    <#list tableColumnsData as colum>
-                    <#if colum.searchShow ==true>
-                    <#if colum.componentName =='Select'>
-                    this.loadDictValue('${colum.dicKey}')
-                    </#if>
-                    </#if>
-                    </#list>
+                    request.setParams(this.tableQuery)
+                    this.page(request)
                 })
             },
             handleFilter() {
@@ -187,7 +171,7 @@
                 this.loadData()
             },
             preCreate(row) {
-                // this.createRowData = Object.assign({}, row)
+                this.createRowData = Object.assign({}, row)
                 this.$refs.createForm.dialogFormVisible = true
             },
             preEdit(row) {
@@ -195,25 +179,12 @@
                 this.$refs.editForm.dialogFormVisible = true
             },
             handleDelete(row) {
-                this.$confirm('确认删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let request = new ${model?cap_first}DeleteRequest();
-                    request.setId(row.id).api().then(res => {
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        this.loadData()
-                    })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
-                    });
-                });
+                let request = new ${model?cap_first}DeleteRequest()
+                this.deleteParams.id = row.id
+                request.setParams(this.deleteParams)
+                this.delete(request).then(res => {
+                    this.loadData()
+                })
             }
         }
     }

@@ -6,7 +6,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      loading: true,
+      tableLoading: true,
       pageNum: 1,
       pageSize: 10,
       dictValueMap: {}
@@ -16,12 +16,12 @@ export default {
     //分页数据
     page(request) {
       return new Promise((resolve, reject) => {
-        this.loading = true
+        this.tableLoading = true
         request.setPageNum(this.pageNum).setPageSize(this.pageSize)
           .api().then(res => {
           this.tableData = res['list']
           this.total = res['total']
-          this.loading = false
+          this.tableLoading = false
           // resolve(res)
         }, error => {
           console.error(request, ' page error:', error)
@@ -31,10 +31,10 @@ export default {
     //列表数据
     list(request) {
       return new Promise((resolve, reject) => {
-        this.loading = true
+        this.tableLoading = true
         request.api().then(res => {
           this.tableData = res
-          this.loading = false
+          this.tableLoading = false
           // resolve(res)
         }, error => {
           console.error(request, ' list error:', error)
@@ -53,10 +53,10 @@ export default {
     delete(request) {
       return handler(request, '删除')
     },
-    dict(dictKey) {
-      if (dictKey) {
+    dict(dicKey) {
+      if (dicKey) {
         let request = new DictionaryListRequest()
-        request.setDicKey(dictKey).api().then(res => {
+        request.setDicKey(dicKey).api().then(res => {
           this.$set(this.dictValueMap, dicKey, res)
         })
       }

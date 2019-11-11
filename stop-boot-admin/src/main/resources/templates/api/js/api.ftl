@@ -33,11 +33,55 @@ export class ${model?cap_first}${currentType?cap_first}Request {
             pageNum: undefined,
             // 页面大小
             pageSize: undefined,
-</#if>
-<#list tableColumnsData as colum>
-            // ${colum.columnComment}
+    <#list tableColumnsData as colum>
+        <#if colum.pageShow ==true || colum.searchShow ==true>
+            // ${colum.chineseName}
             ${colum.camelColumnName}: undefined,
-</#list>
+        </#if>
+    </#list>
+</#if>
+<#if currentType =='list'>
+    <#list tableColumnsData as colum>
+        <#if colum.pageShow ==true || colum.searchShow ==true>
+            // ${colum.chineseName}
+            ${colum.camelColumnName}: undefined,
+        </#if>
+    </#list>
+</#if>
+<#if currentType =='one'>
+    <#list tableColumnsData as colum>
+        <#if colum.editShow ==true>
+            // ${colum.chineseName}
+            ${colum.camelColumnName}: undefined,
+        </#if>
+    </#list>
+</#if>
+<#if currentType =='add'>
+    <#list tableColumnsData as colum>
+        <#if colum.createShow ==true>
+            // ${colum.chineseName}
+            ${colum.camelColumnName}: undefined,
+        </#if>
+    </#list>
+</#if>
+<#if currentType =='update'>
+    <#list tableColumnsData as colum>
+        <#if colum.editShow ==true>
+            // ${colum.chineseName}
+            ${colum.camelColumnName}: undefined,
+        </#if>
+    </#list>
+</#if>
+<#if currentType =='delete'>
+    <#list tableColumnsData as colum>
+        <#if colum.pageShow ==true>
+            // ${colum.chineseName}
+            ${colum.camelColumnName}: undefined,
+        </#if>
+    </#list>
+</#if>
+
+
         }
     }
 

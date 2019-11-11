@@ -39,9 +39,11 @@ public class ${model?cap_first}ServiceImpl extends DefaultServiceImpl<${tableNam
         ${tableName?cap_first}Example example = new ${tableName?cap_first}Example();
         ${tableName?cap_first}Example.Criteria criteria = example.createCriteria();
 <#list tableColumnsData as colum>
+    <#if colum.searchShow ==true>
         if (!ObjectUtils.isEmpty(pageParams.get${colum.camelColumnName?cap_first}())) {
             criteria.and${colum.camelColumnName?cap_first}EqualTo(pageParams.get${colum.camelColumnName?cap_first}());
         }
+    </#if>
 </#list>
         return this.pageByExample(pageParams, example);
     }

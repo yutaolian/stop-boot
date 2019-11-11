@@ -5,12 +5,19 @@ import com.stopboot.admin.base.service.DefaultServiceI;
 import com.stopboot.admin.common.FailCodeAndMsg;
 import com.stopboot.admin.common.PageResult;
 import com.stopboot.admin.common.ResultData;
+import com.stopboot.admin.strategy.upload.FileUploadRequest;
+import com.stopboot.admin.strategy.upload.FileUploadResponse;
+import com.stopboot.admin.strategy.upload.FileUploadStrategyContext;
 import com.stopboot.admin.utils.ClassUtil;
 import com.stopboot.admin.utils.SpringContextUtil;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -23,6 +30,8 @@ import java.util.List;
 
 public class DefaultController<Service extends DefaultServiceI, PageVO, ListVO, OneVO,
         PageParams extends BasePageParams, ListParams extends BaseParams, OneParams extends BaseParams, AddParams extends BaseParams, UpdateParams extends BaseParams, DeleteParams extends BaseParams> {
+
+
     /**
      * 此分页默认不加条件，如条件分页需在service 中重写page方法
      *

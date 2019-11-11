@@ -36,6 +36,8 @@ public interface FailCodeAndMsg {
 
     String FAIL_MSG_ADD = "删除失败";
 
+
+
     //用户名或密码错误
     String FAIL_CODE_LOGIN = "10051";
 
@@ -51,6 +53,10 @@ public interface FailCodeAndMsg {
 
     String FAIL_MSG_USER_NO_EXIST  = "用户不存在";
 
+    //上传文件错误
+    String FAIL_CODE_FILE_UPLAOD = "10061";
+
+    String FAIL_MSG_FILE_UPLAOD = "上传文件失败";
 
     //dickey存在
     String FAIL_CODE_DIC_KEY_EXIST = "50010";

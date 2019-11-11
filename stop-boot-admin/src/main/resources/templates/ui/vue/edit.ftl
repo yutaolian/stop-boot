@@ -1,7 +1,8 @@
 <template>
     <!--编辑-->
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-        <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="100px">
+        <el-form ref="editFormRef" :rules="rules" :model="editFormData" label-position="left" label-width="80px"
+                 style="width: 400px; margin-left:50px;">
             <#list tableColumnsData as colum>
             <#if colum.editShow ==true>
             <el-form-item prop="${colum.camelColumnName}" label="${colum.chineseName}" >
@@ -25,7 +26,7 @@
                 <#elseif colum.componentName =='Select'>
                     <el-select v-model="editFormData.${colum.camelColumnName}" placeholder="请选择">
                         <el-option
-                                v-for="item in this.dictValueList"
+                                v-for="item in this.dictValueMap.${colum.dicKey}"
                                 :key="item.id"
                                 :label="item.dicDesc"
                                 :value="item.dicValue">
@@ -50,15 +51,24 @@
 </template>
 <script>
     import {${model?cap_first}UpdateRequest} from '@${jsSdkConfigPath}${fullPath}/update'
+    //接口混入
+    import api from '@/mixins/api'
 
     export default {
         name: 'edit_form',
         props: ['rowData'],  //接收父组件的传值
+        mixins: [api],
         watch: {
             dialogFormVisible(val) {
                 if (val) {
-                    console.log(this.rowData)
                     this.editFormData = this.rowData
+                    <#list tableColumnsData as colum>
+                    <#if colum.searchShow ==true>
+                    <#if colum.componentName =='Select'>
+                    this.dict('${colum.dicKey}')
+                    </#if>
+                    </#if>
+                    </#list>
                 }
             }
         },
@@ -88,29 +98,12 @@
             submitForm() {
                 this.$refs['editFormRef'].validate((valid) => {
                     if (valid) {
-                        this.$confirm('此操作将提交修改数据, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            let request = new ${model?cap_first}UpdateRequest();
-                            request.setParams(this.editFormData)
-                                .api().then(res => {
-                                this.dialogFormVisible = false
-                                this.$emit('loadData');
-                                this.$message({
-                                    type: 'success',
-                                    message: '修改成功!'
-                                });
-                                console.log("${model?cap_first}UpdateRequest res:", res)
-                            })
-                        }).catch((err) => {
-                            this.$message({
-                                type: 'info',
-                                message: '已取消'
-                            });
-                            console.log("err:", err)
-                        });
+                        let request = new ${model?cap_first}UpdateRequest();
+                        request.setParams(this.editFormData)
+                        this.update(request).then(res => {
+                            this.dialogFormVisible = false
+                            this.$emit('loadData');
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;

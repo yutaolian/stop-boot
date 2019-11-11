@@ -1,7 +1,8 @@
 <template>
     <!--新增-->
     <el-dialog title="新增" :visible.sync="dialogFormVisible">
-        <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="100px">
+        <el-form ref="createFormRef" :rules="rules" :model="createFormData" label-position="left" label-width="80px"
+                 style="width: 400px; margin-left:50px;">
             <#list tableColumnsData as colum>
              <#if colum.createShow ==true>
             <el-form-item prop="${colum.camelColumnName}" label="${colum.chineseName}" >
@@ -25,7 +26,7 @@
                 <#elseif colum.componentName =='Select'>
                     <el-select v-model="createFormData.${colum.camelColumnName}" placeholder="请选择">
                         <el-option
-                                v-for="item in this.dictValueList"
+                                v-for="item in this.dictValueMap.${colum.dicKey}"
                                 :key="item.id"
                                 :label="item.dicDesc"
                                 :value="item.dicValue">
@@ -51,14 +52,24 @@
 <script>
     //接口
     import {${model?cap_first}AddRequest} from '@${jsSdkConfigPath}${fullPath}/add'
+    //接口混入
+    import api from '@/mixins/api'
 
     export default {
         name: 'create_form',
         props: ['rowData'],  //接收父组件的传值
+        mixins: [api],
         watch: {
             dialogFormVisible(val) {
                 if (val) {
-                    this.createFormData = this.rowData
+                    // this.createFormData = this.rowData
+                    <#list tableColumnsData as colum>
+                    <#if colum.searchShow ==true>
+                    <#if colum.componentName =='Select'>
+                    this.dict('${colum.dicKey}')
+                    </#if>
+                    </#if>
+                    </#list>
                 }
             }
         },
@@ -88,29 +99,12 @@
             submitForm() {
                 this.$refs['createFormRef'].validate((valid) => {
                     if (valid) {
-                        this.$confirm('此操作将提交数据, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            let request = new ${model?cap_first}AddRequest();
-                            request.setParams(this.createFormData)
-                                .api().then(res => {
-                                this.dialogFormVisible = false
-                                this.$emit('loadData');
-                                this.$message({
-                                    type: 'success',
-                                    message: '新增成功!'
-                                });
-                                console.log("${model?cap_first}AddRequest res:", res)
-                            })
-                        }).catch((err) => {
-                            this.$message({
-                                type: 'info',
-                                message: '已取消'
-                            });
-                            console.log("err:", err)
-                        });
+                        let request = new ${model?cap_first}AddRequest();
+                        request.setParams(this.createFormData)
+                        this.add(request).then(res => {
+                            this.dialogFormVisible = false
+                            this.$emit('loadData');
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;

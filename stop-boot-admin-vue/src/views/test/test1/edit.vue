@@ -24,7 +24,7 @@
             <el-form-item prop="status" label="状态" >
                     <el-select v-model="editFormData.status" placeholder="请选择">
                         <el-option
-                                v-for="item in this.dictValueList"
+                                v-for="item in dictValueMap.sex"
                                 :key="item.id"
                                 :label="item.dicDesc"
                                 :value="item.dicValue">

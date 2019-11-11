@@ -20,7 +20,7 @@
                   </el-menu-item>
                 </template>
                 <template v-else>
-                  <el-menu-item>
+                  <el-menu-item :index="''">
                     <i :class="subroute.meta.icon"></i>
                     <a :href="subroute.path" target="_blank">{{subroute.meta.title }}</a>
 <!--                    <router-link :to="subroute.path" target="_blank">{{subroute.meta.title }}</router-link>-->
@@ -53,7 +53,7 @@
               </el-menu-item>
             </template>
             <template v-else>
-              <el-menu-item :key="index" class="submenu-title-noDropdown">
+              <el-menu-item :key="index" :index="''" class="submenu-title-noDropdown">
                 <i :class="subroute.meta.icon"></i>
                 <a :href="subroute.path" target="_blank">{{subroute.meta.title }}</a>
 <!--                <router-link :to="subroute.path" target="_blank">{{subroute.meta.title }}</router-link>-->

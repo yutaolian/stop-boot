@@ -21,7 +21,7 @@ import org.springframework.util.ObjectUtils;
 /**
  * @description:  Test4 service
  * @author: Lianyutao
- * @create: 2019/11/06 18:22
+ * @create: 2019/11/07 18:48
  * @version: 1.0.1
 **/
 
@@ -38,33 +38,14 @@ public class Test4ServiceImpl extends DefaultServiceImpl<SbTestMapper, SbTest, S
     public PageResult<Test4PageVO> page(Test4PageParams pageParams) {
         SbTestExample example = new SbTestExample();
         SbTestExample.Criteria criteria = example.createCriteria();
-        if (!ObjectUtils.isEmpty(pageParams.getId())) {
-            criteria.andIdEqualTo(pageParams.getId());
-        }
         if (!ObjectUtils.isEmpty(pageParams.getName())) {
             criteria.andNameEqualTo(pageParams.getName());
         }
         if (!ObjectUtils.isEmpty(pageParams.getAge())) {
             criteria.andAgeEqualTo(pageParams.getAge());
         }
-        if (!ObjectUtils.isEmpty(pageParams.getBirthday())) {
-            criteria.andBirthdayEqualTo(pageParams.getBirthday());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getCreateTime())) {
-            criteria.andCreateTimeEqualTo(pageParams.getCreateTime());
-        }
-
         if (!ObjectUtils.isEmpty(pageParams.getStatus())) {
             criteria.andStatusEqualTo(pageParams.getStatus());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getHeadImg())) {
-            criteria.andHeadImgEqualTo(pageParams.getHeadImg());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getDeleteFlag())) {
-            criteria.andDeleteFlagEqualTo(pageParams.getDeleteFlag());
-        }
-        if (!ObjectUtils.isEmpty(pageParams.getUpdateTime())) {
-            criteria.andUpdateTimeEqualTo(pageParams.getUpdateTime());
         }
         return this.pageByExample(pageParams, example);
     }

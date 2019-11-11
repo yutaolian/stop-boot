@@ -3,7 +3,7 @@ import {api} from '@/sdk/api/httpConfig'
 /**
  * projectName：stop-boot jssdk
  * author: Lianyutao
- * date: 2019/11/06 18:22
+ * date: 2019/11/07 18:48
  * version: 1.0.1
  * desc: 列表
  */
@@ -19,18 +19,14 @@ export class Test4ListRequest {
             age: undefined,
             // 生日
             birthday: undefined,
-            // 创建时间
-            createTime: undefined,
             // 信息
             info: undefined,
             // 状态
             status: undefined,
             // 头像
             headImg: undefined,
-            // 删除标记（1正常，0删除）
-            deleteFlag: undefined,
-            // 更新时间
-            updateTime: undefined,
+
+
         }
     }
 
